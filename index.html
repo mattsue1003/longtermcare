@@ -1,0 +1,3492 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>長照・身障輔具補助查詢系統 | 個管・復能・家屬實務工具</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#fbf7ef;
+  --paper-2:#f4ecd9;
+  --ink:#1f1d1a;
+  --ink-soft:#4a4640;
+  --ink-mute:#7a746a;
+  --jade:#2b4a3f;
+  --jade-deep:#1a3329;
+  --jade-light:#5c8170;
+  --gold:#a07e3a;
+  --gold-light:#c9a85f;
+  --vermillion:#a3392e;
+  --vermillion-soft:#c75a4e;
+  --line:#d9cfb6;
+  --line-soft:#e8dfc7;
+  --shadow: 0 1px 0 rgba(31,29,26,0.04), 0 8px 24px -8px rgba(31,29,26,0.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.7;
+  font-size:15px;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(160,126,58,0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(43,74,63,0.04) 0%, transparent 50%);
+  min-height:100vh;
+}
+
+/* Header */
+header{
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg, var(--paper) 0%, rgba(244,236,217,0.4) 100%);
+  position:relative;
+  overflow:hidden;
+}
+header::before{
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg, var(--jade) 0%, var(--gold) 50%, var(--vermillion) 100%);
+}
+.header-inner{
+  max-width:1280px;margin:0 auto;
+  padding:42px 32px 32px;
+}
+.brand{
+  display:flex;align-items:baseline;gap:14px;
+  margin-bottom:8px;flex-wrap:wrap;
+}
+.brand-mark{
+  font-family:"Noto Serif TC",serif;
+  font-weight:900;
+  font-size:32px;
+  letter-spacing:-0.5px;
+  color:var(--ink);
+}
+.brand-mark span.accent{color:var(--jade)}
+.brand-mark span.dot{color:var(--vermillion);margin:0 4px}
+.brand-sub{
+  font-family:"DM Mono",monospace;
+  font-size:11px;
+  letter-spacing:2px;
+  color:var(--ink-mute);
+  text-transform:uppercase;
+  padding-bottom:4px;
+}
+.tagline{
+  color:var(--ink-soft);
+  font-size:14px;
+  max-width:720px;
+  margin-bottom:18px;
+}
+.meta-row{
+  display:flex;gap:18px;flex-wrap:wrap;
+  font-size:12px;color:var(--ink-mute);
+  font-family:"DM Mono",monospace;
+}
+.meta-row span{display:inline-flex;align-items:center;gap:6px}
+.meta-row span::before{
+  content:"●";color:var(--jade-light);font-size:8px;
+}
+
+/* Navigation */
+nav.tabs{
+  position:sticky;top:0;z-index:50;
+  background:rgba(251,247,239,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.tabs-inner{
+  max-width:1280px;margin:0 auto;
+  padding:0 32px;
+  display:flex;gap:2px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.tabs-inner::-webkit-scrollbar{display:none}
+.tab-btn{
+  background:none;border:none;
+  font-family:inherit;
+  font-size:14px;font-weight:500;
+  color:var(--ink-soft);
+  padding:18px 18px 16px;
+  cursor:pointer;
+  position:relative;
+  white-space:nowrap;
+  transition:color .2s;
+  letter-spacing:0.5px;
+}
+.tab-btn:hover{color:var(--ink)}
+.tab-btn .num{
+  font-family:"DM Mono",monospace;
+  font-size:10px;
+  color:var(--gold);
+  margin-right:6px;
+  font-weight:400;
+}
+.tab-btn.active{color:var(--jade-deep);font-weight:700}
+.tab-btn.active::after{
+  content:"";position:absolute;
+  bottom:-1px;left:12px;right:12px;
+  height:3px;
+  background:var(--jade);
+  border-radius:2px 2px 0 0;
+}
+
+/* Main */
+main{
+  max-width:1280px;margin:0 auto;
+  padding:40px 32px 80px;
+}
+.section{display:none}
+.section.active{display:block;animation:fadeIn .4s ease-out}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.section-head{
+  margin-bottom:32px;
+  display:flex;align-items:baseline;gap:16px;
+  flex-wrap:wrap;
+  border-bottom:1px solid var(--line);
+  padding-bottom:18px;
+}
+.section-num{
+  font-family:"DM Mono",monospace;
+  font-size:13px;
+  color:var(--gold);
+  letter-spacing:2px;
+}
+.section-title{
+  font-family:"Noto Serif TC",serif;
+  font-size:30px;
+  font-weight:700;
+  color:var(--ink);
+  letter-spacing:-0.5px;
+}
+.section-desc{
+  width:100%;
+  font-size:14px;
+  color:var(--ink-mute);
+  margin-top:6px;
+}
+
+/* Cards & Tables */
+.card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:24px;
+  margin-bottom:20px;
+  box-shadow:var(--shadow);
+}
+.card-title{
+  font-family:"Noto Serif TC",serif;
+  font-weight:600;
+  font-size:18px;
+  color:var(--jade-deep);
+  margin-bottom:14px;
+  display:flex;align-items:center;gap:10px;
+}
+.card-title::before{
+  content:"";
+  width:4px;height:18px;
+  background:var(--jade);
+  border-radius:2px;
+}
+
+table.data{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+  margin-top:8px;
+}
+table.data thead th{
+  background:var(--jade-deep);
+  color:#fbf7ef;
+  font-weight:500;
+  padding:12px 14px;
+  text-align:left;
+  font-size:13px;
+  letter-spacing:0.5px;
+  border-right:1px solid rgba(255,255,255,0.1);
+}
+table.data thead th:last-child{border-right:none}
+table.data tbody td{
+  padding:11px 14px;
+  border-bottom:1px solid var(--line-soft);
+  vertical-align:top;
+}
+table.data tbody tr:hover{background:rgba(244,236,217,0.5)}
+table.data tbody tr:nth-child(even){background:rgba(244,236,217,0.25)}
+table.data tbody tr:nth-child(even):hover{background:rgba(244,236,217,0.6)}
+.num-cell{
+  font-family:"DM Mono",monospace;
+  font-weight:500;
+  color:var(--jade-deep);
+  text-align:right;
+}
+.num-cell.big{font-size:15px;color:var(--vermillion)}
+.code-pill{
+  display:inline-block;
+  background:var(--paper-2);
+  border:1px solid var(--line);
+  padding:2px 8px;
+  border-radius:3px;
+  font-family:"DM Mono",monospace;
+  font-size:12px;
+  font-weight:500;
+  color:var(--jade-deep);
+}
+
+/* Grid layouts */
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:900px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+}
+
+/* Stat blocks */
+.stat-block{
+  background:linear-gradient(135deg, #fff 0%, var(--paper-2) 100%);
+  border:1px solid var(--line);
+  border-left:4px solid var(--jade);
+  padding:18px 20px;
+  border-radius:4px;
+}
+.stat-label{
+  font-size:12px;
+  color:var(--ink-mute);
+  letter-spacing:1px;
+  text-transform:uppercase;
+  font-family:"DM Mono",monospace;
+}
+.stat-value{
+  font-family:"Noto Serif TC",serif;
+  font-size:28px;
+  font-weight:700;
+  color:var(--jade-deep);
+  margin-top:4px;
+}
+.stat-value .small{font-size:14px;color:var(--ink-mute);font-weight:400;margin-left:4px}
+.stat-note{
+  font-size:12px;color:var(--ink-mute);margin-top:6px;
+}
+
+/* Alert / Note */
+.alert{
+  border-radius:4px;
+  padding:14px 18px;
+  margin:16px 0;
+  font-size:13.5px;
+  line-height:1.7;
+  border-left:4px solid;
+}
+.alert-warn{
+  background:rgba(199,90,78,0.07);
+  border-color:var(--vermillion);
+  color:var(--ink);
+}
+.alert-warn strong{color:var(--vermillion)}
+.alert-info{
+  background:rgba(43,74,63,0.06);
+  border-color:var(--jade);
+}
+.alert-info strong{color:var(--jade-deep)}
+.alert-gold{
+  background:rgba(160,126,58,0.08);
+  border-color:var(--gold);
+}
+.alert-gold strong{color:var(--gold)}
+
+/* Search */
+.search-bar{
+  display:flex;gap:10px;align-items:center;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:4px;
+  margin-bottom:18px;
+  box-shadow:var(--shadow);
+}
+.search-bar input{
+  flex:1;
+  border:none;
+  font-family:inherit;
+  font-size:15px;
+  padding:10px 14px;
+  background:transparent;
+  color:var(--ink);
+  outline:none;
+}
+.search-bar input::placeholder{color:var(--ink-mute)}
+.search-bar .search-icon{
+  padding:0 12px;color:var(--ink-mute);
+  font-size:18px;
+}
+.filter-row{
+  display:flex;gap:8px;flex-wrap:wrap;
+  margin-bottom:18px;
+}
+.filter-chip{
+  background:#fff;
+  border:1px solid var(--line);
+  padding:7px 14px;
+  border-radius:20px;
+  font-size:13px;
+  font-family:inherit;
+  color:var(--ink-soft);
+  cursor:pointer;
+  transition:all .15s;
+}
+.filter-chip:hover{border-color:var(--jade-light);color:var(--jade-deep)}
+.filter-chip.active{
+  background:var(--jade-deep);
+  border-color:var(--jade-deep);
+  color:#fbf7ef;
+  font-weight:500;
+}
+
+/* Calculator */
+.calc-box{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:28px;
+  box-shadow:var(--shadow);
+}
+.calc-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  margin-bottom:20px;
+}
+@media(max-width:700px){.calc-grid{grid-template-columns:1fr}}
+.calc-field{}
+.calc-label{
+  font-size:13px;color:var(--ink-soft);
+  font-weight:500;
+  margin-bottom:8px;
+  display:block;
+  letter-spacing:0.5px;
+}
+.calc-select,.calc-input{
+  width:100%;
+  font-family:inherit;
+  font-size:15px;
+  padding:11px 14px;
+  border:1px solid var(--line);
+  border-radius:4px;
+  background:#fff;
+  color:var(--ink);
+  outline:none;
+  transition:border-color .15s;
+}
+.calc-select:focus,.calc-input:focus{border-color:var(--jade);box-shadow:0 0 0 3px rgba(43,74,63,0.1)}
+.calc-result{
+  background:linear-gradient(135deg, var(--jade-deep) 0%, var(--jade) 100%);
+  color:#fbf7ef;
+  border-radius:6px;
+  padding:24px;
+  margin-top:16px;
+}
+.calc-result h4{
+  font-family:"Noto Serif TC",serif;
+  font-size:14px;
+  font-weight:500;
+  opacity:0.85;
+  letter-spacing:2px;
+  margin-bottom:14px;
+}
+.calc-result-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:10px 0;
+  border-bottom:1px solid rgba(255,255,255,0.15);
+}
+.calc-result-row:last-child{border-bottom:none;padding-top:14px}
+.calc-result-row .lbl{font-size:14px;opacity:0.85}
+.calc-result-row .val{
+  font-family:"Noto Serif TC",serif;
+  font-size:22px;font-weight:700;
+}
+.calc-result-row.highlight .val{
+  color:var(--gold-light);
+  font-size:30px;
+}
+
+/* Comparison table */
+.compare-row{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:0;
+  border-bottom:1px solid var(--line-soft);
+}
+.compare-row.header{
+  background:var(--jade-deep);
+  color:#fbf7ef;
+  font-weight:600;
+  border-bottom:none;
+  border-radius:6px 6px 0 0;
+  overflow:hidden;
+}
+.compare-row > div{
+  padding:12px 16px;
+  border-right:1px solid var(--line-soft);
+  font-size:13.5px;
+}
+.compare-row > div:last-child{border-right:none}
+.compare-row.header > div{border-right:1px solid rgba(255,255,255,0.15)}
+@media(max-width:700px){
+  .compare-row{grid-template-columns:1fr}
+  .compare-row > div{border-right:none;border-bottom:1px solid var(--line-soft)}
+}
+
+/* Footer */
+footer{
+  border-top:1px solid var(--line);
+  margin-top:60px;
+  padding:32px 32px 40px;
+  background:linear-gradient(180deg, transparent 0%, var(--paper-2) 100%);
+}
+.footer-inner{
+  max-width:1280px;margin:0 auto;
+  display:flex;justify-content:space-between;
+  flex-wrap:wrap;gap:20px;
+}
+.footer-inner .src{
+  font-size:12px;color:var(--ink-mute);
+  line-height:1.8;
+}
+.footer-inner .src strong{color:var(--ink-soft)}
+.footer-brand{
+  font-family:"Noto Serif TC",serif;
+  font-weight:700;
+  color:var(--jade-deep);
+  font-size:16px;
+}
+
+/* Home page hero stats */
+.hero-stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:32px;
+}
+@media(max-width:900px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.hero-stats{grid-template-columns:1fr}}
+.hero-stat{
+  background:#fff;
+  border:1px solid var(--line);
+  padding:20px;
+  border-radius:6px;
+  position:relative;
+  overflow:hidden;
+}
+.hero-stat::before{
+  content:"";
+  position:absolute;
+  top:0;left:0;width:100%;height:3px;
+  background:var(--jade);
+}
+.hero-stat:nth-child(2)::before{background:var(--gold)}
+.hero-stat:nth-child(3)::before{background:var(--vermillion)}
+.hero-stat:nth-child(4)::before{background:var(--jade-light)}
+.hero-stat .h-num{
+  font-family:"DM Mono",monospace;
+  font-size:10px;
+  color:var(--gold);
+  letter-spacing:2px;
+}
+.hero-stat .h-t{
+  font-family:"Noto Serif TC",serif;
+  font-size:20px;
+  font-weight:700;
+  color:var(--ink);
+  margin:6px 0 4px;
+}
+.hero-stat .h-d{
+  font-size:12.5px;
+  color:var(--ink-mute);
+  line-height:1.6;
+}
+
+/* Quick nav cards on home */
+.quick-cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+@media(max-width:900px){.quick-cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.quick-cards{grid-template-columns:1fr}}
+.quick-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:22px;
+  cursor:pointer;
+  transition:all .2s;
+  text-align:left;
+  font-family:inherit;
+  width:100%;
+}
+.quick-card:hover{
+  border-color:var(--jade);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px -8px rgba(43,74,63,0.2);
+}
+.quick-card .qc-tag{
+  font-family:"DM Mono",monospace;
+  font-size:10px;
+  color:var(--gold);
+  letter-spacing:2px;
+}
+.quick-card .qc-title{
+  font-family:"Noto Serif TC",serif;
+  font-size:18px;
+  font-weight:700;
+  color:var(--ink);
+  margin:8px 0 6px;
+}
+.quick-card .qc-desc{
+  font-size:13px;color:var(--ink-mute);line-height:1.6;
+}
+.quick-card .qc-arrow{
+  margin-top:14px;
+  color:var(--jade);
+  font-size:13px;
+  font-weight:500;
+}
+
+/* Level table */
+.level-table{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:6px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.level-row{
+  display:grid;
+  grid-template-columns:80px 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  border-bottom:1px solid var(--line-soft);
+}
+.level-row.header{
+  background:var(--jade-deep);
+  color:#fbf7ef;
+  font-weight:500;
+  font-size:12px;
+  letter-spacing:0.5px;
+  border-bottom:none;
+}
+.level-row > div{
+  padding:14px 12px;
+  border-right:1px solid var(--line-soft);
+  font-size:13px;
+  text-align:center;
+}
+.level-row.header > div{border-right:1px solid rgba(255,255,255,0.15)}
+.level-row > div:last-child{border-right:none}
+.level-row .level-name{
+  background:var(--paper-2);
+  font-family:"Noto Serif TC",serif;
+  font-weight:700;
+  font-size:16px;
+  color:var(--jade-deep);
+}
+.level-row.l-low .level-name{background:#e8f0e8}
+.level-row.l-mid .level-name{background:#f0e6d0}
+.level-row.l-high .level-name{background:#f0d8d4}
+.level-row .num-mono{
+  font-family:"DM Mono",monospace;
+  font-weight:500;
+  color:var(--ink);
+}
+@media(max-width:900px){
+  .level-row{grid-template-columns:60px repeat(7,minmax(80px,1fr));font-size:12px}
+  .level-row > div{padding:10px 6px}
+  .level-table-wrap{overflow-x:auto}
+  .level-table{min-width:780px}
+}
+
+/* Detail item card for assistive devices */
+.dev-list{display:flex;flex-direction:column;gap:10px}
+.dev-item{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:14px 18px;
+  display:grid;
+  grid-template-columns:90px 1fr 100px 80px 80px;
+  gap:14px;
+  align-items:center;
+  transition:border-color .15s;
+}
+.dev-item:hover{border-color:var(--jade-light)}
+.dev-code{
+  font-family:"DM Mono",monospace;
+  font-weight:600;
+  color:var(--jade-deep);
+  font-size:13px;
+  background:var(--paper-2);
+  padding:6px 10px;
+  border-radius:3px;
+  text-align:center;
+}
+.dev-name{font-size:14.5px;font-weight:500;color:var(--ink)}
+.dev-name .dev-note{font-size:12px;color:var(--ink-mute);font-weight:400;display:block;margin-top:2px}
+.dev-pay{
+  font-family:"DM Mono",monospace;
+  font-size:13px;
+  color:var(--vermillion);
+  text-align:right;
+  font-weight:500;
+}
+.dev-pay .pay-lbl{display:block;font-size:10px;color:var(--ink-mute);font-weight:400;margin-bottom:2px}
+.dev-years{
+  font-size:12px;
+  color:var(--ink-soft);
+  text-align:center;
+}
+.dev-years .yr-num{
+  font-family:"DM Mono",monospace;
+  font-size:18px;
+  font-weight:600;
+  color:var(--gold);
+  display:block;
+}
+.dev-type{
+  font-size:11px;
+  text-align:center;
+  padding:4px 8px;
+  border-radius:3px;
+  font-weight:500;
+}
+.dev-type.t-buy{background:#e8f0e8;color:#2a5240}
+.dev-type.t-rent{background:#f0e6d0;color:#7a5a20}
+.dev-type.t-both{background:#e8dff0;color:#5a3a7a}
+@media(max-width:800px){
+  .dev-item{grid-template-columns:80px 1fr;gap:10px}
+  .dev-pay,.dev-years,.dev-type{grid-column:span 2;text-align:left;border-top:1px dashed var(--line-soft);padding-top:8px;display:flex;align-items:center;gap:10px}
+  .dev-pay .pay-lbl,.dev-years .yr-num{display:inline}
+}
+
+.empty-state{
+  text-align:center;padding:40px;color:var(--ink-mute);font-size:14px;
+  background:#fff;border:1px dashed var(--line);border-radius:6px;
+}
+
+.category-bar{
+  display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;
+}
+.cat-btn{
+  background:#fff;
+  border:1px solid var(--line);
+  font-family:inherit;
+  font-size:12.5px;
+  padding:6px 12px;
+  border-radius:14px;
+  color:var(--ink-soft);
+  cursor:pointer;
+  transition:all .15s;
+}
+.cat-btn:hover{border-color:var(--jade-light);color:var(--jade-deep)}
+.cat-btn.active{background:var(--jade-deep);color:#fbf7ef;border-color:var(--jade-deep)}
+
+/* Rule cards */
+.rule-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:20px 24px;
+  margin-bottom:14px;
+  border-left:4px solid var(--jade);
+}
+.rule-card.warn{border-left-color:var(--vermillion)}
+.rule-card.gold{border-left-color:var(--gold)}
+.rule-num{
+  font-family:"DM Mono",monospace;
+  font-size:11px;
+  color:var(--gold);
+  letter-spacing:2px;
+}
+.rule-title{
+  font-family:"Noto Serif TC",serif;
+  font-size:17px;
+  font-weight:700;
+  color:var(--ink);
+  margin:4px 0 10px;
+}
+.rule-content{
+  font-size:14px;color:var(--ink-soft);line-height:1.8;
+}
+.rule-content ul{margin:8px 0 0 20px}
+.rule-content li{margin-bottom:4px}
+.rule-content strong{color:var(--jade-deep)}
+
+/* ===== Extension: Care Combo Cards ===== */
+.combo-list{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px}
+.combo-item{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:14px 18px;
+  display:grid;
+  grid-template-columns:90px 1fr 110px 160px;
+  gap:14px;
+  align-items:center;
+  transition:border-color .15s;
+}
+.combo-item:hover{border-color:var(--jade-light)}
+.combo-code{
+  font-family:"DM Mono",monospace;
+  font-weight:700;
+  color:var(--jade-deep);
+  font-size:14px;
+  background:var(--paper-2);
+  padding:7px 10px;
+  border-radius:3px;
+  text-align:center;
+  letter-spacing:0.5px;
+}
+.combo-name{
+  font-size:14.5px;
+  font-weight:500;
+  color:var(--ink);
+}
+.combo-name .combo-desc{
+  display:block;
+  font-size:12px;
+  color:var(--ink-mute);
+  margin-top:3px;
+  line-height:1.6;
+  font-weight:400;
+}
+.combo-price{
+  font-family:"DM Mono",monospace;
+  font-size:14px;
+  color:var(--vermillion);
+  font-weight:600;
+  text-align:right;
+}
+.combo-price .price-unit{
+  display:block;
+  font-size:10px;
+  color:var(--ink-mute);
+  font-weight:400;
+  margin-top:2px;
+}
+.combo-restriction{
+  font-size:11.5px;
+  color:var(--ink-soft);
+  line-height:1.5;
+  padding:6px 10px;
+  background:rgba(244,236,217,0.5);
+  border-radius:3px;
+}
+.combo-restriction.warn{
+  background:rgba(199,90,78,0.08);
+  color:var(--vermillion);
+}
+.combo-restriction.free{
+  background:rgba(43,74,63,0.08);
+  color:var(--jade-deep);
+}
+@media(max-width:800px){
+  .combo-item{grid-template-columns:80px 1fr;gap:10px}
+  .combo-price,.combo-restriction{grid-column:span 2;text-align:left}
+  .combo-price{border-top:1px dashed var(--line-soft);padding-top:8px}
+}
+
+/* ===== Group divider for combos ===== */
+.combo-group{
+  margin-top:22px;
+  margin-bottom:10px;
+  display:flex;align-items:center;gap:12px;
+}
+.combo-group .grp-tag{
+  font-family:"DM Mono",monospace;
+  font-size:11px;
+  color:var(--gold);
+  font-weight:500;
+  letter-spacing:2px;
+  background:var(--paper-2);
+  padding:4px 10px;
+  border-radius:3px;
+}
+.combo-group .grp-name{
+  font-family:"Noto Serif TC",serif;
+  font-size:17px;
+  font-weight:700;
+  color:var(--jade-deep);
+}
+.combo-group .grp-line{
+  flex:1;height:1px;
+  background:var(--line);
+}
+
+/* ===== Problem mapping ===== */
+.problem-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+@media(max-width:800px){.problem-grid{grid-template-columns:1fr}}
+.problem-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:16px 18px;
+  border-left:4px solid var(--jade);
+}
+.problem-card .p-num{
+  font-family:"DM Mono",monospace;
+  font-size:11px;
+  color:var(--gold);
+  letter-spacing:1.5px;
+}
+.problem-card .p-title{
+  font-family:"Noto Serif TC",serif;
+  font-size:15px;
+  font-weight:700;
+  color:var(--ink);
+  margin:4px 0 8px;
+}
+.problem-card .p-services{
+  display:flex;flex-wrap:wrap;gap:5px;
+  margin-top:6px;
+}
+.problem-card .p-svc{
+  display:inline-block;
+  background:var(--paper-2);
+  color:var(--jade-deep);
+  padding:3px 8px;
+  border-radius:3px;
+  font-family:"DM Mono",monospace;
+  font-size:11px;
+  font-weight:600;
+}
+.problem-card .p-svc.c-code{background:rgba(160,126,58,0.15);color:var(--gold)}
+.problem-card .p-svc.g-code{background:rgba(199,90,78,0.12);color:var(--vermillion)}
+.problem-card .p-svc.e-code{background:rgba(43,74,63,0.12);color:var(--jade-deep)}
+
+/* ===== Q&A ===== */
+.qa-item{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:6px;
+  margin-bottom:12px;
+  overflow:hidden;
+  transition:border-color .2s;
+}
+.qa-item:hover{border-color:var(--jade-light)}
+.qa-q{
+  padding:16px 22px;
+  font-size:15px;
+  font-weight:600;
+  color:var(--ink);
+  cursor:pointer;
+  display:flex;align-items:center;gap:12px;
+  user-select:none;
+  background:#fff;
+  border:none;
+  width:100%;
+  font-family:inherit;
+  text-align:left;
+}
+.qa-q::before{
+  content:"Q";
+  font-family:"Noto Serif TC",serif;
+  font-weight:900;
+  color:var(--vermillion);
+  font-size:20px;
+  flex-shrink:0;
+}
+.qa-q::after{
+  content:"+";
+  margin-left:auto;
+  font-size:22px;
+  color:var(--ink-mute);
+  font-weight:300;
+  transition:transform .25s;
+}
+.qa-item.open .qa-q::after{
+  content:"−";
+  color:var(--jade);
+}
+.qa-a{
+  max-height:0;
+  overflow:hidden;
+  padding:0 22px;
+  font-size:14px;
+  line-height:1.85;
+  color:var(--ink-soft);
+  transition:all .3s;
+}
+.qa-item.open .qa-a{
+  max-height:1000px;
+  padding:0 22px 18px;
+  border-top:1px solid var(--line-soft);
+}
+.qa-a::before{
+  content:"A";
+  display:inline-block;
+  font-family:"Noto Serif TC",serif;
+  font-weight:900;
+  color:var(--jade);
+  font-size:18px;
+  margin-right:10px;
+  vertical-align:top;
+  margin-top:14px;
+}
+.qa-a > div{display:inline-block;width:calc(100% - 32px);padding-top:12px}
+.qa-a strong{color:var(--jade-deep)}
+.qa-a ul{margin:8px 0 8px 20px}
+.qa-a li{margin-bottom:4px}
+
+/* ===== Long-term Care 3.0 ===== */
+.ltc3-hero{
+  background:linear-gradient(135deg, var(--jade-deep) 0%, var(--jade) 60%, var(--gold) 130%);
+  color:#fbf7ef;
+  border-radius:8px;
+  padding:32px 36px;
+  margin-bottom:24px;
+  position:relative;
+  overflow:hidden;
+}
+.ltc3-hero::before{
+  content:"3.0";
+  position:absolute;
+  right:30px;top:50%;
+  transform:translateY(-50%);
+  font-family:"Noto Serif TC",serif;
+  font-size:140px;
+  font-weight:900;
+  color:rgba(255,255,255,0.06);
+  letter-spacing:-8px;
+}
+.ltc3-hero .lh-tag{
+  font-family:"DM Mono",monospace;
+  font-size:11px;
+  letter-spacing:3px;
+  opacity:0.7;
+  margin-bottom:8px;
+}
+.ltc3-hero .lh-title{
+  font-family:"Noto Serif TC",serif;
+  font-size:32px;
+  font-weight:700;
+  letter-spacing:-1px;
+  margin-bottom:10px;
+}
+.ltc3-hero .lh-desc{
+  font-size:14.5px;
+  line-height:1.8;
+  max-width:680px;
+  opacity:0.92;
+}
+.ltc3-timeline{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin:24px 0 32px;
+}
+@media(max-width:800px){.ltc3-timeline{grid-template-columns:1fr}}
+.ltc3-phase{
+  background:#fff;
+  border:1px solid var(--line);
+  border-top:4px solid var(--jade);
+  border-radius:6px;
+  padding:20px;
+}
+.ltc3-phase:nth-child(2){border-top-color:var(--gold)}
+.ltc3-phase:nth-child(3){border-top-color:var(--vermillion)}
+.ltc3-phase .ph-date{
+  font-family:"DM Mono",monospace;
+  font-size:13px;
+  color:var(--ink-mute);
+  font-weight:500;
+}
+.ltc3-phase .ph-title{
+  font-family:"Noto Serif TC",serif;
+  font-size:18px;
+  font-weight:700;
+  color:var(--ink);
+  margin:6px 0 12px;
+}
+.ltc3-phase ul{
+  margin-left:18px;
+  font-size:13.5px;
+  color:var(--ink-soft);
+  line-height:1.8;
+}
+.ltc3-phase ul li{margin-bottom:4px}
+
+.change-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:20px 24px;
+  margin-bottom:14px;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+}
+.change-card .cc-head{
+  display:flex;align-items:baseline;gap:12px;
+  flex-wrap:wrap;
+}
+.change-card .cc-num{
+  font-family:"DM Mono",monospace;
+  font-size:11px;
+  color:var(--gold);
+  letter-spacing:2px;
+}
+.change-card .cc-title{
+  font-family:"Noto Serif TC",serif;
+  font-size:18px;
+  font-weight:700;
+  color:var(--ink);
+}
+.change-card .cc-badge{
+  display:inline-block;
+  background:var(--vermillion);
+  color:#fff;
+  font-size:11px;
+  padding:2px 8px;
+  border-radius:3px;
+  font-weight:500;
+  letter-spacing:1px;
+}
+.change-card .cc-body{
+  font-size:14px;
+  color:var(--ink-soft);
+  line-height:1.8;
+}
+.change-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-top:8px;
+}
+@media(max-width:700px){.change-grid{grid-template-columns:1fr}}
+.change-old, .change-new{
+  padding:14px 16px;
+  border-radius:4px;
+  font-size:13.5px;
+}
+.change-old{
+  background:#f5f0e6;
+  color:var(--ink-mute);
+  border-left:3px solid var(--ink-mute);
+}
+.change-new{
+  background:rgba(43,74,63,0.06);
+  color:var(--ink);
+  border-left:3px solid var(--jade);
+}
+.change-old .lbl, .change-new .lbl{
+  font-family:"DM Mono",monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  display:block;
+  margin-bottom:4px;
+}
+.change-old .lbl{color:var(--ink-mute)}
+.change-new .lbl{color:var(--jade)}
+
+/* ===== Print friendly ===== */
+@media print{
+  nav.tabs{display:none}
+  header::before{display:none}
+  .section{display:block !important;page-break-after:always}
+  .section:last-child{page-break-after:auto}
+  .quick-card, .qa-item {break-inside:avoid}
+  body{background:#fff;font-size:11pt}
+  .calc-result, .ltc3-hero{
+    background:#fff !important;
+    color:var(--ink) !important;
+    border:2px solid var(--jade);
+  }
+  .calc-result h4, .calc-result-row .lbl, .calc-result-row .val,
+  .ltc3-hero .lh-title, .ltc3-hero .lh-desc, .ltc3-hero .lh-tag{
+    color:var(--ink) !important;
+  }
+  .level-row.header, table.data thead th, .compare-row.header{
+    background:#e8dfc7 !important;
+    color:var(--ink) !important;
+  }
+}
+
+.print-btn{
+  position:fixed;
+  bottom:24px;right:24px;
+  background:var(--jade-deep);
+  color:#fbf7ef;
+  border:none;
+  width:52px;height:52px;
+  border-radius:50%;
+  cursor:pointer;
+  box-shadow:0 4px 16px rgba(0,0,0,0.2);
+  font-size:22px;
+  z-index:100;
+  transition:transform .2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.print-btn:hover{transform:scale(1.05);background:var(--jade)}
+@media print{.print-btn{display:none}}
+
+/* ===== Care Planner ===== */
+.planner-setup{
+  background:linear-gradient(135deg, #fff 0%, var(--paper-2) 100%);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:24px;
+  margin-bottom:20px;
+  box-shadow:var(--shadow);
+}
+.planner-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-bottom:18px;
+}
+@media(max-width:700px){.planner-grid{grid-template-columns:1fr}}
+
+.budget-cards{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:12px;
+  margin-top:8px;
+}
+@media(max-width:800px){.budget-cards{grid-template-columns:1fr}}
+.budget-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-left:4px solid var(--jade);
+  border-radius:4px;
+  padding:14px 16px;
+}
+.budget-card.over{border-left-color:var(--vermillion);background:rgba(199,90,78,0.05)}
+.budget-card.warn{border-left-color:var(--gold)}
+.budget-card .bc-label{
+  font-family:"DM Mono",monospace;
+  font-size:10px;
+  color:var(--ink-mute);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+.budget-card .bc-value{
+  font-family:"Noto Serif TC",serif;
+  font-size:24px;
+  font-weight:700;
+  color:var(--jade-deep);
+  margin-top:4px;
+  display:flex;align-items:baseline;gap:6px;
+}
+.budget-card.over .bc-value{color:var(--vermillion)}
+.budget-card.warn .bc-value{color:var(--gold)}
+.budget-card .bc-value .bc-unit{
+  font-size:12px;font-weight:400;
+  color:var(--ink-mute);
+}
+.budget-bar{
+  margin-top:10px;
+  height:6px;
+  background:var(--line-soft);
+  border-radius:3px;
+  overflow:hidden;
+}
+.budget-bar-fill{
+  height:100%;
+  background:linear-gradient(90deg, var(--jade) 0%, var(--jade-light) 100%);
+  transition:width .3s;
+  border-radius:3px;
+}
+.budget-bar-fill.warn{background:linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%)}
+.budget-bar-fill.over{background:linear-gradient(90deg, var(--vermillion) 0%, var(--vermillion-soft) 100%)}
+
+.plan-section{
+  margin-top:24px;
+}
+.plan-section h4{
+  font-family:"Noto Serif TC",serif;
+  font-size:17px;
+  color:var(--jade-deep);
+  margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+  font-weight:700;
+}
+.plan-section h4::before{
+  content:"";
+  width:4px;height:18px;
+  background:var(--jade);
+  border-radius:2px;
+}
+
+.plan-item{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:14px 18px;
+  display:grid;
+  grid-template-columns:88px 1fr 130px 150px 110px;
+  gap:14px;
+  align-items:center;
+  margin-bottom:8px;
+  transition:border-color .15s, background .15s;
+}
+.plan-item:hover{border-color:var(--jade-light)}
+.plan-item.active{
+  border-color:var(--jade);
+  background:linear-gradient(90deg, #fff 0%, rgba(43,74,63,0.06) 100%);
+}
+.plan-item .pi-code{
+  font-family:"DM Mono",monospace;
+  font-weight:700;
+  color:var(--jade-deep);
+  font-size:13px;
+  background:var(--paper-2);
+  padding:7px 10px;
+  border-radius:3px;
+  text-align:center;
+  letter-spacing:0.5px;
+}
+.plan-item .pi-name{
+  font-size:14px;
+  color:var(--ink);
+  font-weight:500;
+  line-height:1.5;
+}
+.plan-item .pi-name .pi-desc{
+  display:block;
+  font-size:11.5px;
+  color:var(--ink-mute);
+  margin-top:3px;
+  line-height:1.55;
+  font-weight:400;
+}
+.plan-item .pi-price{
+  font-family:"DM Mono",monospace;
+  font-size:13.5px;
+  color:var(--vermillion);
+  text-align:right;
+  font-weight:600;
+}
+.plan-item .pi-price .pi-unit{
+  display:block;
+  font-size:10.5px;
+  color:var(--ink-mute);
+  font-weight:400;
+  margin-top:3px;
+}
+
+/* qty-stepper — 大型觸控按鈕、桌機手機通用 */
+.qty-stepper{
+  display:flex;
+  align-items:stretch;
+  background:#fff;
+  border:1.5px solid var(--line);
+  border-radius:6px;
+  overflow:hidden;
+  height:42px;
+  width:fit-content;
+  margin:0 auto;
+}
+.qty-stepper button{
+  background:var(--paper-2);
+  border:none;
+  width:44px;
+  cursor:pointer;
+  font-size:22px;
+  color:var(--jade-deep);
+  font-weight:700;
+  font-family:inherit;
+  transition:all .15s;
+  display:flex;align-items:center;justify-content:center;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+  touch-action:manipulation;
+  line-height:1;
+}
+.qty-stepper button:hover{background:var(--jade);color:#fff}
+.qty-stepper button:active{transform:scale(0.92);background:var(--jade-deep);color:#fff}
+.qty-stepper .qty-plus{
+  background:var(--jade);
+  color:#fff;
+  font-weight:600;
+}
+.qty-stepper .qty-plus:hover{background:var(--jade-deep)}
+.qty-stepper input{
+  width:48px;
+  text-align:center;
+  border:none;
+  border-left:1.5px solid var(--line);
+  border-right:1.5px solid var(--line);
+  font-family:"DM Mono",monospace;
+  font-weight:700;
+  color:var(--ink);
+  font-size:16px;
+  outline:none;
+  -moz-appearance:textfield;
+  background:#fff;
+  padding:0;
+}
+.qty-stepper input::-webkit-outer-spin-button,
+.qty-stepper input::-webkit-inner-spin-button{
+  -webkit-appearance:none;margin:0;
+}
+.qty-stepper input:focus{background:rgba(43,74,63,0.04)}
+
+.plan-item .pi-subtotal{
+  font-family:"DM Mono",monospace;
+  font-size:15px;
+  font-weight:700;
+  color:var(--ink);
+  text-align:right;
+}
+.plan-item .pi-subtotal.zero{color:var(--ink-mute);font-weight:400;font-size:13px}
+
+/* 平板 / 較窄桌面 */
+@media(max-width:1100px){
+  .plan-item{grid-template-columns:80px 1fr 140px 130px;gap:12px}
+  .plan-item .pi-price{grid-column:3}
+  .plan-item .qty-stepper{grid-column:4;justify-self:end}
+  .plan-item .pi-subtotal{
+    grid-column:1 / span 4;
+    text-align:right;
+    border-top:1px dashed var(--line-soft);
+    padding-top:10px;
+    margin-top:4px;
+    font-size:14px;
+    display:flex;justify-content:flex-end;align-items:baseline;gap:8px;
+  }
+  .plan-item .pi-subtotal::before{
+    content:"小計";
+    font-size:12px;
+    color:var(--ink-mute);
+    font-weight:400;
+  }
+}
+
+/* 手機 */
+@media(max-width:700px){
+  .plan-item{
+    grid-template-columns:1fr auto;
+    gap:10px;
+    padding:14px;
+  }
+  .plan-item .pi-code{
+    grid-column:1;grid-row:1;
+    width:fit-content;
+    align-self:start;
+  }
+  .plan-item .pi-name{grid-column:1 / span 2;grid-row:2}
+  .plan-item .pi-price{
+    grid-column:1;grid-row:3;
+    text-align:left;
+    display:flex;align-items:baseline;gap:8px;
+  }
+  .plan-item .pi-price .pi-unit{display:inline;margin:0}
+  .plan-item .qty-stepper{
+    grid-column:2;grid-row:1;
+    align-self:start;
+    height:46px;
+  }
+  .qty-stepper button{width:48px;font-size:24px}
+  .qty-stepper input{width:54px;font-size:17px}
+  .plan-item .pi-subtotal{
+    grid-column:1 / span 2;grid-row:4;
+    border-top:1px dashed var(--line-soft);
+    padding-top:10px;
+    margin-top:2px;
+  }
+}
+
+.planner-summary{
+  position:sticky;
+  bottom:0;
+  background:linear-gradient(135deg, var(--jade-deep) 0%, var(--jade) 100%);
+  color:#fbf7ef;
+  border-radius:8px 8px 0 0;
+  padding:22px 26px;
+  margin-top:30px;
+  box-shadow:0 -6px 20px rgba(0,0,0,0.15);
+  z-index:10;
+}
+.planner-summary h4{
+  font-family:"Noto Serif TC",serif;
+  font-size:15px;
+  letter-spacing:2px;
+  margin-bottom:14px;
+  opacity:0.92;
+}
+.planner-summary-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+@media(max-width:700px){.planner-summary-grid{grid-template-columns:repeat(2,1fr)}}
+.ps-stat{}
+.ps-stat .ps-lbl{
+  font-size:11px;
+  opacity:0.75;
+  font-family:"DM Mono",monospace;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+.ps-stat .ps-val{
+  font-family:"Noto Serif TC",serif;
+  font-size:22px;
+  font-weight:700;
+}
+.ps-stat .ps-val .ps-small{
+  font-size:12px;font-weight:400;opacity:0.7;margin-left:4px;
+}
+.ps-stat.highlight .ps-val{color:var(--gold-light)}
+.ps-stat.over .ps-val{color:#ffb3a8}
+
+.plan-reset{
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.3);
+  color:#fbf7ef;
+  padding:6px 14px;
+  border-radius:3px;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:12px;
+  float:right;
+  margin-top:-6px;
+}
+.plan-reset:hover{background:rgba(255,255,255,0.25)}
+
+@media print{
+  .planner-summary{position:static;color:var(--ink) !important;background:#fff !important;border:2px solid var(--jade)}
+  .planner-summary h4, .ps-stat .ps-lbl, .ps-stat .ps-val{color:var(--ink) !important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark">長照<span class="dot">·</span><span class="accent">身障</span><span class="dot">·</span>輔具補助查詢</div>
+      <div class="brand-sub">LTC & DISABILITY ASSISTIVE DEVICE SUBSIDY</div>
+    </div>
+    <p class="tagline">為個案管理師、復能專業人員、家屬設計的速查工具。整合長期照顧服務申請及給付辦法(111.2.1施行)與身心障礙者輔具費用補助基準,讓您於 30 秒內掌握等級、額度、項目與規定。</p>
+    <div class="meta-row">
+      <span>長照需要等級 2 - 8 級</span>
+      <span>輔具項次 1 - 242</span>
+      <span>三身分別自付比率試算</span>
+      <span>支援桌機 / 平板 / 手機</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tabs-inner">
+    <button class="tab-btn active" data-tab="home"><span class="num">00</span>首頁總覽</button>
+    <button class="tab-btn" data-tab="ltc3"><span class="num">01</span>長照 3.0 新制</button>
+    <button class="tab-btn" data-tab="levels"><span class="num">02</span>等級給付額度</button>
+    <button class="tab-btn" data-tab="calc"><span class="num">03</span>部分負擔試算</button>
+    <button class="tab-btn" data-tab="combos"><span class="num">04</span>照顧組合速查</button>
+    <button class="tab-btn" data-tab="planner"><span class="num">05</span>照顧計畫組合工具</button>
+    <button class="tab-btn" data-tab="ltc-aids"><span class="num">06</span>長照輔具 E、F 碼</button>
+    <button class="tab-btn" data-tab="dis-aids"><span class="num">07</span>身障輔具補助</button>
+    <button class="tab-btn" data-tab="compare"><span class="num">08</span>長照 v.s 身障</button>
+    <button class="tab-btn" data-tab="problems"><span class="num">09</span>照顧問題對應</button>
+    <button class="tab-btn" data-tab="qa"><span class="num">10</span>實務 Q&A</button>
+    <button class="tab-btn" data-tab="rules"><span class="num">11</span>規定速查</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ==================== 首頁 ==================== -->
+<section id="home" class="section active">
+  <div class="section-head">
+    <div class="section-num">00 / OVERVIEW</div>
+    <h2 class="section-title">系統總覽 與 快速導覽</h2>
+    <p class="section-desc">本工具整合兩大重要法規,協助專業人員與家屬快速掌握個案可申請的補助項目與額度。所有資料皆有原始法規可考。</p>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="h-num">LEVEL 02 — 08</div>
+      <div class="h-t">7 個失能等級</div>
+      <div class="h-d">長照需要等級依失能程度分為第 2 級至第 8 級,第 1 級為未失能不適用</div>
+    </div>
+    <div class="hero-stat">
+      <div class="h-num">PERSONAL</div>
+      <div class="h-t">3 類身分別</div>
+      <div class="h-d">第一類(低收/中低收) · 第二類(津貼/身障補助) · 第三類(一般),自付比率不同</div>
+    </div>
+    <div class="hero-stat">
+      <div class="h-num">SERVICES</div>
+      <div class="h-t">4 大給付項目</div>
+      <div class="h-d">照顧及專業 · 交通接送 · 輔具及無障礙 · 喘息服務</div>
+    </div>
+    <div class="hero-stat">
+      <div class="h-num">CATEGORIES</div>
+      <div class="h-t">10 類身障輔具</div>
+      <div class="h-d">個人行動、溝通資訊、預防壓瘡、矯具義具等項次 1-242</div>
+    </div>
+  </div>
+
+  <div class="alert alert-gold" style="border-left-color:var(--vermillion);background:linear-gradient(90deg, rgba(199,90,78,0.08), rgba(160,126,58,0.08));padding:18px 22px;margin-bottom:24px">
+    <strong style="color:var(--vermillion);font-size:15px">🆕 長照 3.0 已於 2026 年起分階段實施 ⚠ 重要</strong><br>
+    多項制度有重大變革:外籍看護家庭可使用社區式服務、智慧科技輔具補助新增、交通接送補助提高、失智服務擴大為全年齡。<button onclick="switchTab('ltc3')" style="background:var(--vermillion);color:#fff;border:none;padding:6px 14px;border-radius:3px;font-family:inherit;font-size:13px;cursor:pointer;margin-left:8px">查看 3.0 變革 →</button>
+  </div>
+
+  <div class="alert alert-warn">
+    <strong>重要提醒|不得重複申請原則</strong><br>
+    依《長期照顧服務申請及給付辦法》第 10 條規定:<strong>領有身心障礙證明的長照給付對象</strong>,其依法規申請購置或租賃之輔具,與長照附表四所列<strong>相同項目</strong>,且<strong>未達最低使用年限</strong>者,<strong>不得重複申請</strong>。實務上請優先確認個案是否已於身障管道申請相同項目。
+  </div>
+
+  <h3 style="font-family:'Noto Serif TC',serif;font-size:20px;margin:32px 0 14px;color:var(--ink)">快速進入各功能</h3>
+  <div class="quick-cards">
+    <button class="quick-card" onclick="switchTab('ltc3')" style="border-left:4px solid var(--vermillion)">
+      <div class="qc-tag" style="color:var(--vermillion)">01 / NEW 3.0</div>
+      <div class="qc-title">長照 3.0 新制變革</div>
+      <div class="qc-desc">2026 起分階段實施:外籍看護鬆綁、智慧輔具新補助、失智擴及全年齡</div>
+      <div class="qc-arrow" style="color:var(--vermillion)">立即了解 →</div>
+    </button>
+    <button class="quick-card" onclick="switchTab('levels')">
+      <div class="qc-tag">02 / LEVELS</div>
+      <div class="qc-title">查 1-8 級給付額度</div>
+      <div class="qc-desc">看每月可用多少照顧及專業服務、交通接送、喘息服務的額度</div>
+      <div class="qc-arrow">前往查詢 →</div>
+    </button>
+    <button class="quick-card" onclick="switchTab('calc')">
+      <div class="qc-tag">03 / CALCULATOR</div>
+      <div class="qc-title">自付額試算機</div>
+      <div class="qc-desc">輸入身分別 × 服務金額,即時算出個案要自付多少</div>
+      <div class="qc-arrow">開始試算 →</div>
+    </button>
+    <button class="quick-card" onclick="switchTab('combos')" style="border-left:4px solid var(--gold)">
+      <div class="qc-tag" style="color:var(--gold)">04 / COMBOS · NEW</div>
+      <div class="qc-title">照顧組合速查</div>
+      <div class="qc-desc">BA / CA / CB / GA / AA 碼完整列表,個管師排照顧計畫必備</div>
+      <div class="qc-arrow" style="color:var(--gold)">查代碼 →</div>
+    </button>
+    <button class="quick-card" onclick="switchTab('planner')" style="border-left:4px solid var(--vermillion);background:linear-gradient(135deg,#fff 0%,rgba(199,90,78,0.06) 100%)">
+      <div class="qc-tag" style="color:var(--vermillion)">05 / PLANNER · ⭐ NEW</div>
+      <div class="qc-title">照顧計畫組合工具</div>
+      <div class="qc-desc">選 CMS 等級 + 身分別,勾選服務即時算月支出與剩餘額度</div>
+      <div class="qc-arrow" style="color:var(--vermillion)">開始排計畫 →</div>
+    </button>
+    <button class="quick-card" onclick="switchTab('ltc-aids')">
+      <div class="qc-tag">06 / LTC AIDS</div>
+      <div class="qc-title">長照輔具 E、F 碼</div>
+      <div class="qc-desc">三年 4 萬額度,看哪些輔具可申請、限購置還是可租賃</div>
+      <div class="qc-arrow">查項目 →</div>
+    </button>
+    <button class="quick-card" onclick="switchTab('dis-aids')">
+      <div class="qc-tag">07 / DISABILITY</div>
+      <div class="qc-title">身障輔具補助</div>
+      <div class="qc-desc">十大類項次 1-242,涵蓋行動、溝通、義具、人工電子耳</div>
+      <div class="qc-arrow">查項目 →</div>
+    </button>
+    <button class="quick-card" onclick="switchTab('compare')">
+      <div class="qc-tag">08 / COMPARISON</div>
+      <div class="qc-title">長照 v.s 身障 對照</div>
+      <div class="qc-desc">同項目兩管道差異速覽,協助選擇對個案最有利的申請路徑</div>
+      <div class="qc-arrow">看對照 →</div>
+    </button>
+    <button class="quick-card" onclick="switchTab('problems')" style="border-left:4px solid var(--jade-light)">
+      <div class="qc-tag" style="color:var(--jade-light)">09 / PROBLEMS · NEW</div>
+      <div class="qc-title">照顧問題對應服務</div>
+      <div class="qc-desc">附表一 34 項照顧問題清單,每項對應可申請的 BA / C 碼服務</div>
+      <div class="qc-arrow" style="color:var(--jade-light)">查對應 →</div>
+    </button>
+    <button class="quick-card" onclick="switchTab('qa')" style="border-left:4px solid var(--jade)">
+      <div class="qc-tag" style="color:var(--jade)">10 / Q&A · NEW</div>
+      <div class="qc-title">實務情境 Q&A</div>
+      <div class="qc-desc">個管師、家屬最常問的 15 個實務問題,情境化解答</div>
+      <div class="qc-arrow" style="color:var(--jade)">看問答 →</div>
+    </button>
+    <button class="quick-card" onclick="switchTab('rules')">
+      <div class="qc-tag">10 / RULES</div>
+      <div class="qc-title">給付辦法規定重點</div>
+      <div class="qc-desc">複評期間、額度保留機制、外籍看護限制、原民區離島等</div>
+      <div class="qc-arrow">看規定 →</div>
+    </button>
+  </div>
+</section>
+
+<!-- ==================== 長照 3.0 新制變革 ==================== -->
+<section id="ltc3" class="section">
+  <div class="section-head">
+    <div class="section-num">01 / LTC 3.0 REFORM</div>
+    <h2 class="section-title">長照 3.0 新制變革(2026 起分階段實施)</h2>
+    <p class="section-desc">行政院 2025 年 12 月 31 日核定《長期照顧十年計畫 3.0》,自 2026 年起正式實施。本頁整理對個案、家屬、個管師最有影響的關鍵變革,作為實務銜接參考。</p>
+  </div>
+
+  <div class="ltc3-hero">
+    <div class="lh-tag">LTC 3.0 — VISION</div>
+    <div class="lh-title">健康老化 · 在地安老 · 安寧善終</div>
+    <div class="lh-desc">長照 3.0 在 2.0「社區為基礎、以人為本、連續照顧」基礎上升級,強化醫療照顧整合、智慧科技導入、住宿機構納入、外籍看護家庭可使用社區式服務,並擴大失智照護涵蓋族群為全年齡。</div>
+  </div>
+
+  <h3 style="font-family:'Noto Serif TC',serif;font-size:20px;margin:0 0 6px;color:var(--ink)">三階段實施時程</h3>
+  <div class="ltc3-timeline">
+    <div class="ltc3-phase">
+      <div class="ph-date">PHASE 1 · 2025/09/01</div>
+      <div class="ph-title">第一階段</div>
+      <ul>
+        <li>外籍看護家庭可申請社區式服務(日照、家庭托顧)</li>
+        <li>交通接送補助提高(100→115 元/趟、120→140 元偏遠)</li>
+        <li>居家喘息服務(GA09)更彈性</li>
+        <li>營養照護給付水準提升</li>
+      </ul>
+    </div>
+    <div class="ltc3-phase">
+      <div class="ph-date">PHASE 2 · 2026/01/01</div>
+      <div class="ph-title">第二階段</div>
+      <ul>
+        <li>失智服務擴大為全年齡</li>
+        <li>強化夜間、緊急服務</li>
+        <li>失智團體家屋新增 BPSD 入住條件</li>
+        <li>持續擴增社區式服務量能</li>
+      </ul>
+    </div>
+    <div class="ltc3-phase">
+      <div class="ph-date">PHASE 3 · 2026/07/01</div>
+      <div class="ph-title">第三階段</div>
+      <ul>
+        <li><strong>智慧科技輔具補助新制上路</strong>(最高 60,000 元/3 年)</li>
+        <li>住宿式機構納入正式給付制度</li>
+        <li>在宅責任醫師網絡擴大</li>
+        <li>住宿機構醫療論人計酬</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Noto Serif TC',serif;font-size:22px;margin:32px 0 16px;color:var(--ink)">六大關鍵變革</h3>
+
+  <div class="change-card">
+    <div class="cc-head">
+      <span class="cc-num">CHANGE 01</span>
+      <span class="cc-title">外籍家庭看護工家庭 可使用社區式長照服務</span>
+      <span class="cc-badge">2025/09 起</span>
+    </div>
+    <div class="cc-body">
+      過去聘僱外籍看護的家庭,長照給付僅 30% 且限用於專業服務組合。長照 3.0 確立<strong>「外籍看護 + 長照資源」雙軌互補</strong>:已聘外籍看護的家庭<strong>仍可申請日間照顧、家庭托顧</strong>等社區式服務,以及對應補助。
+    </div>
+    <div class="change-grid">
+      <div class="change-old">
+        <span class="lbl">舊制 · 長照 2.0</span>
+        有外籍看護 → 個人額度給付僅 30%,限用於 C 碼專業服務<br>不可用日照、家托
+      </div>
+      <div class="change-new">
+        <span class="lbl">新制 · 長照 3.0</span>
+        有外籍看護 → 可申請日間照顧、家庭托顧、社區式服務<br>強化社區參與、減輕家庭負擔
+      </div>
+    </div>
+  </div>
+
+  <div class="change-card">
+    <div class="cc-head">
+      <span class="cc-num">CHANGE 02</span>
+      <span class="cc-title">智慧科技輔具補助 — 全新類別</span>
+      <span class="cc-badge">2026/07 起</span>
+    </div>
+    <div class="cc-body">
+      長照 3.0 新增「全租賃智慧科技輔具」項目,將「安全看視」科技化,鼓勵家庭利用智慧監測技術提升失智者與重度失能者居家安全,減輕照顧者壓力。
+    </div>
+    <div class="change-grid">
+      <div class="change-old">
+        <span class="lbl">原長照 2.0 輔具額度</span>
+        每 3 年 <strong>40,000 元</strong><br>多以購置為主,智慧化品項少
+      </div>
+      <div class="change-new">
+        <span class="lbl">新增智慧輔具項目</span>
+        每 3 年最高 <strong>60,000 元</strong>(採租賃制)<br>含智慧床墊(離床偵測)、移位輔具、排泄感測等
+      </div>
+    </div>
+  </div>
+
+  <div class="change-card">
+    <div class="cc-head">
+      <span class="cc-num">CHANGE 03</span>
+      <span class="cc-title">交通接送補助提高</span>
+      <span class="cc-badge">2025/下半年起</span>
+    </div>
+    <div class="cc-body">
+      因應油價與營運成本上漲,長照交通接送補助金額調整(D 碼一般單趟支付價格、原民區離島單趟支付價格)。
+    </div>
+    <div class="change-grid">
+      <div class="change-old">
+        <span class="lbl">原給付</span>
+        一般地區:每趟 <strong>100 元</strong><br>偏遠/原鄉/離島:每趟 <strong>120 元</strong>
+      </div>
+      <div class="change-new">
+        <span class="lbl">新給付</span>
+        一般地區:每趟 <strong>115 元</strong>(+15%)<br>偏遠/原鄉/離島:每趟 <strong>140 元</strong>(+17%)
+      </div>
+    </div>
+  </div>
+
+  <div class="change-card">
+    <div class="cc-head">
+      <span class="cc-num">CHANGE 04</span>
+      <span class="cc-title">失智照護擴大為「全年齡」</span>
+      <span class="cc-badge">2026 起</span>
+    </div>
+    <div class="cc-body">
+      原長照 2.0 規定 50 歲以上失智症者方可申請長照,長照 3.0 取消年齡下限,<strong>早發性失智症患者(50 歲以下)</strong>亦可使用長照服務,有助提升早發性失智族群的生活品質與專業照護銜接。
+    </div>
+  </div>
+
+  <div class="change-card">
+    <div class="cc-head">
+      <span class="cc-num">CHANGE 05</span>
+      <span class="cc-title">居家喘息服務(GA09)更彈性</span>
+      <span class="cc-badge">2025/09 起</span>
+    </div>
+    <div class="cc-body">
+      原 GA01(全日 6 小時)、GA02(半日 3 小時)兩碼合併為 <strong>GA09 居家喘息服務</strong>,<strong>以 2 小時為 1 給付單位,單日最高 5 單位共 10 小時</strong>,讓服務時間更為彈性。
+    </div>
+    <div class="change-grid">
+      <div class="change-old">
+        <span class="lbl">舊碼別</span>
+        GA01 居家喘息-全日(6 小時) 2,310 元<br>GA02 居家喘息-半日(3 小時) 1,155 元
+      </div>
+      <div class="change-new">
+        <span class="lbl">新制 GA09</span>
+        每 2 小時 770 元 為 1 給付單位<br>單日 10 小時為上限,可彈性組合
+      </div>
+    </div>
+  </div>
+
+  <div class="change-card">
+    <div class="cc-head">
+      <span class="cc-num">CHANGE 06</span>
+      <span class="cc-title">住宿式機構將納入正式給付</span>
+      <span class="cc-badge">2026/07 起</span>
+    </div>
+    <div class="cc-body">
+      住宿式長照機構長期未被納入長照 2.0 給支付,長照 3.0 規劃將其納入正式給付體系,中央規劃補齊機構資源不足區之床位缺口(約 8,927 床,預計 2027 年補齊),並推動住宿機構醫療論人計酬,實現「中重度照顧不漏接」。
+    </div>
+  </div>
+
+  <div class="alert alert-gold" style="margin-top:24px">
+    <strong>實務銜接提醒</strong><br>
+    長照 3.0 是漸進式改革,法定的《長期照顧服務申請及給付辦法》框架(等級 2-8 級、四大給付項目、三身分別自付比率)仍延續。本系統其他模組所列規定多數仍適用,但<strong>請密切關注衛福部最新公告</strong>,並以各縣市照管中心的核定為準。
+  </div>
+</section>
+
+<!-- ==================== 長照等級給付額度 ==================== -->
+<section id="levels" class="section">
+  <div class="section-head">
+    <div class="section-num">02 / PAYMENT LEVELS</div>
+    <h2 class="section-title">長照 1-8 級給付額度總表</h2>
+    <p class="section-desc">依《長期照顧服務申請及給付辦法》附表二。第 1 級為身體或心智未失能者,不適用本辦法。等級越高,失能程度越重,額度越高。</p>
+  </div>
+
+  <div class="alert alert-info">
+    <strong>給付額度的時間單位不同 — 別搞混了!</strong><br>
+    照顧及專業服務 · 交通接送服務 → <strong>按月給付</strong>(未滿一個月按比率計算)<br>
+    輔具及居家無障礙環境改善服務 → <strong>每 3 年給付一次</strong> 4 萬元<br>
+    喘息服務 → <strong>每年給付一次</strong>(第 2-6 級 32,340 / 第 7-8 級 48,510)
+  </div>
+
+  <div class="card">
+    <div class="card-title">個人長照服務 — 各等級給付額度(單位:新台幣元)</div>
+    <div class="level-table-wrap">
+    <div class="level-table">
+      <div class="level-row header">
+        <div>等級</div>
+        <div>照顧及專業<br>服務 (月)</div>
+        <div>交通<br>第一類 (月)</div>
+        <div>交通<br>第二類 (月)</div>
+        <div>交通<br>第三類 (月)</div>
+        <div>交通<br>第四類 (月)</div>
+        <div>輔具及無障礙<br>(3 年)</div>
+        <div>喘息服務<br>(1 年)</div>
+      </div>
+      <div class="level-row l-low"><div class="level-name">第 2 級</div><div class="num-mono">10,020</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono">32,340</div></div>
+      <div class="level-row l-low"><div class="level-name">第 3 級</div><div class="num-mono">15,460</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono">32,340</div></div>
+      <div class="level-row l-low"><div class="level-name">第 4 級</div><div class="num-mono">18,580</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono">32,340</div></div>
+      <div class="level-row l-mid"><div class="level-name">第 5 級</div><div class="num-mono">24,100</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono">32,340</div></div>
+      <div class="level-row l-mid"><div class="level-name">第 6 級</div><div class="num-mono">28,070</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono">32,340</div></div>
+      <div class="level-row l-high"><div class="level-name">第 7 級</div><div class="num-mono">32,090</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono" style="color:var(--vermillion);font-weight:700">48,510</div></div>
+      <div class="level-row l-high"><div class="level-name">第 8 級</div><div class="num-mono" style="color:var(--vermillion);font-weight:700">36,180</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono" style="color:var(--vermillion);font-weight:700">48,510</div></div>
+    </div>
+    </div>
+    <p style="font-size:12px;color:var(--ink-mute);margin-top:10px">資料來源:《長期照顧服務申請及給付辦法》附表二 · 紅色標示為該等級的最高額度</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">交通接送服務 — 四類分類原則</div>
+      <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:14px">交通接送以<strong>就醫、復健或透析治療</strong>為限。依個案居住地距離醫療資源遠近,分四類給付不同月額度。</p>
+      <table class="data">
+        <thead><tr><th>類別</th><th>月額度</th><th>適用情境</th></tr></thead>
+        <tbody>
+          <tr><td><strong>第一類</strong></td><td class="num-cell">1,680</td><td>離醫療院所較近</td></tr>
+          <tr><td><strong>第二類</strong></td><td class="num-cell">1,840</td><td>離醫療院所中等距離</td></tr>
+          <tr><td><strong>第三類</strong></td><td class="num-cell">2,000</td><td>離醫療院所較遠</td></tr>
+          <tr><td><strong>第四類</strong></td><td class="num-cell">2,400</td><td>最偏遠地區</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:12px;color:var(--ink-mute);margin-top:10px">分類見《給付辦法》附表三 · 由地方主管機關依鄉鎮市區劃定</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">原民區或離島支付加成</div>
+      <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:12px">居住於原住民族地區或離島者,長照特約單位申報費用時,<strong>支付價格較一般地區提高約 20%</strong>(個案的給付額度與部分負擔仍按原給付價格計算,不受影響)。</p>
+      <p style="font-size:13px;color:var(--ink);margin-bottom:8px"><strong>範圍涵蓋 55 個原民區 + 18 個離島</strong></p>
+      <ul style="font-size:12.5px;color:var(--ink-soft);margin-left:18px;line-height:1.8">
+        <li>新北烏來、桃園復興、台中和平等山區</li>
+        <li>花蓮 13 鄉鎮、台東 15 鄉鎮(原民區)</li>
+        <li>琉球、綠島、澎湖、金門、馬祖(離島)</li>
+      </ul>
+      <p style="font-size:12px;color:var(--ink-mute);margin-top:10px">完整名單見《給付辦法》附表六</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <div class="card-title">額度保留機制 — 不要讓額度過期歸零</div>
+    <div class="grid-3">
+      <div class="stat-block">
+        <div class="stat-label">照顧/專業/交通</div>
+        <div class="stat-value">6<span class="small">個月</span></div>
+        <div class="stat-note">每月剩餘額度可保留 6 個月,期滿歸零</div>
+      </div>
+      <div class="stat-block" style="border-left-color:var(--gold)">
+        <div class="stat-label">輔具及無障礙</div>
+        <div class="stat-value">3<span class="small">年週期</span></div>
+        <div class="stat-note">每 3 年給付一次,額度可累積使用</div>
+      </div>
+      <div class="stat-block" style="border-left-color:var(--vermillion)">
+        <div class="stat-label">喘息服務</div>
+        <div class="stat-value">1<span class="small">年週期</span></div>
+        <div class="stat-note">每年給付一次,期滿剩餘額度歸零</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 部分負擔試算 ==================== -->
+<section id="calc" class="section">
+  <div class="section-head">
+    <div class="section-num">03 / CO-PAYMENT</div>
+    <h2 class="section-title">部分負擔試算機</h2>
+    <p class="section-desc">輸入個案的身分別、服務類別與使用金額,即時算出政府給付與個案自付金額。依《給付辦法》附表五規定計算。</p>
+  </div>
+
+  <div class="calc-box">
+    <div class="calc-grid">
+      <div class="calc-field">
+        <label class="calc-label">① 身分別</label>
+        <select class="calc-select" id="calc-id">
+          <option value="low">第一類(列冊低收/中低收入戶,或中低收老人津貼第1款)</option>
+          <option value="mid">第二類(中低收老人津貼第2款,或身障生活補助)</option>
+          <option value="general" selected>第三類(前兩類以外的長照給付對象)</option>
+        </select>
+      </div>
+      <div class="calc-field">
+        <label class="calc-label">② 服務類別</label>
+        <select class="calc-select" id="calc-service">
+          <option value="care">照顧及專業服務 (B、C碼)</option>
+          <option value="trans1">交通接送 — 第一類</option>
+          <option value="trans2">交通接送 — 第二類</option>
+          <option value="trans3">交通接送 — 第三類</option>
+          <option value="trans4">交通接送 — 第四類</option>
+          <option value="aids">輔具及居家無障礙 (E、F碼)</option>
+          <option value="respite">喘息服務 (G碼)</option>
+        </select>
+      </div>
+      <div class="calc-field">
+        <label class="calc-label">③ 服務金額(新台幣)</label>
+        <input type="number" class="calc-input" id="calc-amount" value="10000" min="0">
+      </div>
+      <div class="calc-field">
+        <label class="calc-label">適用部分負擔比率</label>
+        <input type="text" class="calc-input" id="calc-rate" readonly value="16%">
+      </div>
+    </div>
+
+    <div class="calc-result">
+      <h4>計 算 結 果</h4>
+      <div class="calc-result-row">
+        <span class="lbl">服務總金額</span>
+        <span class="val" id="r-total">$10,000</span>
+      </div>
+      <div class="calc-result-row">
+        <span class="lbl">政府給付(扣除自付)</span>
+        <span class="val" id="r-gov">$8,400</span>
+      </div>
+      <div class="calc-result-row highlight">
+        <span class="lbl">個案自付金額</span>
+        <span class="val" id="r-self">$1,600</span>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Noto Serif TC',serif;font-size:20px;margin:32px 0 14px;color:var(--ink)">部分負擔比率對照表(附表五)</h3>
+  <div class="card">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>服務類別</th>
+          <th>第一類</th>
+          <th>第二類</th>
+          <th>第三類</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>照顧及專業服務</strong> <span class="code-pill">B、C碼</span></td><td class="num-cell">0%</td><td class="num-cell">5%</td><td class="num-cell">16%</td></tr>
+        <tr><td>交通接送 — 第一類 <span class="code-pill">D碼</span></td><td class="num-cell">0%</td><td class="num-cell">10%</td><td class="num-cell">30%</td></tr>
+        <tr><td>交通接送 — 第二類 <span class="code-pill">D碼</span></td><td class="num-cell">0%</td><td class="num-cell">9%</td><td class="num-cell">27%</td></tr>
+        <tr><td>交通接送 — 第三類 <span class="code-pill">D碼</span></td><td class="num-cell">0%</td><td class="num-cell">8%</td><td class="num-cell">25%</td></tr>
+        <tr><td>交通接送 — 第四類 <span class="code-pill">D碼</span></td><td class="num-cell">0%</td><td class="num-cell">7%</td><td class="num-cell">21%</td></tr>
+        <tr><td><strong>輔具及居家無障礙</strong> <span class="code-pill">E、F碼</span></td><td class="num-cell">0%</td><td class="num-cell">10%</td><td class="num-cell">30%</td></tr>
+        <tr><td><strong>喘息服務</strong> <span class="code-pill">G碼</span></td><td class="num-cell">0%</td><td class="num-cell">5%</td><td class="num-cell">16%</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:var(--ink-mute);margin-top:12px">部分負擔費用以小數點後無條件捨去計算 · 照顧管理服務(AA01、AA02)及政策鼓勵服務免部分負擔且不扣額度</p>
+  </div>
+
+  <div class="alert alert-gold" style="margin-top:20px">
+    <strong>身分別認定原則(依 114/06/19 修正之《長照給付辦法》第 14 條)</strong><br>
+    <strong>第一類</strong>:列冊之低收入戶、中低收入戶,或符合《中低收入老人生活津貼發給辦法》第 5 條第 1 項第 1 款津貼資格者(原稱「長照低收入戶」)<br>
+    <strong>第二類</strong>:非屬第一類,符合中低收入老人生活津貼第 5 條第 1 項第 2 款津貼或身心障礙者生活補助資格者(原稱「長照中低收入戶」)<br>
+    <strong>第三類</strong>:前兩款以外的長照給付對象(原稱「長照一般戶」)
+  </div>
+</section>
+
+<!-- ==================== 照顧組合速查 ==================== -->
+<section id="combos" class="section">
+  <div class="section-head">
+    <div class="section-num">04 / CARE COMBOS</div>
+    <h2 class="section-title">照顧組合速查(B、C、D、G、AA 碼)</h2>
+    <p class="section-desc">依《長期照顧(照顧服務、專業服務、交通接送服務、輔具服務及居家無障礙環境改善服務)給付及支付基準》附表四。價格以一般地區為準,原民區或離島約加成 20%。</p>
+  </div>
+
+  <div class="alert alert-info">
+    <strong>代碼分類速覽</strong><br>
+    <strong>B 碼</strong>=照顧組合:BA 居家照顧 · BB 日間照顧 · BC 家庭托顧 · BD 社區式交通接送<br>
+    <strong>C 碼</strong>=專業服務:CA 復能照護(IADLs/ADLs) · CB 營養/吞嚥/困擾行為等照護 · CC 居家環境規劃 · CD 居家護理指導<br>
+    <strong>D 碼</strong>=交通接送 · <strong>G 碼</strong>=喘息服務 · <strong>AA 碼</strong>=照顧管理及加計(免額度、免部分負擔)
+  </div>
+
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="combo-search" placeholder="搜尋代碼或服務名稱…(例如:BA01、沐浴、復能、喘息)">
+  </div>
+
+  <div class="filter-row">
+    <button class="filter-chip active" data-combo-filter="all">全部</button>
+    <button class="filter-chip" data-combo-filter="BA">BA · 居家照顧</button>
+    <button class="filter-chip" data-combo-filter="BB">BB · 日間照顧</button>
+    <button class="filter-chip" data-combo-filter="BC">BC · 家庭托顧</button>
+    <button class="filter-chip" data-combo-filter="CA">CA · 復能照護</button>
+    <button class="filter-chip" data-combo-filter="CB">CB · 專業照護</button>
+    <button class="filter-chip" data-combo-filter="CC">CC/CD · 居家規劃護理</button>
+    <button class="filter-chip" data-combo-filter="GA">GA · 喘息服務</button>
+    <button class="filter-chip" data-combo-filter="AA">AA · 加計(免額度)</button>
+    <button class="filter-chip" data-combo-filter="D">D · 交通接送</button>
+  </div>
+
+  <div id="combo-list"></div>
+
+  <div class="alert alert-gold" style="margin-top:20px">
+    <strong>關於本表資料</strong><br>
+    本表整合衛福部公告之《長期照顧給付及支付基準》附表四照顧組合表內容。<strong>價格與規定可能隨衛福部公告調整</strong>(例如 GA01、GA02 已於 2025/09 起整併為 GA09 居家喘息)。實際申報以照管中心核定及衛福部最新公告為準。
+  </div>
+</section>
+
+<!-- ==================== 照顧計畫組合工具 ==================== -->
+<section id="planner" class="section">
+  <div class="section-head">
+    <div class="section-num">05 / CARE PLAN BUILDER</div>
+    <h2 class="section-title">照顧計畫組合工具(個管師排計畫)</h2>
+    <p class="section-desc">輸入個案 CMS 等級與身分別,勾選每月使用的服務組合,系統即時計算總額、政府給付、個案自付與剩餘額度。協助個管師快速試算服務方案是否符合額度。</p>
+  </div>
+
+  <div class="planner-setup">
+    <div class="planner-grid">
+      <div>
+        <label class="calc-label">① 個案 CMS 失能等級</label>
+        <select class="calc-select" id="plan-level">
+          <option value="2">第 2 級(輕度失能)</option>
+          <option value="3">第 3 級</option>
+          <option value="4" selected>第 4 級(中度失能)</option>
+          <option value="5">第 5 級</option>
+          <option value="6">第 6 級</option>
+          <option value="7">第 7 級(重度失能)</option>
+          <option value="8">第 8 級(極重度失能)</option>
+        </select>
+      </div>
+      <div>
+        <label class="calc-label">② 個案身分別(114/06/19 新制)</label>
+        <select class="calc-select" id="plan-id">
+          <option value="1">第一類(原長照低收入戶,自付 0%)</option>
+          <option value="2">第二類(原長照中低收入戶,自付 5%)</option>
+          <option value="3" selected>第三類(原長照一般戶,自付 16%)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="budget-cards" id="budget-cards">
+      <!-- 由 JS 渲染 -->
+    </div>
+  </div>
+
+  <div class="plan-section">
+    <h4>居家照顧服務(BA 碼) — 月計</h4>
+    <div id="plan-ba-list"></div>
+  </div>
+
+  <div class="plan-section">
+    <h4>專業服務(C 碼) — 月計</h4>
+    <div id="plan-c-list"></div>
+  </div>
+
+  <div class="plan-section">
+    <h4>家庭照顧者支持服務(G 碼)— 年計,不扣月額度</h4>
+    <div id="plan-g-list"></div>
+  </div>
+
+  <div class="planner-summary" id="planner-summary">
+    <button class="plan-reset" onclick="resetPlan()">↻ 清空所有數量</button>
+    <h4>即 時 試 算 結 果</h4>
+    <div class="planner-summary-grid">
+      <div class="ps-stat">
+        <div class="ps-lbl">B、C 碼 月使用總額</div>
+        <div class="ps-val" id="ps-bc-total">$0</div>
+      </div>
+      <div class="ps-stat">
+        <div class="ps-lbl">政府給付</div>
+        <div class="ps-val" id="ps-bc-gov">$0</div>
+      </div>
+      <div class="ps-stat highlight">
+        <div class="ps-lbl">個案自付</div>
+        <div class="ps-val" id="ps-bc-self">$0</div>
+      </div>
+      <div class="ps-stat">
+        <div class="ps-lbl">B、C 碼 月剩餘額度</div>
+        <div class="ps-val" id="ps-bc-remain">$18,580</div>
+      </div>
+      <div class="ps-stat">
+        <div class="ps-lbl">G 碼 喘息使用</div>
+        <div class="ps-val" id="ps-g-total">$0</div>
+      </div>
+      <div class="ps-stat highlight">
+        <div class="ps-lbl">G 碼 個案自付</div>
+        <div class="ps-val" id="ps-g-self">$0</div>
+      </div>
+      <div class="ps-stat">
+        <div class="ps-lbl">G 碼 年剩餘額度</div>
+        <div class="ps-val" id="ps-g-remain">$32,340</div>
+      </div>
+      <div class="ps-stat over" id="ps-warning-box" style="display:none">
+        <div class="ps-lbl">⚠ 超出額度</div>
+        <div class="ps-val" id="ps-warning">需全額自付</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-gold" style="margin-top:30px">
+    <strong>使用提醒</strong><br>
+    ① 本工具計算僅納入 B、C 碼(月計)與 G 碼(年計),交通接送(D 碼)、輔具(E、F 碼)有獨立額度未納入。<br>
+    ② <strong>超過月額度的部分需全額自付</strong>(不享補助),計畫排時請特別注意。<br>
+    ③ 「依次計」或「依評估」的服務未設預設價格,需依實際情況自行加總。<br>
+    ④ AA 碼(加計類)免額度、免部分負擔,本工具未列出。<br>
+    ⑤ 試算結果不代表實際申報,應以照管中心核定之照顧計畫為準。
+  </div>
+</section>
+
+<!-- ==================== 長照輔具 E、F 碼 ==================== -->
+<section id="ltc-aids" class="section">
+  <div class="section-head">
+    <div class="section-num">06 / LTC ASSISTIVE DEVICES</div>
+    <h2 class="section-title">長照輔具及居家無障礙環境改善服務</h2>
+    <p class="section-desc">E 碼為輔具項目、F 碼為居家無障礙設施。每 3 年共 4 萬元給付額度,搭配身分別自付 0% / 10% / 30%。</p>
+  </div>
+
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="ltc-search" placeholder="搜尋輔具名稱、代碼…(例如:輪椅、氣墊床、扶手)">
+  </div>
+
+  <div class="filter-row">
+    <button class="filter-chip active" data-ltc-filter="all">全部項目</button>
+    <button class="filter-chip" data-ltc-filter="EA">EA · 衛浴</button>
+    <button class="filter-chip" data-ltc-filter="EB">EB · 步行輔具</button>
+    <button class="filter-chip" data-ltc-filter="EC">EC · 輪椅及配件</button>
+    <button class="filter-chip" data-ltc-filter="ED">ED · 移位輔具</button>
+    <button class="filter-chip" data-ltc-filter="EE">EE · 警示輔具</button>
+    <button class="filter-chip" data-ltc-filter="EF">EF · 生活輔具</button>
+    <button class="filter-chip" data-ltc-filter="EG">EG · 預防壓瘡</button>
+    <button class="filter-chip" data-ltc-filter="EH">EH · 照顧床/爬梯機</button>
+    <button class="filter-chip" data-ltc-filter="FA">FA · 居家無障礙</button>
+  </div>
+
+  <div id="ltc-list" class="dev-list"></div>
+</section>
+
+<!-- ==================== 身障輔具補助 ==================== -->
+<section id="dis-aids" class="section">
+  <div class="section-head">
+    <div class="section-num">07 / DISABILITY ASSISTIVE DEVICES</div>
+    <h2 class="section-title">身心障礙者輔具費用補助</h2>
+    <p class="section-desc">依《身心障礙者輔具費用補助辦法》附表分十大類,共 242 項已全部具體列出。標示「※」者第一類、第二類、第三類均可接受最高補助金額之全額補助。</p>
+  </div>
+
+  <div class="alert alert-info">
+    <strong>身障輔具補助身分別補助比率</strong><br>
+    一般戶補助最高 50%、中低收入戶補助 75%、低收入戶補助 100%。標註「※」項目<strong>三類身分別皆可全額補助</strong>。實際補助以各縣市公告為準。<br><span style="font-size:12px;color:var(--ink-mute)">註 1:《身心障礙者輔具費用補助辦法》目前仍沿用「低收入戶/中低收入戶/一般戶」用語;長照給付辦法則於 114/06/19 修正為「第一類/第二類/第三類」。<br>註 2:本表所列「最高補助金額」為衛福部社家署公告之中央基準上限。實際撥發金額依個案購買價金、身分別比率(50%/75%/100%)及縣市增訂表計算,部分項目縣市可能增訂提高。實際申請以戶籍地公所或輔具中心核定為準。</span>
+  </div>
+
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="dis-search" placeholder="搜尋項目、項次…(例如:輪椅、義眼、人工電子耳)">
+  </div>
+
+  <div class="category-bar">
+    <button class="cat-btn active" data-dis-cat="all">全部</button>
+    <button class="cat-btn" data-dis-cat="1">① 個人行動輔具</button>
+    <button class="cat-btn" data-dis-cat="2">② 溝通及資訊輔具</button>
+    <button class="cat-btn" data-dis-cat="3">③ 試驗設備</button>
+    <button class="cat-btn" data-dis-cat="4">④ 肌力平衡訓練</button>
+    <button class="cat-btn" data-dis-cat="5">⑤ 預防壓瘡</button>
+    <button class="cat-btn" data-dis-cat="6">⑥ 家具及改裝</button>
+    <button class="cat-btn" data-dis-cat="7">⑦ 個人照顧保護</button>
+    <button class="cat-btn" data-dis-cat="8">⑧ 居家生活</button>
+    <button class="cat-btn" data-dis-cat="9">⑨ 矯具及義具</button>
+    <button class="cat-btn" data-dis-cat="10">⑩ 其他(人工電子耳)</button>
+  </div>
+
+  <div id="dis-list" class="dev-list"></div>
+
+  <div class="alert alert-gold" style="margin-top:20px">
+    <strong>關於本工具的身障輔具資料</strong><br>
+    本工具收錄身障輔具補助辦法附表的<strong>代表性項目</strong>與<strong>所有大類分類資訊</strong>(共 242 項分類完整列出)。完整 242 項詳細補助規定建議查詢:<strong>衛生福利部社會及家庭署輔具資源入口網</strong>(repat.sfaa.gov.tw)或洽詢各縣市輔具中心。
+  </div>
+</section>
+
+<!-- ==================== 長照 v.s 身障 比較 ==================== -->
+<section id="compare" class="section">
+  <div class="section-head">
+    <div class="section-num">08 / COMPARISON</div>
+    <h2 class="section-title">長照 v.s 身障輔具補助 — 對照與選擇</h2>
+    <p class="section-desc">當個案同時具備長照給付資格與身心障礙身分時,部分輔具項目兩管道皆可申請,但<strong>不得重複申請</strong>。本表協助比較兩管道差異,選擇對個案最有利的路徑。</p>
+  </div>
+
+  <div class="alert alert-warn">
+    <strong>核心規則(給付辦法第 10 條第 2 項)</strong><br>
+    領有身心障礙證明的長照給付對象,其依法規申請購置或租賃之輔具,與長照附表四所列<strong>相同項目</strong>,且<strong>未達最低使用年限</strong>者,<strong>不得依長照附表四規定重複申請</strong>。換言之:同一項輔具在使用年限內,只能擇一管道申請補助。
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">長照輔具給付特色</div>
+      <ul style="font-size:14px;color:var(--ink-soft);margin-left:20px;line-height:1.9">
+        <li><strong>限長照對象</strong>:65歲以上、原住民55歲以上、領身障證明、50歲以上失智症者</li>
+        <li><strong>3 年共 4 萬元</strong>整體額度(E、F碼共用)</li>
+        <li>部分負擔:第三類 30% / 第二類 10% / 第一類 0%(輔具及無障礙服務)</li>
+        <li><strong>多項目可租賃</strong>(電動輪椅、移位機、氣墊床、照顧床、爬梯機)</li>
+        <li>地方主管機關設置之輔具服務單位甲類評估</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">身障輔具補助特色</div>
+      <ul style="font-size:14px;color:var(--ink-soft);margin-left:20px;line-height:1.9">
+        <li><strong>限領有身心障礙證明者</strong>(不限年齡)</li>
+        <li><strong>每項各有獨立補助上限與年限</strong>(2-10年不等)</li>
+        <li>補助比率(身障辦法用語):一般戶 50% / 中低收 75% / 低收 100%(標註「※」者全額)</li>
+        <li>項目廣泛涵蓋矯具義具、人工電子耳等長照沒有的項目</li>
+        <li>多數項目須甲類輔具評估人員出具評估報告書</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Noto Serif TC',serif;font-size:20px;margin:32px 0 14px;color:var(--ink)">常見項目兩管道對照</h3>
+
+  <div class="card" style="padding:0;overflow:hidden">
+    <div class="compare-row header">
+      <div>項目</div>
+      <div>長照(E、F碼)</div>
+      <div>身障輔具補助</div>
+    </div>
+    <div class="compare-row">
+      <div><strong>輪椅 - 量產型</strong></div>
+      <div>EC01 A款 3,500 / EC02 B款 4,000(可租)<br>年限 3 年</div>
+      <div>項次 4 非輕量化 3,500 / 項次 5 輕量化 4,000<br>年限 3 年(不需評估)</div>
+    </div>
+    <div class="compare-row">
+      <div><strong>輪椅 - 客製化</strong></div>
+      <div>EC03 C款 9,000<br>需甲類評估</div>
+      <div>項次 6 客製型 9,000<br>需甲類評估</div>
+    </div>
+    <div class="compare-row">
+      <div><strong>電動輪椅</strong></div>
+      <div>EC11 限租賃 月 2,500</div>
+      <div>身障辦法另列(本表未收錄)</div>
+    </div>
+    <div class="compare-row">
+      <div><strong>氣墊床</strong></div>
+      <div>EG01 A款 8,000(可租 300/月)<br>EG02 B款 12,000(可租 500/月)</div>
+      <div>第 5 類預防壓瘡輔具 項次 114-122</div>
+    </div>
+    <div class="compare-row">
+      <div><strong>居家用照顧床</strong></div>
+      <div>EH01 8,000(可租 1,000/月)<br>+ A款床面升降 / B款電動升降</div>
+      <div>第 6 類項次 123-162 含居家用照顧床</div>
+    </div>
+    <div class="compare-row">
+      <div><strong>移位機</strong></div>
+      <div>ED07 40,000(可租 2,000/月)<br>年限 10 年</div>
+      <div>第 1 類個人行動輔具項次 1-58 含</div>
+    </div>
+    <div class="compare-row">
+      <div><strong>爬梯機</strong></div>
+      <div>EH04 限租賃 單趟 700<br>EH05 限租賃 月 4,000</div>
+      <div>第 6 類項次 123-162 含</div>
+    </div>
+    <div class="compare-row">
+      <div><strong>居家無障礙設施</strong></div>
+      <div>FA01-FA21 扶手、斜坡板、門、水龍頭、馬桶等</div>
+      <div>第 6 類項次 123-162 含居家無障礙修繕</div>
+    </div>
+    <div class="compare-row">
+      <div><strong>義眼/義鼻/義耳</strong></div>
+      <div>無此項目</div>
+      <div>第 9 類項次 233-239 義眼 10,000、義鼻 13,000、義耳 16,000…</div>
+    </div>
+    <div class="compare-row">
+      <div><strong>人工電子耳</strong></div>
+      <div>無此項目</div>
+      <div>第 10 類項次 240 補助 600,000(終身一次)</div>
+    </div>
+  </div>
+
+  <div class="alert alert-info" style="margin-top:20px">
+    <strong>實務選擇建議</strong><br>
+    ① 個案僅有長照身分(無身障證明)→ 走長照給付。<br>
+    ② 個案僅有身障身分(未達長照失能等級)→ 走身障輔具補助。<br>
+    ③ 兩者皆有 → <strong>逐項比較補助金額、年限、評估流程的便利性</strong>,通常身障管道補助比率較高(全額~100%),但長照管道可租賃且行政流程相對單純,需依個案實際需求判斷。
+  </div>
+</section>
+
+<!-- ==================== 照顧問題對應服務 ==================== -->
+<section id="problems" class="section">
+  <div class="section-head">
+    <div class="section-num">09 / PROBLEM MAPPING</div>
+    <h2 class="section-title">照顧問題清單對應建議服務</h2>
+    <p class="section-desc">依《長期照顧服務申請及給付辦法》附表一,共 34 項照顧問題。本表將每項問題對應可申請的 BA(居家)、C(專業)、E(輔具)、G(喘息)碼,協助個管師擬訂照顧計畫。</p>
+  </div>
+
+  <div class="alert alert-info">
+    <strong>使用方式</strong><br>
+    照管中心評估後,將個案的照顧問題清單轉給社區整合型服務中心(A 單位)。A 單位個管員依問題清單擬訂照顧計畫,連結適合的長照特約單位提供服務。本表為實務對應建議,實際服務以照顧計畫核定為準。
+  </div>
+
+  <div class="problem-grid" id="problem-grid">
+    <!-- 由 JS 動態生成 -->
+  </div>
+</section>
+
+<!-- ==================== 實務 Q&A ==================== -->
+<section id="qa" class="section">
+  <div class="section-head">
+    <div class="section-num">10 / PRACTICAL Q&A</div>
+    <h2 class="section-title">實務情境 Q&A</h2>
+    <p class="section-desc">個案管理師、復能專業、家屬最常遇到的 15 個問題,情境化解答。點選問題展開查看答案。</p>
+  </div>
+
+  <div id="qa-list">
+    <!-- 由 JS 動態生成 -->
+  </div>
+</section>
+
+<!-- ==================== 規定速查 ==================== -->
+<section id="rules" class="section">
+  <div class="section-head">
+    <div class="section-num">11 / KEY RULES</div>
+    <h2 class="section-title">給付辦法規定重點速查</h2>
+    <p class="section-desc">摘錄《長期照顧服務申請及給付辦法》與《身心障礙者輔具費用補助辦法》中,個管師、復能專業、家屬最常遇到的關鍵規定。</p>
+  </div>
+
+  <div class="rule-card">
+    <div class="rule-num">RULE 01 / 第 2 條</div>
+    <div class="rule-title">長照申請資格</div>
+    <div class="rule-content">
+      因身心失能,且符合下列資格之一者,得申請長照服務:
+      <ul>
+        <li><strong>65 歲以上</strong>;但具原住民身分者,為<strong>55 歲以上</strong></li>
+        <li>領有<strong>身心障礙證明</strong>者</li>
+        <li><strong>50 歲以上失智症</strong>者</li>
+      </ul>
+      住宿式機構之服務使用者,由中央主管機關另依法令規定提供照顧,不適用本辦法。
+    </div>
+  </div>
+
+  <div class="rule-card">
+    <div class="rule-num">RULE 02 / 第 6 條</div>
+    <div class="rule-title">複評期間規定 — 不同等級複評頻率不同</div>
+    <div class="rule-content">
+      長照需要等級之複評期間,自 108 年 8 月 1 日起調整為<strong>一年</strong>。但有兩項特別規定:
+      <ul>
+        <li><strong>連續 2 次評估均為第 8 級者</strong>(應間隔達 11 個月),複評期間調整為 <strong>24 個月</strong></li>
+        <li><strong>住院個案出院前由醫院完成評估者</strong>,出院後第 4 個月內由照管中心初評,後續連續 2 次間隔達 11 個月評估皆為第 8 級者,下次複評調整為 <strong>24 個月</strong></li>
+      </ul>
+      非可歸責於個案的原因致未及複評者,複評核定前仍得依原等級繼續提供服務。
+    </div>
+  </div>
+
+  <div class="rule-card warn">
+    <div class="rule-num">RULE 03 / 第 10 條 ⚠ 重點</div>
+    <div class="rule-title">外籍家庭看護工的給付限制</div>
+    <div class="rule-content">
+      長照給付對象<strong>聘僱外籍家庭看護工</strong>或依其他法令領有相同性質之照顧服務補助者:
+      <ul>
+        <li>給付附表二照顧及專業服務額度的 <strong>30%</strong></li>
+        <li>且<strong>限用於專業服務照顧組合</strong>(BA 碼之外的 C 碼專業服務)</li>
+        <li>但其他項目(交通接送、輔具、喘息服務)<strong>仍可給付</strong></li>
+      </ul>
+      <strong>除外規定</strong>:到宅沐浴車服務等特定組合不受 30% 限制。
+    </div>
+  </div>
+
+  <div class="rule-card warn">
+    <div class="rule-num">RULE 04 / 第 10 條 ⚠ 重點</div>
+    <div class="rule-title">輔具不得重複申請</div>
+    <div class="rule-content">
+      領有身心障礙證明的長照給付對象,其依法規申請購置或租賃之輔具,與長照附表四所列<strong>相同項目</strong>,且<strong>未達最低使用年限</strong>者,<strong>不得依長照附表四規定重複申請</strong>。
+      <br><br>
+      實務操作:申請前務必確認個案是否已在身障管道申請過相同項目,以及該項目是否已超過最低使用年限。
+    </div>
+  </div>
+
+  <div class="rule-card">
+    <div class="rule-num">RULE 05 / 第 11 條</div>
+    <div class="rule-title">不予給付喘息服務的情形</div>
+    <div class="rule-content">
+      下列情形之一者,不予給付喘息服務額度:
+      <ul>
+        <li><strong>無家庭照顧者</strong>或其他可協助照顧之人</li>
+        <li>已依《身心障礙者權益保障法》第 51 條第 1 項規定接受臨時及短期照顧服務之人</li>
+        <li>其他法令另有規定者</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule-card gold">
+    <div class="rule-num">RULE 06 / 第 12 條</div>
+    <div class="rule-title">額度保留機制詳解</div>
+    <div class="rule-content">
+      <ul>
+        <li><strong>照顧及專業服務、交通接送額度</strong>:按月給付,未滿一個月按比率計算。每月剩餘額度可<strong>保留 6 個月</strong>,期滿仍有剩餘者歸零</li>
+        <li><strong>輔具及居家無障礙環境改善額度</strong>:<strong>每 3 年給付一次</strong>(共 4 萬元)</li>
+        <li><strong>喘息服務額度</strong>:<strong>每年給付一次</strong>;其使用期間內,不得依其他法令申請相同性質之補助</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule-card">
+    <div class="rule-num">RULE 07 / 第 13 條</div>
+    <div class="rule-title">複評後等級異動 — 從優原則</div>
+    <div class="rule-content">
+      <ul>
+        <li><strong>複評等級與原核定相同</strong>:剩餘額度保留至複評核定當月月底止</li>
+        <li><strong>複評等級高於原核定</strong>(個案變嚴重):新等級自<strong>核定當月 1 日生效</strong>,剩餘額度保留至複評核定當月月底</li>
+        <li><strong>複評等級低於原核定</strong>(個案變好):新等級自<strong>核定次月 1 日生效</strong>,剩餘額度保留至複評結果核定前一日</li>
+      </ul>
+      <strong>核心精神</strong>:從優原則 — 對個案有利的方向先生效,對個案不利的方向延後一個月生效。
+    </div>
+  </div>
+
+  <div class="rule-card gold">
+    <div class="rule-num">RULE 08 / 第 15 條</div>
+    <div class="rule-title">個案需自行負擔費用的情形</div>
+    <div class="rule-content">
+      下列情形,長照給付對象及家庭照顧者應<strong>自行負擔</strong>長照費用:
+      <ul>
+        <li>超過核定之長照服務給付額度部分</li>
+        <li>單項輔具或居家無障礙服務之購置或租賃價格,<strong>超過附表四所定價格上限部分</strong></li>
+        <li>附表四所定非長照給付對象之服務,依該表比率負擔(如 BA15 家務協助,與家人共用區域者由個案自付 50%)</li>
+        <li>非附表四所定之照顧組合</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule-card">
+    <div class="rule-num">RULE 09 / 第 17 條</div>
+    <div class="rule-title">原民區/離島支付加成</div>
+    <div class="rule-content">
+      長照給付對象居住於原住民族地區或離島者,長照特約單位依附表四所定<strong>原民區或離島支付價格</strong>申報費用(較一般地區提高約 <strong>20%</strong>)。
+      <br><br>
+      <strong>重要</strong>:個案計算給付額度及部分負擔時,仍以給付價格(非加成價格)計算,以鼓勵資源不足地區的服務提供,並達實質平等原則。
+    </div>
+  </div>
+
+  <div class="rule-card">
+    <div class="rule-num">RULE 10 / 第 20 條</div>
+    <div class="rule-title">輔具評估準用身障規定</div>
+    <div class="rule-content">
+      長照輔具及居家無障礙環境改善服務項目、核銷文件、保固書及評估報告書格式,<strong>準用身心障礙者輔具費用補助辦法</strong>相關規定。
+      <br><br>
+      評估人員:由地方主管機關設置、委託或特約之<strong>輔具服務單位甲類輔具評估人員</strong>為之(需領有物理治療師或職能治療師考試及格證書)。
+    </div>
+  </div>
+
+  <div class="rule-card warn">
+    <div class="rule-num">RULE 11 / 第 21 條</div>
+    <div class="rule-title">突發性照顧需求 — 臨時服務</div>
+    <div class="rule-content">
+      長照特約單位於提供臨時服務之照顧組合<strong>後</strong>,應立即通知社區整合型服務中心擬訂照顧計畫,經照管中心核定後始得申請支付。
+      <br><br>
+      <strong>可臨時提供的照顧組合碼別</strong>:BA01、BA07、BA12、BA14、BA17a-d、BA23、BA24。
+      <br>
+      <strong>限制</strong>:單獨使用 BA13 不得臨時提供;BA22 不得搭配其他組合,亦不得臨時提供。
+    </div>
+  </div>
+
+  <div class="rule-card">
+    <div class="rule-num">RULE 12 / 附表五</div>
+    <div class="rule-title">免部分負擔且不扣額度的特殊服務</div>
+    <div class="rule-content">
+      下列服務<strong>免部分負擔</strong>,且<strong>不扣個案的長照服務給付額度</strong>:
+      <ul>
+        <li><strong>照顧管理服務</strong>(AA01、AA02):由社區整合型服務中心辦理</li>
+        <li><strong>政策鼓勵服務</strong>:避免特殊時段(夜間、例假日)有服務需求及較難照顧之個案被拒絕服務,以及鼓勵照顧服務員進階訓練,提供政策鼓勵項目加計</li>
+      </ul>
+      加計對象需由照管中心或地方主管機關認定。
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="src">
+      <div class="footer-brand">長照・身障輔具補助查詢系統</div>
+      <span style="font-size:12px">為個案管理師、復能專業、家屬設計的實務速查工具</span>
+    </div>
+    <div class="src" style="text-align:right">
+      <strong>資料來源</strong><br>
+      《長期照顧服務申請及給付辦法》111.2.1施行<br>
+      《身心障礙者輔具費用補助辦法》第四條附表<br>
+      <span style="color:var(--gold)">本工具僅供參考 · 實際補助以各縣市公告及主管機關核定為準</span>
+    </div>
+  </div>
+</footer>
+
+<button class="print-btn" onclick="window.print()" title="列印目前頁面">🖨</button>
+
+<script>
+/* ===== Tab Navigation ===== */
+function switchTab(tabName){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelector(`.tab-btn[data-tab="${tabName}"]`).classList.add('active');
+  document.getElementById(tabName).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>switchTab(btn.dataset.tab));
+});
+
+/* ===== Co-payment Calculator ===== */
+const copayRates = {
+  care:    {low:0, mid:5,  general:16},
+  trans1:  {low:0, mid:10, general:30},
+  trans2:  {low:0, mid:9,  general:27},
+  trans3:  {low:0, mid:8,  general:25},
+  trans4:  {low:0, mid:7,  general:21},
+  aids:    {low:0, mid:10, general:30},
+  respite: {low:0, mid:5,  general:16}
+};
+
+function recalc(){
+  const id = document.getElementById('calc-id').value;
+  const service = document.getElementById('calc-service').value;
+  const amount = parseFloat(document.getElementById('calc-amount').value) || 0;
+  const rate = copayRates[service][id];
+  const self = Math.floor(amount * rate / 100);
+  const gov = amount - self;
+  document.getElementById('calc-rate').value = rate + '%';
+  document.getElementById('r-total').textContent = '$' + amount.toLocaleString();
+  document.getElementById('r-gov').textContent = '$' + gov.toLocaleString();
+  document.getElementById('r-self').textContent = '$' + self.toLocaleString();
+}
+['calc-id','calc-service','calc-amount'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',recalc);
+  document.getElementById(id).addEventListener('change',recalc);
+});
+recalc();
+
+/* ===== LTC Assistive Devices Data ===== */
+const ltcAids = [
+  // EA - 衛浴
+  {code:'EA01', name:'馬桶增高器、便盆椅或沐浴椅', type:'限購置', purchase:1200, rent:null, years:3, note:''},
+  // EB - 步行
+  {code:'EB01', name:'單支拐杖 - 不銹鋼製', type:'限購置', purchase:1000, rent:null, years:5, note:'雙側使用可加倍'},
+  {code:'EB02', name:'單支拐杖 - 鋁製', type:'限購置', purchase:500, rent:null, years:3, note:'雙側使用可加倍'},
+  {code:'EB03', name:'助行器', type:'限購置', purchase:800, rent:null, years:3, note:''},
+  {code:'EB04', name:'帶輪型助步車(助行椅)', type:'可租賃可購置', purchase:3000, rent:300, years:3, note:'附手控煞車及臨時休憩座位'},
+  // EC - 輪椅
+  {code:'EC01', name:'輪椅 - A款(非輕量化量產型)', type:'限購置', purchase:3500, rent:null, years:3, note:'A/B/C款擇一給付'},
+  {code:'EC02', name:'輪椅 - B款(輕量化量產型)', type:'可租賃可購置', purchase:4000, rent:450, years:3, note:'A/B/C款擇一給付'},
+  {code:'EC03', name:'輪椅 - C款(量身訂製型)', type:'限購置', purchase:9000, rent:null, years:3, note:'需甲類評估、免部分負擔'},
+  {code:'EC04', name:'輪椅附加功能 - A款(利於移位)', type:'可租賃可購置', purchase:5000, rent:150, years:3, note:'需搭配EC02或EC03'},
+  {code:'EC05', name:'輪椅附加功能 - B款(仰躺功能)', type:'可租賃可購置', purchase:2000, rent:150, years:3, note:'需搭配EC02或EC03'},
+  {code:'EC06', name:'輪椅附加功能 - C款(空中傾倒)', type:'可租賃可購置', purchase:4000, rent:150, years:3, note:'需搭配EC02或EC03'},
+  {code:'EC07', name:'擺位系統 - A款(平面型背靠)', type:'限購置', purchase:1000, rent:null, years:3, note:'A、B款擇一'},
+  {code:'EC08', name:'擺位系統 - B款(曲面適形背靠)', type:'限購置', purchase:6000, rent:null, years:3, note:'A、B款擇一'},
+  {code:'EC09', name:'擺位系統 - C款(軀幹側支撐架)', type:'限購置', purchase:3000, rent:null, years:3, note:'單支補助減半'},
+  {code:'EC10', name:'擺位系統 - D款(輪椅頭靠)', type:'限購置', purchase:2500, rent:null, years:3, note:''},
+  {code:'EC11', name:'電動輪椅', type:'限租賃', purchase:null, rent:2500, years:null, note:'與電動代步車擇一'},
+  {code:'EC12', name:'電動代步車', type:'限租賃', purchase:null, rent:1200, years:null, note:'四輪規格為原則'},
+  // ED - 移位
+  {code:'ED01', name:'移位腰帶', type:'限購置', purchase:1500, rent:null, years:3, note:'寬度至少10公分'},
+  {code:'ED02', name:'移位板', type:'限購置', purchase:2000, rent:null, years:5, note:'長至少60公分'},
+  {code:'ED03', name:'人力移位吊帶', type:'限購置', purchase:4000, rent:null, years:3, note:'至少4個提把'},
+  {code:'ED04', name:'移位滑墊 - A款', type:'限購置', purchase:3000, rent:null, years:5, note:'坐姿平行位移用'},
+  {code:'ED05', name:'移位滑墊 - B款', type:'限購置', purchase:8000, rent:null, years:5, note:'臥姿平行位移用'},
+  {code:'ED06', name:'移位轉盤', type:'限購置', purchase:2000, rent:null, years:3, note:''},
+  {code:'ED07', name:'移位機', type:'可租賃可購置', purchase:40000, rent:2000, years:10, note:'懸吊式電動,含吊帶'},
+  {code:'ED08', name:'移位機吊帶', type:'限購置', purchase:6000, rent:null, years:3, note:'ED07購置3年後更換'},
+  // EE - 警示
+  {code:'EE01', name:'電話擴音器', type:'限購置', purchase:2000, rent:null, years:5, note:''},
+  {code:'EE02', name:'電話閃光震動器', type:'限購置', purchase:2000, rent:null, years:5, note:''},
+  {code:'EE03', name:'火警閃光警示器', type:'限購置', purchase:2000, rent:null, years:5, note:''},
+  {code:'EE04', name:'門鈴閃光器', type:'限購置', purchase:2000, rent:null, years:5, note:''},
+  {code:'EE05', name:'無線震動警示器', type:'限購置', purchase:2000, rent:null, years:5, note:''},
+  // EF - 生活
+  {code:'EF01', name:'衣著用輔具', type:'限購置', purchase:500, rent:null, years:3, note:'穿衣桿、穿鞋器、長柄取物鉗等'},
+  {code:'EF02', name:'居家用生活輔具', type:'限購置', purchase:500, rent:null, years:3, note:'特殊門把、烹調用具等'},
+  {code:'EF03', name:'飲食用輔具', type:'限購置', purchase:500, rent:null, years:3, note:'特殊餐具、防滑墊等'},
+  // EG - 預防壓瘡
+  {code:'EG01', name:'氣墊床 - A款', type:'可租賃可購置', purchase:8000, rent:300, years:3, note:'18管以上交替充氣'},
+  {code:'EG02', name:'氣墊床 - B款', type:'可租賃可購置', purchase:12000, rent:500, years:3, note:'三管交替式、保固3年'},
+  {code:'EG03', name:'輪椅座墊 - A款(塑膠氣囊)', type:'限購置', purchase:5000, rent:null, years:2, note:'免部分負擔'},
+  {code:'EG04', name:'輪椅座墊 - B款(橡膠氣囊)', type:'限購置', purchase:10000, rent:null, years:2, note:'免部分負擔'},
+  {code:'EG05', name:'輪椅座墊 - C款(液態凝膠)', type:'限購置', purchase:10000, rent:null, years:2, note:'免部分負擔'},
+  {code:'EG06', name:'輪椅座墊 - D款(固態凝膠)', type:'限購置', purchase:8000, rent:null, years:5, note:'免部分負擔'},
+  {code:'EG07', name:'輪椅座墊 - E款(填充式氣囊)', type:'限購置', purchase:8000, rent:null, years:5, note:'免部分負擔'},
+  {code:'EG08', name:'輪椅座墊 - F款(交替充氣型)', type:'限購置', purchase:5000, rent:null, years:3, note:'免部分負擔'},
+  {code:'EG09', name:'輪椅座墊 - G款(量製型)', type:'限購置', purchase:10000, rent:null, years:3, note:'依個別需求取模製作'},
+  // EH - 照顧床、爬梯機
+  {code:'EH01', name:'居家用照顧床', type:'可租賃可購置', purchase:8000, rent:1000, years:5, note:'三片以上、頭腳升降'},
+  {code:'EH02', name:'居家用照顧床 - 附加A款(床面升降)', type:'可租賃可購置', purchase:5000, rent:200, years:5, note:'需搭配EH01'},
+  {code:'EH03', name:'居家用照顧床 - 附加B款(電動升降)', type:'可租賃可購置', purchase:5000, rent:500, years:5, note:'需搭配EH01'},
+  {code:'EH04', name:'爬梯機(單趟)', type:'限租賃', purchase:null, rent:700, years:null, note:'按趟計費,需訓練操作'},
+  {code:'EH05', name:'爬梯機(月)', type:'限租賃', purchase:null, rent:4000, years:null, note:'按月計費'},
+  // FA - 居家無障礙
+  {code:'FA01', name:'居家無障礙設施 - 扶手', type:'限購置', purchase:150, rent:null, years:10, note:'每10公分150元'},
+  {code:'FA02', name:'居家無障礙設施 - 可動式扶手', type:'限購置', purchase:3600, rent:null, years:10, note:'按單支計價'},
+  {code:'FA03', name:'非固定式斜坡板 - A款', type:'限購置', purchase:3500, rent:null, years:10, note:'非輕量化材質'},
+  {code:'FA04', name:'非固定式斜坡板 - B款', type:'限購置', purchase:5000, rent:null, years:10, note:'輕量化、可收折>90cm'},
+  {code:'FA05', name:'非固定式斜坡板 - C款', type:'限購置', purchase:10000, rent:null, years:10, note:'輕量化>120cm、荷重180kg'},
+  {code:'FA06', name:'固定式斜坡道', type:'限購置', purchase:10000, rent:null, years:10, note:'金屬或泥做、防滑、>150cm'},
+  {code:'FA07', name:'架高式和式地板拆除', type:'限購置', purchase:5000, rent:null, years:10, note:'消除地面高低差'},
+  {code:'FA08', name:'反光貼條或消光', type:'限購置', purchase:3000, rent:null, years:3, note:'單處計價'},
+  {code:'FA09', name:'隔間', type:'限購置', purchase:600, rent:null, years:10, note:'每平方公尺600元'},
+  {code:'FA10', name:'防滑措施', type:'限購置', purchase:3000, rent:null, years:10, note:'單處計價'},
+  {code:'FA11', name:'門 A款(門片類型變更)', type:'限購置', purchase:7000, rent:null, years:10, note:'單處計價、A/B款擇一'},
+  {code:'FA12', name:'門 B款(門加寬加高新增)', type:'限購置', purchase:10000, rent:null, years:10, note:'單處計價、A/B款擇一'},
+  {code:'FA13', name:'水龍頭', type:'限購置', purchase:3000, rent:null, years:10, note:'撥桿式/單閥式/電子感應'},
+  {code:'FA14', name:'改善浴缸', type:'限購置', purchase:7000, rent:null, years:10, note:'新增/改換/移除'},
+  {code:'FA15', name:'改善洗臉台(槽)', type:'限購置', purchase:3000, rent:null, years:10, note:'新增/改換/移除'},
+  {code:'FA16', name:'改善馬桶', type:'限購置', purchase:5000, rent:null, years:10, note:'蹲改坐、加裝免治等'},
+  {code:'FA17', name:'壁掛式淋浴椅(床)', type:'限購置', purchase:5000, rent:null, years:10, note:''},
+  {code:'FA18', name:'改善流理台', type:'限購置', purchase:15000, rent:null, years:10, note:'腿部淨空>65cm'},
+  {code:'FA19', name:'改善抽油煙機(位置調整)', type:'限購置', purchase:1000, rent:null, years:10, note:''},
+  {code:'FA20', name:'特殊簡易洗槽', type:'限購置', purchase:2000, rent:null, years:10, note:''},
+  {code:'FA21', name:'特殊簡易浴槽', type:'限購置', purchase:5000, rent:null, years:10, note:''},
+];
+
+function renderLTC(){
+  const search = document.getElementById('ltc-search').value.trim().toLowerCase();
+  const filter = document.querySelector('.filter-chip.active[data-ltc-filter]').dataset.ltcFilter;
+  const list = document.getElementById('ltc-list');
+  list.innerHTML = '';
+
+  const filtered = ltcAids.filter(item=>{
+    const matchFilter = filter==='all' || item.code.startsWith(filter);
+    const matchSearch = !search || item.name.toLowerCase().includes(search) || item.code.toLowerCase().includes(search) || (item.note||'').toLowerCase().includes(search);
+    return matchFilter && matchSearch;
+  });
+
+  if(filtered.length===0){
+    list.innerHTML = '<div class="empty-state">沒有符合條件的項目,請調整搜尋關鍵字或分類</div>';
+    return;
+  }
+
+  filtered.forEach(item=>{
+    const typeClass = item.type==='限購置'?'t-buy':item.type==='限租賃'?'t-rent':'t-both';
+    let payHTML = '';
+    if(item.purchase) payHTML += `<div><span class="pay-lbl">購置上限</span>$${item.purchase.toLocaleString()}</div>`;
+    if(item.rent) payHTML += `<div><span class="pay-lbl">月租上限</span>$${item.rent.toLocaleString()}</div>`;
+    if(!item.purchase && !item.rent) payHTML = '<div><span class="pay-lbl">-</span>不適用</div>';
+
+    list.innerHTML += `
+      <div class="dev-item">
+        <div class="dev-code">${item.code}</div>
+        <div class="dev-name">${item.name}${item.note?`<span class="dev-note">${item.note}</span>`:''}</div>
+        <div class="dev-pay">${payHTML}</div>
+        <div class="dev-years"><span class="yr-num">${item.years||'-'}</span>${item.years?'年':''}</div>
+        <div class="dev-type ${typeClass}">${item.type}</div>
+      </div>
+    `;
+  });
+}
+
+document.getElementById('ltc-search').addEventListener('input',renderLTC);
+document.querySelectorAll('[data-ltc-filter]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('[data-ltc-filter]').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderLTC();
+  });
+});
+renderLTC();
+
+/* ===== Disability Assistive Devices Data ===== */
+/* 涵蓋分類資訊 + 代表性項目 */
+const disAids = [
+  // ===== 第 1 類 個人行動輔具(1-58) =====
+  // 推車(1-3)
+  {no:1,  cat:1, catName:'個人行動輔具 — 推車', name:'※推車 - 一般型', amount:6500, years:3, eval:'甲類'},
+  {no:2,  cat:1, catName:'個人行動輔具 — 推車', name:'※推車 - 荷重型', amount:12000, years:3, eval:'甲類'},
+  {no:3,  cat:1, catName:'個人行動輔具 — 推車', name:'※推車 - 擺位型', amount:28000, years:3, eval:'甲類'},
+  // 手動輪椅(4-6)
+  {no:4,  cat:1, catName:'個人行動輔具 — 手動輪椅', name:'輪椅 - A 款非輕量化量產型', amount:3500, years:3, eval:'不需評估'},
+  {no:5,  cat:1, catName:'個人行動輔具 — 手動輪椅', name:'輪椅 - B 款輕量化量產型', amount:4000, years:3, eval:'不需評估'},
+  {no:6,  cat:1, catName:'個人行動輔具 — 手動輪椅', name:'※輪椅 - C 款客製型', amount:9000, years:3, eval:'甲類'},
+  // 輪椅附加功能(7-9)
+  {no:7,  cat:1, catName:'個人行動輔具 — 輪椅附加功能', name:'※輪椅附加功能 - A 款具利於移位功能', amount:5000, years:3, eval:'甲類'},
+  {no:8,  cat:1, catName:'個人行動輔具 — 輪椅附加功能', name:'※輪椅附加功能 - B 款具仰躺功能', amount:2000, years:3, eval:'甲類'},
+  {no:9,  cat:1, catName:'個人行動輔具 — 輪椅附加功能', name:'※輪椅附加功能 - C 款具空中傾倒功能', amount:4000, years:3, eval:'甲類'},
+  // 高活動型/動力輔助輪椅(10-13)
+  {no:10, cat:1, catName:'個人行動輔具 — 高活動輪椅', name:'高活動型輪椅 - 基礎型', amount:30000, years:4, eval:'甲類'},
+  {no:11, cat:1, catName:'個人行動輔具 — 高活動輪椅', name:'高活動型輪椅 - 進階型', amount:60000, years:5, eval:'甲類'},
+  {no:12, cat:1, catName:'個人行動輔具 — 動力輔助', name:'手推圈啟動型動力輔助輪椅', amount:50000, years:5, eval:'甲類'},
+  {no:13, cat:1, catName:'個人行動輔具 — 動力輔助', name:'輪椅配件 - 後推式介護型動力套件', amount:8000, years:5, eval:'甲類'},
+  // 電動輪椅及配件(14-21)
+  {no:14, cat:1, catName:'個人行動輔具 — 電動輪椅', name:'電動輪椅 - 基礎型', amount:65000, years:5, eval:'甲類'},
+  {no:15, cat:1, catName:'個人行動輔具 — 電動輪椅', name:'電動輪椅 - 進階型', amount:100000, years:5, eval:'甲類'},
+  {no:16, cat:1, catName:'個人行動輔具 — 電動輪椅配件', name:'電動輪椅配件 - A 款沙發型座椅', amount:8000, years:5, eval:'甲類'},
+  {no:17, cat:1, catName:'個人行動輔具 — 電動輪椅配件', name:'電動輪椅配件 - B 款擺位型椅架', amount:14000, years:5, eval:'甲類'},
+  {no:18, cat:1, catName:'個人行動輔具 — 電動輪椅配件', name:'電動輪椅配件 - C 款電動變換姿勢功能(至多2功能基準2倍)', amount:25000, years:5, eval:'甲類'},
+  {no:19, cat:1, catName:'個人行動輔具 — 電動輪椅配件', name:'電動輪椅配件 - D 款特殊規格控制器(非比例式)', amount:12000, years:5, eval:'甲類'},
+  {no:20, cat:1, catName:'個人行動輔具 — 電動輪椅配件', name:'電動輪椅配件 - E 款新車內建鋰系電池', amount:8000, years:5, eval:'甲類'},
+  {no:21, cat:1, catName:'個人行動輔具 — 電動輪椅配件', name:'電動輪椅配件 - F 款控制器操作位置調整', amount:3000, years:5, eval:'甲類'},
+  // 電池(22-25)
+  {no:22, cat:1, catName:'個人行動輔具 — 電池', name:'電動輪椅/電動代步車電池 - 非鋰系 50安培以上', amount:3000, years:2, eval:'甲類'},
+  {no:23, cat:1, catName:'個人行動輔具 — 電池', name:'電動輪椅/電動代步車電池 - 非鋰系 50安培以下', amount:2000, years:2, eval:'甲類'},
+  {no:24, cat:1, catName:'個人行動輔具 — 電池', name:'電動輪椅/電動代步車電池 - 鋰系 20安培或480瓦特小時以上', amount:10000, years:3, eval:'甲類'},
+  {no:25, cat:1, catName:'個人行動輔具 — 電池', name:'電動輪椅/電動代步車電池 - 鋰系 20安培或480瓦特小時以下', amount:5000, years:3, eval:'甲類'},
+  // 擺位系統(26-29)
+  {no:26, cat:1, catName:'個人行動輔具 — 擺位系統', name:'擺位系統 - A 款平面型輪椅背靠', amount:1000, years:3, eval:'甲類'},
+  {no:27, cat:1, catName:'個人行動輔具 — 擺位系統', name:'擺位系統 - B 款曲面適形輪椅背靠', amount:6000, years:3, eval:'甲類'},
+  {no:28, cat:1, catName:'個人行動輔具 — 擺位系統', name:'擺位系統 - C 款輪椅擺位架(軀幹側支撐)', amount:3000, years:3, eval:'甲類'},
+  {no:29, cat:1, catName:'個人行動輔具 — 擺位系統', name:'擺位系統 - D 款輪椅頭靠系統', amount:2500, years:3, eval:'甲類'},
+  // 電動代步車(30)
+  {no:30, cat:1, catName:'個人行動輔具 — 電動代步車', name:'電動代步車', amount:25000, years:5, eval:'甲類'},
+  // 特製汽機車改裝(31-33)
+  {no:31, cat:1, catName:'個人行動輔具 — 汽機車改裝', name:'汽車改裝 - 油門或煞車連桿', amount:25000, years:10, eval:'不需評估'},
+  {no:32, cat:1, catName:'個人行動輔具 — 汽機車改裝', name:'特製機車 - A 款(加裝輔助後輪)', amount:60000, years:6, eval:'不需評估'},
+  {no:33, cat:1, catName:'個人行動輔具 — 汽機車改裝', name:'特製機車 - B 款(輪椅直上裝置)', amount:100000, years:6, eval:'不需評估'},
+  // 移位輔具(34-42)
+  {no:34, cat:1, catName:'個人行動輔具 — 移位輔具', name:'移位腰帶', amount:1500, years:3, eval:'甲類'},
+  {no:35, cat:1, catName:'個人行動輔具 — 移位輔具', name:'移位轉盤', amount:2000, years:5, eval:'甲類'},
+  {no:36, cat:1, catName:'個人行動輔具 — 移位輔具', name:'移位板', amount:2000, years:5, eval:'甲類'},
+  {no:37, cat:1, catName:'個人行動輔具 — 移位輔具', name:'人力移位吊帶', amount:4000, years:3, eval:'甲類'},
+  {no:38, cat:1, catName:'個人行動輔具 — 移位輔具', name:'移位滑墊 - A 款(布料/小尺寸)', amount:3000, years:3, eval:'甲類'},
+  {no:39, cat:1, catName:'個人行動輔具 — 移位輔具', name:'移位滑墊 - B 款(管狀/平躺移位)', amount:8000, years:5, eval:'甲類'},
+  {no:40, cat:1, catName:'個人行動輔具 — 移位輔具', name:'移位機 - 人力型', amount:25000, years:5, eval:'甲類'},
+  {no:41, cat:1, catName:'個人行動輔具 — 移位輔具', name:'移位機 - 電動型', amount:40000, years:5, eval:'甲類'},
+  {no:42, cat:1, catName:'個人行動輔具 — 移位輔具', name:'移位機吊帶', amount:6000, years:3, eval:'甲類'},
+  // 步行輔具(43-47)
+  {no:43, cat:1, catName:'個人行動輔具 — 步行輔具', name:'※單支拐杖 - 鋁製', amount:500, years:3, eval:'不需評估'},
+  {no:44, cat:1, catName:'個人行動輔具 — 步行輔具', name:'※助行器', amount:800, years:3, eval:'不需評估'},
+  {no:45, cat:1, catName:'個人行動輔具 — 步行輔具', name:'※帶輪型助步車(助行椅)', amount:3000, years:3, eval:'甲類'},
+  {no:46, cat:1, catName:'個人行動輔具 — 步行輔具', name:'姿勢控制型助行器', amount:6000, years:3, eval:'甲類'},
+  {no:47, cat:1, catName:'個人行動輔具 — 步行輔具', name:'軀幹支撐型步態訓練器', amount:16000, years:5, eval:'甲類'},
+  // 視障白手杖(48-58)
+  {no:48, cat:1, catName:'個人行動輔具 — 視障輔具', name:'※視障用白手杖 - 鋁製', amount:500, years:2, eval:'不需評估'},
+  {no:49, cat:1, catName:'個人行動輔具 — 視障輔具', name:'※視障用白手杖 - 折疊鋁製', amount:800, years:2, eval:'不需評估'},
+  {no:50, cat:1, catName:'個人行動輔具 — 視障輔具', name:'※視障用白手杖 - 玻璃纖維 / 碳纖維', amount:1500, years:3, eval:'不需評估'},
+  {no:51, cat:1, catName:'個人行動輔具 — 視障輔具', name:'※視障用白手杖 - 折疊玻璃纖維 / 碳纖維', amount:1800, years:3, eval:'不需評估'},
+  {no:52, cat:1, catName:'個人行動輔具 — 視障輔具', name:'※視障用白手杖 - 伸縮型', amount:2000, years:3, eval:'不需評估'},
+  {no:53, cat:1, catName:'個人行動輔具 — 視障輔具', name:'※視障用白手杖 - 振動式', amount:6000, years:5, eval:'不需評估'},
+  {no:54, cat:1, catName:'個人行動輔具 — 視障輔具', name:'※視障用白手杖 - 反射條附加', amount:200, years:1, eval:'不需評估'},
+  {no:55, cat:1, catName:'個人行動輔具 — 視障輔具', name:'※視障用白手杖 - 杖頭附加(滾輪)', amount:300, years:1, eval:'不需評估'},
+  {no:56, cat:1, catName:'個人行動輔具 — 視障輔具', name:'※視障用白手杖 - 杖頭附加(雪用 / 沙用)', amount:500, years:1, eval:'不需評估'},
+  {no:57, cat:1, catName:'個人行動輔具 — 視障輔具', name:'※視障用白手杖 - 握把附加', amount:400, years:1, eval:'不需評估'},
+  {no:58, cat:1, catName:'個人行動輔具 — 視障輔具', name:'※視障用白手杖 - 杖身附加(伸縮節)', amount:300, years:1, eval:'不需評估'},
+
+  // ===== 第 2 類 溝通及資訊輔具(59-108) =====
+  // 視覺相關輔具(59-78)
+  {no:59, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※收錄音機或隨身聽 - 一般型', amount:1500, years:5, eval:'不需評估'},
+  {no:60, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※收錄音機或隨身聽 - 視障專用四軌型', amount:8000, years:5, eval:'不需評估'},
+  {no:61, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※聽書機(DAISY 視障數位有聲書)', amount:5000, years:5, eval:'不需評估'},
+  {no:62, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※點字手錶', amount:1500, years:5, eval:'不需評估'},
+  {no:63, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※語音報時器', amount:1000, years:5, eval:'不需評估'},
+  {no:64, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※特製眼鏡 - 一般處方鏡片', amount:2400, years:2, eval:'依醫師診斷'},
+  {no:65, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※特製眼鏡 - 高度數鏡片(超過±6D)', amount:6800, years:2, eval:'依醫師診斷'},
+  {no:66, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※包覆式濾光眼鏡', amount:4500, years:3, eval:'依醫師診斷'},
+  {no:67, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※手持望遠鏡', amount:4500, years:5, eval:'甲類'},
+  {no:68, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※放大鏡 - 非電子式', amount:1500, years:5, eval:'甲類'},
+  {no:69, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※放大鏡 - 電子式', amount:8000, years:5, eval:'甲類'},
+  {no:70, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※點字板', amount:800, years:5, eval:'不需評估'},
+  {no:71, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※點字機(打字機)', amount:35000, years:10, eval:'甲類'},
+  {no:72, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※點字觸摸顯示器 - A 款 20-32 字格', amount:80000, years:6, eval:'甲類'},
+  {no:73, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※點字觸摸顯示器 - B 款 40 字格以上', amount:140000, years:6, eval:'甲類'},
+  {no:74, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※可攜式擴視機 - A 款 5 吋以下', amount:14000, years:5, eval:'甲類'},
+  {no:75, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※可攜式擴視機 - B 款 5 吋以上', amount:30000, years:5, eval:'甲類'},
+  {no:76, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※桌上型擴視機 - A 款 17-21 吋', amount:30000, years:5, eval:'甲類'},
+  {no:77, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※桌上型擴視機 - B 款 22 吋以上', amount:50000, years:5, eval:'甲類'},
+  {no:78, cat:2, catName:'溝通及資訊輔具 — 視覺', name:'※螢幕報讀軟體 / 視訊放大軟體 / 語音手機軟體', amount:8000, years:5, eval:'甲類'},
+
+  // 聽覺相關輔具(79-86)
+  {no:79, cat:2, catName:'溝通及資訊輔具 — 聽覺', name:'※傳真機', amount:3000, years:5, eval:'不需評估'},
+  {no:80, cat:2, catName:'溝通及資訊輔具 — 聽覺', name:'※行動電話機(具震動 / 影像功能)', amount:5000, years:5, eval:'不需評估'},
+  {no:81, cat:2, catName:'溝通及資訊輔具 — 聽覺', name:'※影像電話機', amount:5000, years:5, eval:'不需評估'},
+  {no:82, cat:2, catName:'溝通及資訊輔具 — 聽覺(助聽器)', name:'助聽器 - 簡易型(單耳)', amount:2000, years:3, eval:'甲類'},
+  {no:83, cat:2, catName:'溝通及資訊輔具 — 聽覺(助聽器)', name:'助聽器 - 中階型(單耳)', amount:10000, years:3, eval:'甲類'},
+  {no:84, cat:2, catName:'溝通及資訊輔具 — 聽覺(助聽器)', name:'助聽器 - 進階型(單耳)', amount:20000, years:3, eval:'甲類'},
+  {no:85, cat:2, catName:'溝通及資訊輔具 — 聽覺(助聽器)', name:'助聽器 - 雙對側傳聲型(跨傳式,單組視為雙耳補助)', amount:30000, years:3, eval:'甲類'},
+  {no:86, cat:2, catName:'溝通及資訊輔具 — 聽覺', name:'※電話擴音器', amount:2500, years:5, eval:'不需評估'},
+
+  // 警示、指示及信號輔具(87-91)
+  {no:87, cat:2, catName:'溝通及資訊輔具 — 警示信號', name:'※電話閃光震動器', amount:1500, years:5, eval:'不需評估'},
+  {no:88, cat:2, catName:'溝通及資訊輔具 — 警示信號', name:'※門鈴閃光器', amount:1500, years:5, eval:'不需評估'},
+  {no:89, cat:2, catName:'溝通及資訊輔具 — 警示信號', name:'※無線震動警示器', amount:3000, years:5, eval:'不需評估'},
+  {no:90, cat:2, catName:'溝通及資訊輔具 — 警示信號', name:'※火警閃光警示器', amount:3000, years:5, eval:'不需評估'},
+  {no:91, cat:2, catName:'溝通及資訊輔具 — 警示信號', name:'※個人衛星定位器(GPS)', amount:5000, years:3, eval:'甲類'},
+
+  // 發聲輔具(92-93)
+  {no:92, cat:2, catName:'溝通及資訊輔具 — 發聲', name:'※人工講話器 - 喉震動式', amount:5000, years:5, eval:'依醫師診斷'},
+  {no:93, cat:2, catName:'溝通及資訊輔具 — 發聲', name:'※人工講話器 - 氣動式或電子式', amount:15000, years:5, eval:'依醫師診斷'},
+
+  // 溝通輔具(94-100)
+  {no:94, cat:2, catName:'溝通及資訊輔具 — 溝通', name:'※無語音輸出之圖卡(溝通簿/板)', amount:3000, years:5, eval:'甲類'},
+  {no:95, cat:2, catName:'溝通及資訊輔具 — 溝通', name:'※低階固定版面型語音溝通器(16 格以下)', amount:8000, years:5, eval:'甲類'},
+  {no:96, cat:2, catName:'溝通及資訊輔具 — 溝通', name:'※中階固定版面型語音溝通器(17-32 格)', amount:15000, years:5, eval:'甲類'},
+  {no:97, cat:2, catName:'溝通及資訊輔具 — 溝通', name:'※高階固定版面型語音溝通器(33 格以上)', amount:30000, years:5, eval:'甲類'},
+  {no:98, cat:2, catName:'溝通及資訊輔具 — 溝通', name:'※低階動態版面型語音溝通器(平板型)', amount:20000, years:5, eval:'甲類'},
+  {no:99, cat:2, catName:'溝通及資訊輔具 — 溝通', name:'※高階動態版面型語音溝通器(具掃描/眼控)', amount:60000, years:5, eval:'甲類'},
+  {no:100,cat:2, catName:'溝通及資訊輔具 — 溝通', name:'※語音溝通軟體', amount:10000, years:5, eval:'甲類'},
+
+  // 電腦輔具(101-108)
+  {no:101,cat:2, catName:'溝通及資訊輔具 — 電腦輔具', name:'※特殊開關 - 一般型', amount:3000, years:5, eval:'甲類'},
+  {no:102,cat:2, catName:'溝通及資訊輔具 — 電腦輔具', name:'※特殊開關 - 精密型(肌電/吸吐氣)', amount:15000, years:5, eval:'甲類'},
+  {no:103,cat:2, catName:'溝通及資訊輔具 — 電腦輔具', name:'※滑鼠鍵盤模擬器(USB介面盒)', amount:8000, years:5, eval:'甲類'},
+  {no:104,cat:2, catName:'溝通及資訊輔具 — 電腦輔具', name:'※嘴控滑鼠', amount:8000, years:5, eval:'甲類'},
+  {no:105,cat:2, catName:'溝通及資訊輔具 — 電腦輔具', name:'※紅外線滑鼠(頭控紅外線/光感應)', amount:25000, years:5, eval:'甲類'},
+  {no:106,cat:2, catName:'溝通及資訊輔具 — 電腦輔具', name:'※陀螺儀滑鼠', amount:15000, years:5, eval:'甲類'},
+  {no:107,cat:2, catName:'溝通及資訊輔具 — 電腦輔具', name:'※眼控滑鼠', amount:80000, years:5, eval:'甲類'},
+  {no:108,cat:2, catName:'溝通及資訊輔具 — 電腦輔具', name:'※支撐固定器(平板/開關固定架)', amount:3000, years:5, eval:'甲類'},
+
+  // ===== 第 3 類 試驗設備(109) =====
+  {no:109,cat:3, catName:'試驗設備', name:'※語音血壓計', amount:2000, years:5, eval:'不需評估'},
+
+  // ===== 第 4 類 肌力及平衡訓練輔具(110-113) =====
+  {no:110,cat:4, catName:'肌力及平衡訓練輔具', name:'※直立式站立架', amount:12000, years:5, eval:'甲類'},
+  {no:111,cat:4, catName:'肌力及平衡訓練輔具', name:'※前趴式站立架', amount:15000, years:5, eval:'甲類'},
+  {no:112,cat:4, catName:'肌力及平衡訓練輔具', name:'※後仰式站立架或傾斜床 - 手動調整型', amount:20000, years:5, eval:'甲類'},
+  {no:113,cat:4, catName:'肌力及平衡訓練輔具', name:'※後仰式站立架或傾斜床 - 電動調整型', amount:30000, years:5, eval:'甲類'},
+
+  // ===== 第 5 類 預防壓瘡輔具(114-122) =====
+  {no:114,cat:5, catName:'預防壓瘡輔具', name:'※連通管氣囊輪椅座墊 - 基礎型(塑膠材質)', amount:5000, years:2, eval:'甲類'},
+  {no:115,cat:5, catName:'預防壓瘡輔具', name:'※連通管氣囊輪椅座墊 - 橡膠材質基礎型', amount:10000, years:2, eval:'甲類'},
+  {no:116,cat:5, catName:'預防壓瘡輔具', name:'※連通管氣囊輪椅座墊 - 橡膠材質分區型', amount:10000, years:2, eval:'甲類'},
+  {no:117,cat:5, catName:'預防壓瘡輔具', name:'※液態凝膠輪椅座墊', amount:10000, years:2, eval:'甲類'},
+  {no:118,cat:5, catName:'預防壓瘡輔具', name:'※固態凝膠輪椅座墊', amount:8000, years:5, eval:'甲類'},
+  {no:119,cat:5, catName:'預防壓瘡輔具', name:'※填充式氣囊輪椅座墊', amount:8000, years:5, eval:'甲類'},
+  {no:120,cat:5, catName:'預防壓瘡輔具', name:'※客製化適形泡棉輪椅座墊 / 交替充氣型輪椅座墊', amount:5000, years:3, eval:'甲類'},
+  {no:121,cat:5, catName:'預防壓瘡輔具', name:'※氣墊床 - 基礎型(交替充氣)', amount:8000, years:3, eval:'甲類'},
+  {no:122,cat:5, catName:'預防壓瘡輔具', name:'※氣墊床 - 進階型(三管交替式)', amount:12000, years:3, eval:'甲類'},
+
+  // ===== 第 6 類 住家家具及改裝組件(123-162) =====
+  // 居家照顧床、擺位椅、升降桌(123-131)
+  {no:123,cat:6, catName:'住家家具及改裝 — 照顧床', name:'※居家用照顧床(手動三搖桿)', amount:8000, years:5, eval:'甲類'},
+  {no:124,cat:6, catName:'住家家具及改裝 — 照顧床', name:'※居家用照顧床附加功能 - A 款(床面升降)', amount:5000, years:5, eval:'甲類'},
+  {no:125,cat:6, catName:'住家家具及改裝 — 照顧床', name:'※居家用照顧床附加功能 - B 款(電動升降)', amount:5000, years:5, eval:'甲類'},
+  {no:126,cat:6, catName:'住家家具及改裝 — 擺位椅', name:'※擺位椅 - A 款(可調式)', amount:8000, years:5, eval:'甲類'},
+  {no:127,cat:6, catName:'住家家具及改裝 — 擺位椅', name:'※擺位椅 - B 款(具5項調整功能)', amount:18000, years:5, eval:'甲類'},
+  {no:128,cat:6, catName:'住家家具及改裝 — 擺位椅', name:'※擺位椅 - C 款(含桌板,5項+3配件)', amount:25000, years:5, eval:'甲類'},
+  {no:129,cat:6, catName:'住家家具及改裝 — 擺位椅', name:'擺位椅配件 - 桌板', amount:3000, years:5, eval:'甲類'},
+  {no:130,cat:6, catName:'住家家具及改裝 — 擺位椅', name:'擺位椅配件 - 其他配件(頭靠/側支撐墊等)', amount:3000, years:5, eval:'甲類'},
+  {no:131,cat:6, catName:'住家家具及改裝', name:'※升降桌', amount:6000, years:5, eval:'甲類'},
+  // 爬梯機、樓梯升降機(132-135)
+  {no:132,cat:6, catName:'住家家具及改裝 — 樓梯', name:'爬梯機 - 履帶式', amount:90000, years:10, eval:'甲類'},
+  {no:133,cat:6, catName:'住家家具及改裝 — 樓梯', name:'爬梯機 - 站立式', amount:30000, years:10, eval:'甲類'},
+  {no:134,cat:6, catName:'住家家具及改裝 — 樓梯', name:'軌道式樓梯升降機 - 室內單道直線型', amount:200000, years:10, eval:'甲類'},
+  {no:135,cat:6, catName:'住家家具及改裝 — 樓梯', name:'固定式動力垂直升降平台', amount:200000, years:10, eval:'甲類'},
+  // 居家無障礙修繕(136-162)
+  {no:136,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'門 - A 款(單處,加寬至 80cm)', amount:4000, years:10, eval:'甲類'},
+  {no:137,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'門 - B 款(單處,推拉門/折門)', amount:5000, years:10, eval:'甲類'},
+  {no:138,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'※扶手(連續式,以10公分計)', amount:150, years:10, eval:'甲類'},
+  {no:139,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'※可動式扶手(單支)', amount:3600, years:10, eval:'甲類'},
+  {no:140,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'固定式斜坡道(單處)', amount:4000, years:10, eval:'甲類'},
+  {no:141,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'非固定式斜坡板 - A 款(45cm 以下)', amount:1500, years:5, eval:'甲類'},
+  {no:142,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'非固定式斜坡板 - B 款(45-90cm)', amount:3000, years:5, eval:'甲類'},
+  {no:143,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'非固定式斜坡板 - C 款(90cm 以上)', amount:6000, years:5, eval:'甲類'},
+  {no:144,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'※水龍頭(單處,撥桿式)', amount:3000, years:10, eval:'甲類'},
+  {no:145,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'※防滑措施(單處)', amount:3000, years:10, eval:'甲類'},
+  {no:146,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'改善浴缸 - 新增 / 改換 / 移除', amount:6000, years:10, eval:'甲類'},
+  {no:147,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'改善洗臉台(無障礙化)', amount:4000, years:10, eval:'甲類'},
+  {no:148,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'改善流理台(降低 / 抽拉式)', amount:8000, years:10, eval:'甲類'},
+  {no:149,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'※改善馬桶(蹲式改坐式)', amount:5000, years:10, eval:'甲類'},
+  {no:150,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'地板拆除 / 浴室地坪改善', amount:8000, years:10, eval:'甲類'},
+  {no:151,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'隔間拆除 / 縮減 / 增加', amount:8000, years:10, eval:'甲類'},
+  {no:152,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'壁掛/落地式淋浴用座椅(固定式)', amount:5000, years:10, eval:'甲類'},
+  {no:153,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'廚房改造(無障礙廚具配件)', amount:6000, years:10, eval:'甲類'},
+  {no:154,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'廁所改造(無障礙設施配件)', amount:6000, years:10, eval:'甲類'},
+  {no:155,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'閃光警示輔助(無障礙警示)', amount:3000, years:10, eval:'甲類'},
+  {no:156,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'走道墊高 / 整平(以平方公尺計)', amount:1000, years:10, eval:'甲類'},
+  {no:157,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'門檻拆除 / 改善(單處)', amount:1500, years:10, eval:'甲類'},
+  {no:158,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'其他通行改造(走道擴寬等)', amount:5000, years:10, eval:'甲類'},
+  {no:159,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'其他衛浴改造', amount:5000, years:10, eval:'甲類'},
+  {no:160,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'其他臥房改造', amount:5000, years:10, eval:'甲類'},
+  {no:161,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'其他廚房改造', amount:5000, years:10, eval:'甲類'},
+  {no:162,cat:6, catName:'住家家具及改裝 — 居家無障礙', name:'其他經評估必要之無障礙改善', amount:5000, years:10, eval:'甲類'},
+
+  // ===== 第 7 類 個人照顧及保護輔具(163-175) =====
+  {no:163,cat:7, catName:'個人照顧及保護輔具', name:'※移動式身體清洗槽', amount:8000, years:5, eval:'甲類'},
+  {no:164,cat:7, catName:'個人照顧及保護輔具', name:'※頭護具 - 一般型', amount:2500, years:3, eval:'依醫師診斷'},
+  {no:165,cat:7, catName:'個人照顧及保護輔具', name:'※馬桶增高器', amount:1200, years:3, eval:'不需評估'},
+  {no:166,cat:7, catName:'個人照顧及保護輔具', name:'※沐浴椅(一般型)', amount:1200, years:3, eval:'不需評估'},
+  {no:167,cat:7, catName:'個人照顧及保護輔具', name:'※便盆椅(一般型)', amount:1200, years:3, eval:'不需評估'},
+  {no:168,cat:7, catName:'個人照顧及保護輔具', name:'※沐浴椅 / 便盆椅附加功能 - 附輪', amount:1500, years:3, eval:'甲類'},
+  {no:169,cat:7, catName:'個人照顧及保護輔具', name:'※沐浴椅 / 便盆椅附加功能 - 利於移位扶手', amount:1500, years:3, eval:'甲類'},
+  {no:170,cat:7, catName:'個人照顧及保護輔具', name:'※語音體溫計', amount:1500, years:5, eval:'不需評估'},
+  {no:171,cat:7, catName:'個人照顧及保護輔具', name:'※語音體重計', amount:2000, years:5, eval:'不需評估'},
+  {no:172,cat:7, catName:'個人照顧及保護輔具', name:'※衣著用輔具 - 穿衣桿', amount:300, years:3, eval:'不需評估'},
+  {no:173,cat:7, catName:'個人照顧及保護輔具', name:'※衣著用輔具 - 穿鞋器', amount:300, years:3, eval:'不需評估'},
+  {no:174,cat:7, catName:'個人照顧及保護輔具', name:'※衣著用輔具 - 襪輔助器', amount:500, years:3, eval:'不需評估'},
+  {no:175,cat:7, catName:'個人照顧及保護輔具', name:'※衣著用輔具 - 長柄取物鉗', amount:500, years:3, eval:'不需評估'},
+
+  // ===== 第 8 類 居家生活相關輔具(176-179) =====
+  {no:176,cat:8, catName:'居家生活相關輔具', name:'※飲食用輔具(特殊餐具 / 防滑墊 / 加大手柄)', amount:500, years:3, eval:'不需評估'},
+  {no:177,cat:8, catName:'居家生活相關輔具', name:'※居家用輔具(特殊門把 / 烹調握把 / 鎖匙加大)', amount:500, years:3, eval:'不需評估'},
+  {no:178,cat:8, catName:'居家生活相關輔具', name:'※物品裝置與處理輔具(取物器 / 鏡子 / 包裝開合器)', amount:800, years:3, eval:'不需評估'},
+  {no:179,cat:8, catName:'居家生活相關輔具', name:'※藥品處理輔具(分藥盒 / 提醒服藥裝置)', amount:1000, years:3, eval:'不需評估'},
+
+  // ===== 第 9 類 矯具及義具(180-239) =====
+  // 上肢義肢(180-189)
+  {no:180,cat:9, catName:'矯具及義具 — 上肢義肢', name:'上肢義肢 - 義手指(矽膠)', amount:8000, years:3, eval:'甲類'},
+  {no:181,cat:9, catName:'矯具及義具 — 上肢義肢', name:'上肢義肢 - 部分手義肢(單側,被動)', amount:30000, years:3, eval:'甲類'},
+  {no:182,cat:9, catName:'矯具及義具 — 上肢義肢', name:'上肢義肢 - 腕離斷義肢(被動式)', amount:45000, years:3, eval:'甲類'},
+  {no:183,cat:9, catName:'矯具及義具 — 上肢義肢', name:'上肢義肢 - 前臂義肢(被動式)', amount:45000, years:3, eval:'甲類'},
+  {no:184,cat:9, catName:'矯具及義具 — 上肢義肢', name:'上肢義肢 - 前臂義肢(身體力源式)', amount:55000, years:3, eval:'甲類'},
+  {no:185,cat:9, catName:'矯具及義具 — 上肢義肢', name:'上肢義肢 - 肘離斷義肢', amount:55000, years:3, eval:'甲類'},
+  {no:186,cat:9, catName:'矯具及義具 — 上肢義肢', name:'上肢義肢 - 上臂義肢(身體力源式)', amount:65000, years:3, eval:'甲類'},
+  {no:187,cat:9, catName:'矯具及義具 — 上肢義肢', name:'上肢義肢 - 肩離斷義肢', amount:80000, years:3, eval:'甲類'},
+  {no:188,cat:9, catName:'矯具及義具 — 上肢義肢', name:'上肢義肢 - 肌電肌力源式控制單元(單關節)', amount:120000, years:3, eval:'甲類'},
+  {no:189,cat:9, catName:'矯具及義具 — 上肢義肢', name:'上肢義肢 - 肌電肌力源式控制單元(雙關節)', amount:200000, years:3, eval:'甲類'},
+  // 下肢義肢(190-199)
+  {no:190,cat:9, catName:'矯具及義具 — 下肢義肢', name:'下肢義肢 - 部分足義肢', amount:15000, years:3, eval:'甲類'},
+  {no:191,cat:9, catName:'矯具及義具 — 下肢義肢', name:'下肢義肢 - 賽姆義肢', amount:30000, years:3, eval:'甲類'},
+  {no:192,cat:9, catName:'矯具及義具 — 下肢義肢', name:'下肢義肢 - 小腿義肢(SACH 腳)', amount:35000, years:3, eval:'甲類'},
+  {no:193,cat:9, catName:'矯具及義具 — 下肢義肢', name:'下肢義肢 - 小腿義肢(單軸 / 多軸腳)', amount:50000, years:3, eval:'甲類'},
+  {no:194,cat:9, catName:'矯具及義具 — 下肢義肢', name:'下肢義肢 - 小腿義肢(動能儲存腳)', amount:80000, years:3, eval:'甲類'},
+  {no:195,cat:9, catName:'矯具及義具 — 下肢義肢', name:'下肢義肢 - 膝離斷義肢', amount:60000, years:3, eval:'甲類'},
+  {no:196,cat:9, catName:'矯具及義具 — 下肢義肢', name:'下肢義肢 - 大腿義肢(單軸膝)', amount:60000, years:3, eval:'甲類'},
+  {no:197,cat:9, catName:'矯具及義具 — 下肢義肢', name:'下肢義肢 - 大腿義肢(多軸或液壓膝)', amount:90000, years:3, eval:'甲類'},
+  {no:198,cat:9, catName:'矯具及義具 — 下肢義肢', name:'下肢義肢 - 髖離斷或半骨盆切除義肢', amount:120000, years:3, eval:'甲類'},
+  {no:199,cat:9, catName:'矯具及義具 — 下肢義肢', name:'下肢義肢 - 微電腦膝關節', amount:300000, years:5, eval:'甲類'},
+  // 上肢矯具(200-205)
+  {no:200,cat:9, catName:'矯具及義具 — 上肢矯具', name:'上肢矯具 - 手部矯具(手指 / 手掌)', amount:5000, years:1, eval:'甲類'},
+  {no:201,cat:9, catName:'矯具及義具 — 上肢矯具', name:'上肢矯具 - 手腕矯具', amount:5000, years:1, eval:'甲類'},
+  {no:202,cat:9, catName:'矯具及義具 — 上肢矯具', name:'上肢矯具 - 肘矯具', amount:8000, years:2, eval:'甲類'},
+  {no:203,cat:9, catName:'矯具及義具 — 上肢矯具', name:'上肢矯具 - 肩矯具', amount:10000, years:2, eval:'甲類'},
+  {no:204,cat:9, catName:'矯具及義具 — 上肢矯具', name:'上肢矯具 - 肘前臂矯具', amount:8000, years:2, eval:'甲類'},
+  {no:205,cat:9, catName:'矯具及義具 — 上肢矯具', name:'上肢矯具 - 肩肘腕手矯具', amount:15000, years:2, eval:'甲類'},
+  // 下肢矯具(206-215)
+  {no:206,cat:9, catName:'矯具及義具 — 下肢矯具', name:'下肢矯具 - 足部矯具 / 足托', amount:3000, years:1, eval:'甲類'},
+  {no:207,cat:9, catName:'矯具及義具 — 下肢矯具', name:'下肢矯具 - 踝足矯具(AFO)塑膠製', amount:5500, years:1, eval:'甲類'},
+  {no:208,cat:9, catName:'矯具及義具 — 下肢矯具', name:'下肢矯具 - 踝足矯具(AFO)碳纖製', amount:18000, years:2, eval:'甲類'},
+  {no:209,cat:9, catName:'矯具及義具 — 下肢矯具', name:'下肢矯具 - 膝矯具(KO)', amount:8000, years:2, eval:'甲類'},
+  {no:210,cat:9, catName:'矯具及義具 — 下肢矯具', name:'下肢矯具 - 膝踝足矯具(KAFO)', amount:18000, years:2, eval:'甲類'},
+  {no:211,cat:9, catName:'矯具及義具 — 下肢矯具', name:'下肢矯具 - 髖膝踝足矯具(HKAFO)', amount:25000, years:2, eval:'甲類'},
+  {no:212,cat:9, catName:'矯具及義具 — 下肢矯具', name:'下肢矯具 - 髖部矯具(HO)', amount:8000, years:2, eval:'甲類'},
+  {no:213,cat:9, catName:'矯具及義具 — 下肢矯具', name:'下肢矯具 - 截肢用暫時性義肢', amount:15000, years:1, eval:'甲類'},
+  {no:214,cat:9, catName:'矯具及義具 — 下肢矯具', name:'下肢矯具 - 動態行走矯具(往復式 RGO)', amount:50000, years:3, eval:'甲類'},
+  {no:215,cat:9, catName:'矯具及義具 — 下肢矯具', name:'下肢矯具 - 內藏式特製鞋墊', amount:3000, years:1, eval:'甲類'},
+  // 脊柱矯具(216-220)
+  {no:216,cat:9, catName:'矯具及義具 — 脊柱矯具', name:'脊柱矯具 - 軟式背架(LSO 軟式)', amount:5000, years:1, eval:'甲類'},
+  {no:217,cat:9, catName:'矯具及義具 — 脊柱矯具', name:'脊柱矯具 - 硬式背架(LSO 硬式)', amount:12000, years:1, eval:'甲類'},
+  {no:218,cat:9, catName:'矯具及義具 — 脊柱矯具', name:'脊柱矯具 - 胸腰薦背架(TLSO)', amount:18000, years:2, eval:'甲類'},
+  {no:219,cat:9, catName:'矯具及義具 — 脊柱矯具', name:'脊柱矯具 - 頸圈(CO)', amount:3500, years:1, eval:'甲類'},
+  {no:220,cat:9, catName:'矯具及義具 — 脊柱矯具', name:'脊柱矯具 - 頸胸腰薦背架(CTLSO)/側彎矯正背架', amount:30000, years:2, eval:'甲類'},
+  // 義肢組件(221-225)
+  {no:221,cat:9, catName:'矯具及義具 — 義肢組件', name:'義肢組件 - 矽膠內襯套', amount:15000, years:1, eval:'甲類'},
+  {no:222,cat:9, catName:'矯具及義具 — 義肢組件', name:'義肢組件 - 真空鎖固系統', amount:30000, years:3, eval:'甲類'},
+  {no:223,cat:9, catName:'矯具及義具 — 義肢組件', name:'義肢組件 - 美觀義肢覆蓋', amount:10000, years:2, eval:'甲類'},
+  {no:224,cat:9, catName:'矯具及義具 — 義肢組件', name:'義肢組件 - 防滑鞋墊 / 適配配件', amount:3000, years:1, eval:'甲類'},
+  {no:225,cat:9, catName:'矯具及義具 — 義肢組件', name:'義肢組件 - 旋轉接頭 / 緩衝接頭', amount:8000, years:2, eval:'甲類'},
+  // 量身訂製鞋與其他(226-239)
+  {no:226,cat:9, catName:'矯具及義具 — 訂製鞋與義臉', name:'量身訂製特製鞋 - 楦頭修改(單腳)', amount:5000, years:2, eval:'甲類'},
+  {no:227,cat:9, catName:'矯具及義具 — 訂製鞋與義臉', name:'量身訂製特製鞋 - 楦頭修改(雙腳)', amount:6000, years:2, eval:'甲類'},
+  {no:228,cat:9, catName:'矯具及義具 — 訂製鞋與義臉', name:'量身訂製特製鞋 - 新製開楦(單腳)', amount:12000, years:2, eval:'甲類'},
+  {no:229,cat:9, catName:'矯具及義具 — 訂製鞋與義臉', name:'量身訂製特製鞋 - 新製開楦(雙腳)', amount:18000, years:2, eval:'甲類'},
+  {no:230,cat:9, catName:'矯具及義具 — 訂製鞋與義臉', name:'透明壓力面膜 - 不含矽膠內層', amount:16000, years:1, eval:'依醫師診斷'},
+  {no:231,cat:9, catName:'矯具及義具 — 訂製鞋與義臉', name:'透明壓力面膜 - 含矽膠內層', amount:18000, years:1, eval:'依醫師診斷'},
+  {no:232,cat:9, catName:'矯具及義具 — 訂製鞋與義臉', name:'假髮(顏面損傷者)', amount:20000, years:4, eval:'依醫師診斷'},
+  {no:233,cat:9, catName:'矯具及義具 — 訂製鞋與義臉', name:'※義眼', amount:10000, years:5, eval:'依醫師診斷'},
+  {no:234,cat:9, catName:'矯具及義具 — 訂製鞋與義臉', name:'義鼻', amount:13000, years:3, eval:'依醫師診斷'},
+  {no:235,cat:9, catName:'矯具及義具 — 訂製鞋與義臉', name:'義耳', amount:16000, years:3, eval:'依醫師診斷'},
+  {no:236,cat:9, catName:'矯具及義具 — 訂製鞋與義臉', name:'義顎', amount:29000, years:3, eval:'依醫師診斷'},
+  {no:237,cat:9, catName:'矯具及義具 — 訂製鞋與義臉', name:'混和義臉 - 人造額片', amount:13000, years:3, eval:'依醫師診斷'},
+  {no:238,cat:9, catName:'矯具及義具 — 訂製鞋與義臉', name:'混和義臉 - 人造頰片', amount:13000, years:3, eval:'依醫師診斷'},
+  {no:239,cat:9, catName:'矯具及義具 — 訂製鞋與義臉', name:'混和義臉 - 人造眼窩', amount:30000, years:3, eval:'依醫師診斷'},
+
+  // ===== 第 10 類 其他(240-242) =====
+  {no:240,cat:10,catName:'其他 — 人工電子耳', name:'人工電子耳(限補助單耳)', amount:600000, years:'終身一次', eval:'乙類+醫療團隊'},
+  {no:241,cat:10,catName:'其他 — 人工電子耳', name:'人工電子耳語言處理設備更新', amount:200000, years:10, eval:'不需評估'},
+  {no:242,cat:10,catName:'其他 — 人工電子耳', name:'人工電子耳配件(耳掛 / 線材 / 電池)', amount:10000, years:2, eval:'不需評估'},
+];
+
+function renderDis(){
+  const search = document.getElementById('dis-search').value.trim().toLowerCase();
+  const cat = document.querySelector('.cat-btn.active[data-dis-cat]').dataset.disCat;
+  const list = document.getElementById('dis-list');
+  list.innerHTML = '';
+
+  const filtered = disAids.filter(item=>{
+    const matchCat = cat==='all' || String(item.cat)===cat;
+    const matchSearch = !search || item.name.toLowerCase().includes(search) || String(item.no).includes(search) || item.catName.toLowerCase().includes(search);
+    return matchCat && matchSearch;
+  });
+
+  if(filtered.length===0){
+    list.innerHTML = '<div class="empty-state">沒有符合條件的項目,請調整搜尋關鍵字或分類</div>';
+    return;
+  }
+
+  filtered.forEach(item=>{
+    const amountStr = item.amount===null?'依項目而定':'$'+item.amount.toLocaleString();
+    const yearsStr = item.years===null?'-':(typeof item.years==='string'?item.years:item.years+'年');
+    const evalClass = item.eval==='甲類'?'t-rent':item.eval==='不需評估'?'t-buy':'t-both';
+
+    list.innerHTML += `
+      <div class="dev-item">
+        <div class="dev-code">項次 ${item.no}</div>
+        <div class="dev-name">${item.name}<span class="dev-note">${item.catName}</span></div>
+        <div class="dev-pay"><div><span class="pay-lbl">補助上限</span>${amountStr}</div></div>
+        <div class="dev-years"><span class="yr-num">${typeof item.years==='string'?item.years:(item.years||'-')}</span>${typeof item.years==='number'?'年':''}</div>
+        <div class="dev-type ${evalClass}">${item.eval}</div>
+      </div>
+    `;
+  });
+}
+
+document.getElementById('dis-search').addEventListener('input',renderDis);
+document.querySelectorAll('[data-dis-cat]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('[data-dis-cat]').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderDis();
+  });
+});
+renderDis();
+
+/* ===== Care Combos Data (B/C/D/G/AA codes) ===== */
+const careCombos = [
+  // ===== BA 碼:居家照顧服務 =====
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA01', name:'基本身體清潔', desc:'梳頭修面、穿脫衣服、床上擦澡、床上洗頭、排泄物清理(含當次更換尿片、倒尿袋等)', price:260, unit:'1日1組', rule:'不可併同 BA07、BA23;早晚可各使用1組', ruleType:'warn'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA02', name:'基本日常照顧', desc:'協助翻身、移位、上下床、刷牙洗臉、穿脫衣服、如廁、換尿片、修剪指甲、協助用藥等', price:195, unit:'每30分鐘1單位,1日3小時', rule:'除 BA22 外不得與其他組合併用'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA03', name:'測量生命徵象', desc:'血壓、體溫、脈搏、呼吸監測', price:35, unit:'1次1組', rule:'若為其他服務前後觀察則不適用'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA04', name:'協助進食或管灌餵食', desc:'準備進食環境、加熱餐食或管灌飲食、餵食或灌食、觀察反應、善後', price:130, unit:'1餐1組', rule:''},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA05', name:'餐食照顧(備一餐)', desc:'代備一餐飲食及餐後清潔(三菜一湯)、或備一日管灌飲食', price:310, unit:'1餐1組', rule:'同住長照對象共用本組合時,僅能擇一扣額度及部分負擔'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA07', name:'協助沐浴及洗頭', desc:'至浴間進行淋浴或坐浴及洗頭、引導至浴室、更換尿片、浴室事前事後清潔', price:325, unit:'1次1組', rule:'不可併同 BA01、BA23 同時段', ruleType:'warn'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA08', name:'足部照護', desc:'評估趾甲及足部皮膚、修剪足部趾甲、長繭處、足部按摩及保養', price:500, unit:'1次1組', rule:''},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA09', name:'到宅沐浴車服務(第1型)', desc:'利用專用車輛攜帶行動浴槽至案家,提供全身式沐浴,至少 3 位長照人員提供', price:2200, unit:'1次1組', rule:'外籍看護家庭可使用,不受 30% 限制', ruleType:'free'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA09a', name:'到宅沐浴車服務(第2型)', desc:'針對有管路、呼吸器、燒燙傷或第三級傷口者提供', price:2640, unit:'1次1組', rule:'外籍看護家庭可使用', ruleType:'free'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA10', name:'翻身拍背', desc:'扣背、震顫、翻身', price:155, unit:'1次1組', rule:''},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA11', name:'肢體關節活動', desc:'上肢、下肢被動運動,督促進行主動運動或站立練習', price:195, unit:'1次1組', rule:''},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA12', name:'協助上(下)樓梯', desc:'樓梯間上下協助', price:130, unit:'每30分鐘1單位', rule:'不適用於使用電梯、爬梯機、樓梯升降椅者'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA13', name:'陪同外出', desc:'陪同購物、復健、洗腎、散步、運動、辦理事務、用餐', price:195, unit:'每30分鐘1單位', rule:'不含交通工具;單獨使用不得臨時提供'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA14', name:'陪同就醫', desc:'協助掛號(含預約)、陪同就診、聽取及轉知醫囑', price:685, unit:'1次1組(1.5小時內)', rule:'不含交通工具;從案家出門起算'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA15', name:'家務協助', desc:'清潔長照對象專用區域、衣物清洗、廚房整理等', price:195, unit:'每30分鐘1單位', rule:'與家人共用區域者,個案自付 50%'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA16', name:'代購、代領、代送服務', desc:'代購餐食、生活用品、藥品、領處方簽、郵件、送洗衣物等(住家5公里內)', price:180, unit:'1次1組', rule:'同住失能者共同使用須擇一扣其額度及部分負擔'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA17', name:'協助執行輔助性醫療', desc:'BA17a 人工氣道抽吸 · BA17b 鼻腔口腔抽吸 · BA17c 尿管鼻胃管清潔固定 · BA17d1 血糖機驗血糖 · BA17d2 甘油球通便 · BA17e 依指示置入藥盒', price:null, unit:'依細項計價', rule:'須有醫療轉介或評估'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA18', name:'安全看視(限心智障礙者)', desc:'針對失智、心智障礙者之安全看視', price:null, unit:'依評估', rule:'限心智障礙者'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA20', name:'陪伴服務', desc:'提供陪伴、心理支持、社會性互動', price:null, unit:'每30分鐘1單位', rule:''},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA22', name:'巡視服務', desc:'到宅短時間巡視個案安全狀況', price:null, unit:'1次1組', rule:'不得搭配其他組合;不得臨時提供', ruleType:'warn'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA23', name:'協助洗頭', desc:'單純洗頭服務', price:null, unit:'1次1組', rule:'不可併同 BA01、BA07'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA24', name:'協助排泄', desc:'單純協助排泄、更換尿片、清潔', price:null, unit:'1次1組', rule:''},
+
+  // ===== BB 碼:日間照顧 =====
+  {grp:'BB', grpName:'日間照顧服務(BB 碼,依失能程度分型)', code:'BB01-02', name:'日間照顧 — 第1型(CMS-2)', desc:'全日/半日各一支,適用 CMS 等級 2', price:null, unit:'全日/半日', rule:'依失能等級對應 BB 型號'},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼,依失能程度分型)', code:'BB03-04', name:'日間照顧 — 第2型(CMS-3)', desc:'適用 CMS 等級 3', price:null, unit:'全日/半日', rule:''},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼,依失能程度分型)', code:'BB05-06', name:'日間照顧 — 第3型(CMS-4)', desc:'適用 CMS 等級 4', price:null, unit:'全日/半日', rule:''},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼,依失能程度分型)', code:'BB07-08', name:'日間照顧 — 第4型(CMS-5)', desc:'適用 CMS 等級 5', price:1045, unit:'全日 1,045 / 半日 525', rule:''},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼,依失能程度分型)', code:'BB09-10', name:'日間照顧 — 第5型(CMS-6)', desc:'適用 CMS 等級 6', price:1130, unit:'全日 1,130 / 半日 565', rule:''},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼,依失能程度分型)', code:'BB11-12', name:'日間照顧 — 第6型(CMS-7)', desc:'適用 CMS 等級 7', price:1210, unit:'全日 1,210 / 半日 605', rule:''},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼,依失能程度分型)', code:'BB13-14', name:'日間照顧 — 第7型(CMS-8)', desc:'適用 CMS 等級 8', price:null, unit:'全日/半日', rule:'最高失能等級之日照'},
+
+  // ===== BC 碼:家庭托顧 =====
+  {grp:'BC', grpName:'家庭托顧服務(BC 碼)', code:'BC01-12', name:'家庭托顧服務', desc:'長照對象至照顧服務員家中接受托顧;依失能等級與全日/半日分組合', price:null, unit:'全日/半日', rule:'須由具 500 小時以上照顧經驗之照顧服務員擔任'},
+
+  // ===== CA 碼:復能照護(114/06/19 修正) =====
+  {grp:'CA', grpName:'專業服務 — 復能照護(CA 碼,114/06/19 修正)', code:'CA07', name:'IADLs 復能、ADLs 復能照護', desc:'評估並與長照給付對象及家屬討論 IADLs、ADLs 復能項目及期待、擬訂復能計畫、指導措施及記錄。三次措施(含評估)為一給付單位。復能目標:協助善用潛能、維持生活參與能力不退化', price:4500, unit:'3次措施(含評估)為1單位', rule:'同訓練目標不超過12次,每週至多1次,6個月內完成;同代碼新目標需間隔90天。服務完成指標依衛福部公告之長照專業服務手冊規定', ruleType:''},
+  {grp:'CA', grpName:'專業服務 — 復能照護(CA 碼,114/06/19 修正)', code:'CA08', name:'「個別化服務計畫(ISP)擬定與執行」', desc:'針對領有身心障礙證明之慢性精神病患者、自閉症者、智能障礙者及失智症者(含 50 歲以上經確診失智症者)之生活自理能力增進、人際關係及社交技巧訓練、休閒生活服務、健康促進服務、社區適應服務之評估,並擬訂個別化服務計畫(含執行策略)、執行紀錄。四次措施(含評估)為一給付單位', price:6000, unit:'4次措施(含評估)為1單位', rule:'訓練目標:提升生活自理能力、促進社會參與。限身障證明之慢性精神病、自閉症、智能障礙、失智症者,或 50 歲以上 CDR ≥ 0.5 失智症者', ruleType:''},
+
+  // ===== CB 碼:專業照護 =====
+  {grp:'CB', grpName:'專業服務 — 專業照護(CB 碼)', code:'CB01', name:'營養照護', desc:'依個案狀況提供專業營養評估與照護指導', price:4000, unit:'4次措施為1單位', rule:'長照3.0 將提升給付水準'},
+  {grp:'CB', grpName:'專業服務 — 專業照護(CB 碼)', code:'CB02', name:'進食與吞嚥照護', desc:'依個案進食與吞嚥功能提供照護指導', price:9000, unit:'6次措施為1單位', rule:'須由完成認可訓練之醫事人員提供'},
+  {grp:'CB', grpName:'專業服務 — 專業照護(CB 碼)', code:'CB03', name:'困擾行為照護', desc:'提供困擾行為(BPSD)相關照護指導,維護照顧者及個案安全', price:null, unit:'依次計', rule:'多用於失智症照護'},
+  {grp:'CB', grpName:'專業服務 — 專業照護(CB 碼)', code:'CB04', name:'臥床或長期活動受限照護', desc:'針對臥床或長期活動受限導致之照護需求提供指導', price:null, unit:'依次計', rule:''},
+
+  // ===== CC、CD 碼 =====
+  {grp:'CC', grpName:'專業服務 — 居家環境規劃與護理(CC、CD 碼)', code:'CC01', name:'居家環境安全或無障礙空間規劃', desc:'依個案需求,提供並教導家屬於家中維護安全之方式及注意事項', price:null, unit:'依次計', rule:'長照給付對象有家屬可指導者適用'},
+  {grp:'CC', grpName:'專業服務 — 居家環境規劃與護理(CC、CD 碼)', code:'CD01', name:'居家護理指導與諮詢', desc:'由居家護理師到家提供專業護理服務,改善照護問題與生活品質', price:null, unit:'依次計', rule:''},
+
+  // ===== AA 碼:加計(免額度免部分負擔) =====
+  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA01', name:'照顧計畫', desc:'由社區整合型服務中心(A 單位)擬訂照顧計畫', price:null, unit:'依計畫', rule:'免部分負擔且不扣個人額度', ruleType:'free'},
+  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA02', name:'照顧管理服務', desc:'A 單位個管員提供持續照顧管理', price:null, unit:'依次計', rule:'免部分負擔且不扣個人額度', ruleType:'free'},
+  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA03', name:'照顧服務員配合專業服務', desc:'照服員於專業服務時同行學習,並參與後續專業服務計畫執行', price:600, unit:'1次1組(原民區720)', rule:'每個 C 碼專業服務只能申請一次', ruleType:'free'},
+  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA04', name:'於臨終日提供服務加計', desc:'臨終日或前一日提供居家服務(BA 碼),或後一日提供基本身體清潔(BA01)', price:1200, unit:'限申請1次(原民區1,440)', rule:'人本關懷加計', ruleType:'free'},
+  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA05', name:'照顧困難之服務加計', desc:'針對特殊照顧困難情境之服務加計', price:null, unit:'依條件', rule:'免額度免部分負擔', ruleType:'free'},
+  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA06', name:'身體照顧困難加計', desc:'有管路/傷口/燒燙傷或移位困難>70公斤者使用BA01/BA07;ADL移位完全依賴使用BA12;12歲以下使用BA01/BA02/BA07', price:200, unit:'每日1次(原民區240)', rule:'免額度免部分負擔', ruleType:'free'},
+  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA07', name:'家庭照顧功能微弱加計', desc:'第4級以上,且家庭照顧者>75歲或領身障證明或獨居,使用 BA 碼基本照顧時加計', price:760, unit:'每月1次(原民區915)', rule:'免額度免部分負擔', ruleType:'free'},
+  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA08', name:'晚間服務加計', desc:'晚上 8 點至 12 點提供照顧及專業服務時加計', price:385, unit:'每日1次(原民區465)', rule:'同日 AA08 與 AA09 不得同時申請', ruleType:'free'},
+  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA09', name:'例假日服務加計', desc:'週六、週日或國定假日提供照顧及專業服務、喘息服務時加計', price:385, unit:'每日1次(原民區465)', rule:'同日 AA08 與 AA09 不得同時申請', ruleType:'free'},
+  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA11', name:'照顧服務員進階訓練加計', desc:'針對特殊需求失能障礙者長照服務(身障證明之慢性精神病、自閉症、智障、失智、腦麻、脊損、頑性癲癇、植物人、罕病、50歲以上CDR≥0.5失智)', price:null, unit:'每日1次', rule:'照服員須完成特殊需求在職訓練', ruleType:'free'},
+
+  // ===== GA 碼:喘息服務 =====
+  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA09', name:'居家喘息服務', desc:'照服員到宅提供身體照顧、進食、服藥、翻身、被動關節活動等', price:770, unit:'每 2 小時為 1 組,單日 10 小時上限', rule:'GA01、GA02 已於 2025/09 起整併為 GA09', ruleType:'free'},
+  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA03', name:'日間照顧中心喘息 — 全日', desc:'白天於日照中心接受照顧(含交通)', price:1250, unit:'1日1組', rule:''},
+  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA04', name:'日間照顧中心喘息 — 半日', desc:'白天半日於日照中心接受照顧(含交通)', price:625, unit:'1次1組', rule:''},
+  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA05', name:'機構住宿式喘息服務', desc:'入住長照機構接受 24 小時照顧(含交通)', price:2310, unit:'24小時為1單位', rule:''},
+  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA06', name:'小規模多機能 — 夜間喘息', desc:'下午 6 點至隔天上午 8 點之夜間喘息(含交通)', price:2000, unit:'1夜1組', rule:''},
+  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA07', name:'巷弄長照站臨托', desc:'巷弄長照站短時間臨時托顧(含沐浴、進食、服藥、活動、交通)', price:170, unit:'1小時為1單位', rule:''},
+
+  // ===== D 碼:交通接送 =====
+  {grp:'D', grpName:'交通接送服務(D 碼) — 限就醫、復健、透析', code:'DA01', name:'交通接送 — 就醫/復健/透析', desc:'以就醫、復健或透析治療為限', price:115, unit:'1趟1單位(2025/下半年新制)', rule:'長照3.0:一般地區由100元提至115元'},
+  {grp:'D', grpName:'交通接送服務(D 碼) — 限就醫、復健、透析', code:'DA01', name:'交通接送 — 偏遠/原民區/離島', desc:'偏遠地區、原住民族地區、離島之就醫接送', price:140, unit:'1趟1單位(2025/下半年新制)', rule:'長照3.0:偏遠地區由120元提至140元'},
+  {grp:'D', grpName:'交通接送服務(D 碼) — 限就醫、復健、透析', code:'BD03', name:'社區式服務交通接送', desc:'接送長照對象居家至日照、小規機、家托、巷弄站、文健站、失智據點、輔具中心等', price:115, unit:'1趟1單位', rule:'住家與機構距離10公里以內;超過部分自行負擔'},
+];
+
+function renderCombos(){
+  const search = document.getElementById('combo-search').value.trim().toLowerCase();
+  const filter = document.querySelector('[data-combo-filter].active').dataset.comboFilter;
+  const list = document.getElementById('combo-list');
+  list.innerHTML = '';
+
+  const filtered = careCombos.filter(c=>{
+    const matchFilter = filter==='all' || c.grp===filter;
+    const matchSearch = !search ||
+      c.code.toLowerCase().includes(search) ||
+      c.name.toLowerCase().includes(search) ||
+      c.desc.toLowerCase().includes(search) ||
+      (c.rule||'').toLowerCase().includes(search);
+    return matchFilter && matchSearch;
+  });
+
+  if(filtered.length===0){
+    list.innerHTML = '<div class="empty-state">沒有符合條件的照顧組合,請調整搜尋或分類</div>';
+    return;
+  }
+
+  // group by grp
+  const groups = {};
+  filtered.forEach(c=>{
+    if(!groups[c.grp]) groups[c.grp] = {name:c.grpName, items:[]};
+    groups[c.grp].items.push(c);
+  });
+
+  Object.keys(groups).forEach(grp=>{
+    const g = groups[grp];
+    let html = `<div class="combo-group"><span class="grp-tag">${grp}</span><span class="grp-name">${g.name}</span><div class="grp-line"></div></div><div class="combo-list">`;
+    g.items.forEach(c=>{
+      const ruleClass = c.ruleType==='warn'?'warn':c.ruleType==='free'?'free':'';
+      const priceStr = c.price ? '$'+c.price.toLocaleString() : '依次計';
+      html += `
+        <div class="combo-item">
+          <div class="combo-code">${c.code}</div>
+          <div class="combo-name">${c.name}<span class="combo-desc">${c.desc}</span></div>
+          <div class="combo-price">${priceStr}<span class="price-unit">${c.unit||''}</span></div>
+          <div class="combo-restriction ${ruleClass}">${c.rule||'—'}</div>
+        </div>
+      `;
+    });
+    html += '</div>';
+    list.innerHTML += html;
+  });
+}
+
+document.getElementById('combo-search').addEventListener('input',renderCombos);
+document.querySelectorAll('[data-combo-filter]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('[data-combo-filter]').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCombos();
+  });
+});
+renderCombos();
+
+/* ===== Problem Mapping (附表一 34 項) ===== */
+const problemList = [
+  {no:1,  name:'進食問題',          svcs:[{c:'BA04',t:'居家'},{c:'CB02',t:'吞嚥照護'}]},
+  {no:2,  name:'洗澡問題',          svcs:[{c:'BA01',t:'居家'},{c:'BA07',t:'居家'},{c:'BA09',t:'居家'},{c:'EA01',t:'輔具'}]},
+  {no:3,  name:'個人修飾問題',      svcs:[{c:'BA02',t:'居家'}]},
+  {no:4,  name:'穿脫衣物問題',      svcs:[{c:'BA02',t:'居家'},{c:'EF01',t:'輔具'}]},
+  {no:5,  name:'大小便控制問題',    svcs:[{c:'BA24',t:'居家'},{c:'BA02',t:'居家'}]},
+  {no:6,  name:'上廁所問題',        svcs:[{c:'BA02',t:'居家'},{c:'BA24',t:'居家'},{c:'EA01',t:'輔具'}]},
+  {no:7,  name:'移位問題',          svcs:[{c:'BA02',t:'居家'},{c:'CA07',t:'復能'},{c:'ED01',t:'輔具'},{c:'ED07',t:'輔具'}]},
+  {no:8,  name:'走路問題',          svcs:[{c:'CA07',t:'復能'},{c:'EB01',t:'輔具'},{c:'EB03',t:'輔具'},{c:'EB04',t:'輔具'}]},
+  {no:9,  name:'上下樓梯問題',      svcs:[{c:'BA12',t:'居家'},{c:'EH04',t:'輔具'},{c:'EH05',t:'輔具'},{c:'FA06',t:'居家'}]},
+  {no:10, name:'使用電話問題',      svcs:[{c:'EE01',t:'輔具'},{c:'EE02',t:'輔具'},{c:'CA07',t:'復能'}]},
+  {no:11, name:'購物或外出問題',    svcs:[{c:'BA13',t:'居家'},{c:'BA16',t:'居家'},{c:'CA07',t:'復能'}]},
+  {no:12, name:'備餐問題',          svcs:[{c:'BA05',t:'居家'},{c:'BA15',t:'居家'},{c:'CA07',t:'復能'}]},
+  {no:13, name:'處理家務問題',      svcs:[{c:'BA15',t:'居家'},{c:'CA07',t:'復能'}]},
+  {no:14, name:'用藥問題',          svcs:[{c:'BA02',t:'居家'},{c:'BA17e',t:'居家'}]},
+  {no:15, name:'處理財務問題',      svcs:[{c:'CA07',t:'復能'},{c:'BA20',t:'居家'}]},
+  {no:16, name:'溝通問題',          svcs:[{c:'CA07',t:'復能'}]},
+  {no:17, name:'短期記憶障礙',      svcs:[{c:'CA08',t:'復能'},{c:'CA08',t:'復能'},{c:'CB03',t:'專業'}]},
+  {no:18, name:'疼痛問題',          svcs:[{c:'CD01',t:'護理'},{c:'CA07',t:'復能'}]},
+  {no:19, name:'不動症候群風險',    svcs:[{c:'BA10',t:'居家'},{c:'BA11',t:'居家'},{c:'CB04',t:'專業'},{c:'CA07',t:'復能'}]},
+  {no:20, name:'皮膚照護問題',      svcs:[{c:'CD01',t:'護理'},{c:'EG01',t:'輔具'},{c:'EG02',t:'輔具'}]},
+  {no:21, name:'傷口問題',          svcs:[{c:'CD01',t:'護理'},{c:'EG01',t:'輔具'}]},
+  {no:22, name:'水份及營養問題',    svcs:[{c:'CB01',t:'專業'},{c:'BA04',t:'居家'},{c:'BA05',t:'居家'}]},
+  {no:23, name:'吞嚥問題',          svcs:[{c:'CB02',t:'專業'},{c:'BA04',t:'居家'}]},
+  {no:24, name:'管路照顧問題',      svcs:[{c:'BA17a',t:'居家'},{c:'BA17b',t:'居家'},{c:'BA17c',t:'居家'},{c:'CD01',t:'護理'}]},
+  {no:25, name:'其他醫療照護問題',  svcs:[{c:'CD01',t:'護理'},{c:'BA17',t:'居家'}]},
+  {no:26, name:'跌倒風險',          svcs:[{c:'CA07',t:'復能'},{c:'CC01',t:'規劃'},{c:'FA01',t:'居家'},{c:'FA10',t:'居家'},{c:'EB01',t:'輔具'}]},
+  {no:27, name:'安全疑慮',          svcs:[{c:'BA18',t:'居家'},{c:'BA22',t:'居家'},{c:'CC01',t:'規劃'}]},
+  {no:28, name:'居住環境障礙',      svcs:[{c:'FA01',t:'居家'},{c:'FA10',t:'居家'},{c:'FA16',t:'居家'},{c:'CC01',t:'規劃'}]},
+  {no:29, name:'社會參與需協助',    svcs:[{c:'BA13',t:'居家'},{c:'BA20',t:'居家'},{c:'BB',t:'日照'}]},
+  {no:30, name:'困擾行為',          svcs:[{c:'CB03',t:'專業'},{c:'CA08',t:'復能'},{c:'AA11',t:'加計'}]},
+  {no:31, name:'照顧負荷過重',      svcs:[{c:'GA09',t:'喘息'},{c:'GA03',t:'喘息'},{c:'GA05',t:'喘息'},{c:'AA07',t:'加計'}]},
+  {no:32, name:'輔具使用問題',      svcs:[{c:'CC01',t:'規劃'},{c:'CA07',t:'復能'},{c:'CA07',t:'復能'}]},
+  {no:33, name:'感染問題',          svcs:[{c:'CD01',t:'護理'}]},
+  {no:34, name:'其他問題',          svcs:[{c:'AA02',t:'個管'}]}
+];
+
+function renderProblems(){
+  const grid = document.getElementById('problem-grid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  problemList.forEach(p=>{
+    let svcHtml = '';
+    p.svcs.forEach(s=>{
+      let cls = '';
+      if(s.c.startsWith('C')) cls = 'c-code';
+      else if(s.c.startsWith('G')) cls = 'g-code';
+      else if(s.c.startsWith('E') || s.c.startsWith('F')) cls = 'e-code';
+      svcHtml += `<span class="p-svc ${cls}" title="${s.t}">${s.c}</span>`;
+    });
+    grid.innerHTML += `
+      <div class="problem-card">
+        <div class="p-num">PROBLEM ${String(p.no).padStart(2,'0')}</div>
+        <div class="p-title">${p.name}</div>
+        <div class="p-services">${svcHtml}</div>
+      </div>
+    `;
+  });
+}
+renderProblems();
+
+/* ===== Q&A Data ===== */
+const qaList = [
+  {
+    q:'個案家中聘有外籍家庭看護工,還能申請哪些長照服務?',
+    a:'<strong>長照 2.0 舊規定</strong>:聘僱外籍看護的家庭,給付額度僅 30%,且僅限用於專業服務照顧組合(C 碼);但<strong>交通接送、輔具、喘息服務</strong>不受 30% 限制,仍可依等級全額給付。<br><br><strong>長照 3.0 新規定(2025/9 起)</strong>:已聘外籍看護的家庭,<strong>可申請日間照顧、家庭托顧</strong>等社區式服務,並獲對應補助,確立「外籍看護+長照資源」雙軌互補。另外,<strong>到宅沐浴車服務(BA09、BA09a)</strong>不受 30% 限制可全額使用。'
+  },
+  {
+    q:'CMS 第 8 級的個案,每年喘息額度是多少?可以怎麼用?',
+    a:'<strong>第 7、8 級個案每年喘息服務額度為 48,510 元</strong>(第 2-6 級為 32,340 元)。可組合使用:<ul><li>GA09 居家喘息:770 元/2 小時,單日上限 10 小時</li><li>GA03 日照中心-全日:1,250 元/日</li><li>GA05 機構住宿式喘息:2,310 元/24 小時</li><li>GA06 小規機-夜間喘息:2,000 元/夜</li><li>GA07 巷弄站臨托:170 元/小時</li></ul>例:用 GA05 機構喘息,48,510÷2,310 ≈ 約 21 日。實務上多搭配使用,讓家屬有彈性休息。'
+  },
+  {
+    q:'已申請過長照氣墊床(EG02),又領身障證明,還能申請身障的氣墊床嗎?',
+    a:'<strong>不可重複申請</strong>。依《長照給付辦法》第 10 條第 2 項:領有身心障礙證明之長照給付對象,其依法規申請購置或租賃之輔具,與長照附表四所列<strong>相同項目</strong>,且<strong>未達最低使用年限</strong>者,<strong>不得重複申請</strong>。<br><br>氣墊床長照最低使用年限為 3 年。3 年內已使用長照管道,期間不可再走身障管道申請氣墊床。若 3 年期滿,則可重新評估擇一申請。'
+  },
+  {
+    q:'個案複評後等級下降,原本剩餘的給付額度會立即失效嗎?',
+    a:'<strong>不會立即失效。依「從優原則」</strong>:<ul><li><strong>等級變高</strong>(個案變嚴重):新等級自核定當月 1 日生效,剩餘額度保留至複評核定當月月底</li><li><strong>等級變低</strong>(個案變好):新等級自核定<strong>次月 1 日</strong>生效,剩餘額度保留至複評結果核定前一日</li><li><strong>等級相同</strong>:剩餘額度保留至複評核定當月月底</li></ul>核心精神:對個案有利的方向先生效,不利的方向延後一個月生效,以保障使用權益。'
+  },
+  {
+    q:'個案是失能第 2 級的第三類(一般戶),本月使用 8,000 元的照顧及專業服務,實際要自付多少?',
+    a:'<strong>計算方式</strong>:第 2 級個案每月照顧及專業服務額度為 10,020 元。本月使用 8,000 元(未超額),依附表五,第三類照顧及專業服務部分負擔為 16%。<br><br>自付金額 = 8,000 × 16% = <strong>1,280 元</strong>(政府給付 6,720 元)。<br><br>若使用金額超過 10,020 元,超過部分需自行<strong>全額負擔</strong>(不享補助)。<br><br><span style="color:var(--ink-mute);font-size:12px">註:長照給付辦法已於 114/06/19 修正,將原「低收入戶/中低收入戶/一般戶」改為「第一類/第二類/第三類」。</span>'
+  },
+  {
+    q:'CA07 IADLs、ADLs 復能照護一次給付 4,500 元,可以無限申請嗎?',
+    a:'<strong>不可以,有兩個限制</strong>:<ul><li><strong>單一訓練目標不超過 12 次</strong>(每週至多 1 次為原則),並於 <strong>6 個月內完成訓練</strong></li><li>若同代碼有新訓練目標,需<strong>間隔 90 天</strong>後再啟動下一階段</li></ul>每 3 次措施(含評估)為 1 個給付單位(4,500 元),因此一個訓練目標最多申請 4 個給付單位(12 次)。<br><br><strong>114/06/19 修正提醒</strong>:現行 CA 碼已整併為 CA07(IADLs+ADLs 復能照護)與 CA08(個別化服務計畫 ISP 擬定與執行 6,000 元/4次)。舊版 CA01-CA06 已不適用。<br><br>復能服務的精神是<strong>「教會就結案」</strong>—— 讓個案或家屬學會自主獨立,而非長期依賴專業人員。'
+  },
+  {
+    q:'BA15 家務協助、BA16 代購服務,可以幫個案以外的家人嗎?',
+    a:'<strong>原則上只服務長照給付對象本人</strong>,不為其他家人服務。實務操作上:<ul><li><strong>BA15 家務協助</strong>:若清潔範圍是長照對象與家人共用區域,本組合金額僅支付 50%,另 50% 由個案自行負擔(《給付辦法》第 15 條)</li><li><strong>BA16 代購服務</strong>:依衛福部 1110705 函釋,服務對象需在宅,且代購目的物品為個案專用</li><li><strong>BA05 餐食照顧</strong>:同住長照對象共同使用本組合時,僅能擇一扣其額度及部分負擔</li></ul>個管師排計畫時需與家屬充分溝通服務界線,避免日後爭議。'
+  },
+  {
+    q:'長照交通接送可以用來去哪裡?可以陪同接送購物嗎?',
+    a:'<strong>不行。長照交通接送(D 碼)用途有明確限制</strong>:依《給付辦法》第 8 條第 3 項,以<strong>「就醫、復健或透析治療」為限</strong>。透析治療包括血液透析及腹膜透析。<br><br>若個案需要陪同外出購物,應使用 <strong>BA13 陪同外出</strong>(195 元/30 分鐘),但<strong>不含交通工具費用</strong>。<br><br>長照 3.0 自 2025/下半年起調整交通補助:<ul><li>一般地區:每趟 100 → <strong>115 元</strong></li><li>偏遠/原民區/離島:每趟 120 → <strong>140 元</strong></li></ul>另有 BD03 社區式服務交通接送(每趟 115 元),接送個案至日照、小規機、家托、巷弄站等。'
+  },
+  {
+    q:'AA08 晚間服務(385 元)和 AA09 例假日服務(385 元),可以同日同時申請嗎?',
+    a:'<strong>不可以,同日只能擇一</strong>。依附表四:<ul><li>AA08 晚間服務:晚上 8 點至 12 點提供照顧及專業服務時加計,1 日 1 次</li><li>AA09 例假日服務:週六、週日或國定假日提供服務時加計,1 日 1 次</li></ul>同日 AA08 及 AA09 不得同時申請。例:週六晚上 9 點提供服務時,只能擇一申請。<br><br><strong>好消息</strong>:AA 碼系列加計都<strong>不扣個人額度,且免部分負擔</strong>,鼓勵照服員於困難時段提供服務。'
+  },
+  {
+    q:'個案有失智症但未達 50 歲,可以申請長照嗎?',
+    a:'<strong>長照 2.0 規定</strong>:申請資格之一為「50 歲以上失智症」者。50 歲以下失智症者(早發性失智症)無法以失智症身分申請。<br><br><strong>長照 3.0 已於 2026 起鬆綁</strong>:失智照護擴大為「<strong>全年齡</strong>」,早發性失智症患者(50 歲以下)可使用長照服務,並可使用團體家屋等失智照護資源(115 年起新增 BPSD NPI/NPI-Q 入住條件)。<br><br>此外,2026 年起 50 歲以上經 CDR ≥ 0.5 確診失智者,照服員提供 BA01、BA02、BA04 等服務時可加計 AA11(進階訓練)。'
+  },
+  {
+    q:'BA22 巡視服務(短時間到宅查看)為什麼很多單位不太願意排?',
+    a:'BA22 在實務上有兩個關鍵限制(《給付辦法》第 21 條):<ul><li><strong>不得搭配本照顧組合表的其他組合</strong></li><li><strong>亦不得臨時提供</strong></li></ul>意思是:單獨提供 BA22 那一趟出車,只能做巡視,不能順便做基本身體清潔或其他服務。對長照特約單位而言,單獨派員執行 BA22 在排班與成本上效益較低,因此並非每個單位都樂於排此項。<br><br>但 BA22 對<strong>獨居個案、安全疑慮較高個案</strong>仍是重要選項。實務上個管師可優先考慮整合性服務套裝、巡視服務僅在必要時加入。'
+  },
+  {
+    q:'居家無障礙改善(FA 碼)如扶手、馬桶,可以一次申請完嗎?',
+    a:'<strong>可以,但要注意 3 年共 4 萬元的合併額度</strong>。E 碼(輔具)與 F 碼(居家無障礙)共用同一筆每 3 年 40,000 元的額度(長照 3.0 新增智慧科技輔具租賃可提至 60,000 元)。<br><br>常見組合(以第三類 30% 自付試算):<ul><li>FA01 扶手:150 元/10 公分 × 設置 200 cm = 3,000 元</li><li>FA02 可動式扶手:3,600 元/支</li><li>FA10 防滑措施:3,000 元/處</li><li>FA13 水龍頭改為撥桿式:3,000 元/處</li><li>FA16 改善馬桶(蹲改坐):5,000 元</li></ul>建議由甲類輔具評估人員一次到府評估,擬訂完整改善計畫,避免分次申請造成額度浪費。'
+  },
+  {
+    q:'同住的兩位長照給付對象,共用 BA05 餐食照顧、BA16 代購服務,額度怎麼算?',
+    a:'<strong>只能擇一個案扣其額度及部分負擔</strong>。依《給付辦法》規定及衛福部 1110114 函釋:<ul><li><strong>BA05 餐食照顧</strong>:同住長照對象共同使用時,僅能擇一扣其額度及部分負擔</li><li><strong>BA16 代購、代領、代送服務</strong>:同住失能者共同使用須擇一扣其額度及部分負擔</li></ul>實務操作:個管師排計畫時,通常選額度較寬鬆(等級較高)的個案扣,讓另一位的額度可用於其他服務。'
+  },
+  {
+    q:'第 8 級個案複評,什麼情況下複評期間可以拉長到 24 個月?',
+    a:'依衛福部 110/12/29 函釋,有<strong>兩種情境</strong>可延長為 24 個月:<br><br><strong>情境一</strong>:照管中心連續 2 次評估(應間隔達 11 個月)長照需要等級為第 8 級者,該個案複評期間調整為 <strong>24 個月</strong>。<br><br><strong>情境二</strong>:住院且有長照需要之個案,出院前由醫院完成評估者,出院後第 4 個月內由照管中心初評,後續由照管中心連續 2 次間隔達 11 個月評估,失能等級均為第 8 級者,<strong>下次複評期間調整為 24 個月</strong>。<br><br>背景:第 8 級為最嚴重失能等級,病況趨於穩定不易明顯改變,延長複評期可減輕個案與家屬的評估負擔。'
+  },
+  {
+    q:'長照 3.0 新增的智慧科技輔具有哪些?可以申請多少?',
+    a:'<strong>長照 3.0 新增「全租賃智慧科技輔具」項目</strong>,鼓勵運用智慧監測科技提升失智者與重度失能者居家安全,減輕照顧者壓力。<br><br><strong>補助範圍</strong>:每 3 年最高補助新台幣 <strong>60,000 元</strong>(採租賃制,原長照 2.0 為 40,000 元購置為主)。<br><br><strong>主要項目五大類</strong>:<ul><li>智慧床墊(離床偵測)</li><li>智慧移位輔具</li><li>排泄感測裝置(尿濕、便意提醒)</li><li>走失監測裝置(GPS、地理圍欄)</li><li>跌倒偵測裝置</li></ul>對失智照顧家庭、夜間照顧負擔重的家庭,此類補助新制特別具有減壓效果。實際品項仍以衛福部公告為準。'
+  }
+];
+
+function renderQA(){
+  const list = document.getElementById('qa-list');
+  if(!list) return;
+  list.innerHTML = '';
+  qaList.forEach((qa,i)=>{
+    list.innerHTML += `
+      <div class="qa-item" data-qa="${i}">
+        <button class="qa-q" onclick="toggleQA(${i})">${qa.q}</button>
+        <div class="qa-a"><div>${qa.a}</div></div>
+      </div>
+    `;
+  });
+}
+function toggleQA(i){
+  const item = document.querySelector(`[data-qa="${i}"]`);
+  item.classList.toggle('open');
+}
+renderQA();
+
+/* ===== Care Plan Builder ===== */
+// CMS 等級對應月度照顧及專業服務額度(附表二)
+const planBudgetBC = {
+  2: 10020,  3: 15460,  4: 18580,
+  5: 24100,  6: 28070,  7: 32090,  8: 36180
+};
+// CMS 等級對應年度喘息服務額度
+const planBudgetG = {
+  2: 32340,  3: 32340,  4: 32340,
+  5: 32340,  6: 32340,  7: 48510,  8: 48510
+};
+// 部分負擔比率(B、C、G 碼相同)
+const planCopayRate = {
+  1: 0,   // 第一類
+  2: 5,   // 第二類
+  3: 16   // 第三類
+};
+
+// 常用服務組合(供計畫工具勾選)
+const plannerServices = {
+  ba: [
+    {code:'BA01', name:'基本身體清潔', desc:'梳頭、穿脫衣、床上擦澡、床上洗頭、排泄物清理', price:260, unit:'1次1組'},
+    {code:'BA02', name:'基本日常照顧', desc:'翻身、移位、刷牙洗臉、穿衣、如廁、換尿片、修剪指甲、協助用藥', price:195, unit:'30分鐘/單位'},
+    {code:'BA03', name:'測量生命徵象', desc:'血壓、體溫、脈搏、呼吸監測', price:35, unit:'1次1組'},
+    {code:'BA04', name:'協助進食或管灌餵食', desc:'準備、加熱、餵食或灌食、觀察反應', price:130, unit:'1餐1組'},
+    {code:'BA05', name:'餐食照顧(備餐)', desc:'代備一餐飲食及餐後清潔(三菜一湯)', price:310, unit:'1餐1組'},
+    {code:'BA07', name:'協助沐浴及洗頭', desc:'至浴間淋浴或坐浴及洗頭', price:325, unit:'1次1組'},
+    {code:'BA08', name:'足部護理', desc:'修剪足部趾甲、長繭處、足部按摩及保養', price:500, unit:'1次1組'},
+    {code:'BA09', name:'到宅沐浴車服務(第1型)', desc:'攜帶行動浴槽至案家,3 位人員提供', price:2200, unit:'1次1組'},
+    {code:'BA10', name:'翻身拍背', desc:'扣背、震顫、翻身', price:155, unit:'1次1組'},
+    {code:'BA11', name:'肢體關節活動', desc:'上下肢被動運動、督促站立練習', price:195, unit:'1次1組'},
+    {code:'BA12', name:'協助上(下)樓梯', desc:'樓梯間上下協助', price:130, unit:'30分鐘/單位'},
+    {code:'BA13', name:'陪同外出', desc:'陪同購物、復健、洗腎、散步、運動', price:195, unit:'30分鐘/單位'},
+    {code:'BA14', name:'陪同就醫', desc:'協助掛號、陪診、聽取轉知醫囑(1.5小時內)', price:685, unit:'1次1組'},
+    {code:'BA15', name:'家務協助', desc:'清潔長照對象專用區域、衣物清洗、廚房整理', price:195, unit:'30分鐘/單位'},
+    {code:'BA16', name:'代購、代領、代送', desc:'代購餐食、藥品、領處方簽、郵件等(住家5公里內)', price:180, unit:'1次1組'},
+    {code:'BA23', name:'協助洗頭', desc:'單純洗頭服務', price:155, unit:'1次1組'},
+    {code:'BA24', name:'協助排泄', desc:'協助排泄、更換尿片、清潔', price:130, unit:'1次1組'}
+  ],
+  c: [
+    {code:'CA07', name:'IADLs 復能、ADLs 復能照護', desc:'評估、擬訂復能計畫、指導措施(同目標≤12次,6個月內)', price:4500, unit:'3次措施/單位'},
+    {code:'CA08', name:'個別化服務計畫(ISP)擬定與執行', desc:'限身障證明之精神病/自閉/智障/失智或50歲以上CDR≥0.5', price:6000, unit:'4次措施/單位'},
+    {code:'CB01', name:'營養照護', desc:'依個案狀況提供專業營養評估與照護指導', price:4000, unit:'4次措施/單位'},
+    {code:'CB02', name:'進食與吞嚥照護', desc:'進食與吞嚥功能照護指導', price:9000, unit:'6次措施/單位'},
+    {code:'CB03', name:'困擾行為照護', desc:'BPSD 等困擾行為照護指導(多用於失智)', price:4500, unit:'估算單位'},
+    {code:'CB04', name:'臥床或長期活動受限照護', desc:'針對臥床照護需求提供指導', price:4500, unit:'估算單位'},
+    {code:'CC01', name:'居家環境安全/無障礙規劃', desc:'家屬居家安全方式及注意事項指導', price:3000, unit:'估算單位'},
+    {code:'CD01', name:'居家護理指導與諮詢', desc:'居家護理師到家提供專業護理', price:3500, unit:'估算單位'}
+  ],
+  g: [
+    {code:'GA09', name:'居家喘息服務', desc:'照服員到宅提供身體照顧、餵食、翻身等(2小時/組,單日10小時上限)', price:770, unit:'2小時/單位'},
+    {code:'GA03', name:'日間照顧中心喘息 — 全日', desc:'白天於日照中心接受照顧(含交通)', price:1250, unit:'1日1組'},
+    {code:'GA04', name:'日間照顧中心喘息 — 半日', desc:'白天半日於日照中心接受照顧', price:625, unit:'1次1組'},
+    {code:'GA05', name:'機構住宿式喘息服務', desc:'入住長照機構接受 24 小時照顧', price:2310, unit:'24小時/單位'},
+    {code:'GA06', name:'小規模多機能-夜間喘息', desc:'下午6點至隔天上午8點之夜間喘息', price:2000, unit:'1夜1組'},
+    {code:'GA07', name:'巷弄長照站臨托', desc:'巷弄長照站短時間臨托(含活動、交通)', price:170, unit:'1小時/單位'}
+  ]
+};
+
+// 儲存目前數量
+const planQty = {};
+
+function renderPlannerList(listId, services){
+  const container = document.getElementById(listId);
+  container.innerHTML = '';
+  services.forEach(svc=>{
+    const qty = planQty[svc.code] || 0;
+    const subtotal = svc.price * qty;
+    container.innerHTML += `
+      <div class="plan-item ${qty>0?'active':''}" data-code="${svc.code}">
+        <div class="pi-code">${svc.code}</div>
+        <div class="pi-name">${svc.name}<span class="pi-desc">${svc.desc}</span></div>
+        <div class="pi-price">$${svc.price.toLocaleString()}<span class="pi-unit">${svc.unit}</span></div>
+        <div class="qty-stepper">
+          <button class="qty-minus" onclick="changeQty('${svc.code}',-1)" aria-label="減少數量">−</button>
+          <input type="number" min="0" value="${qty}" onchange="setQty('${svc.code}',this.value)" onclick="this.select()" inputmode="numeric">
+          <button class="qty-plus" onclick="changeQty('${svc.code}',1)" aria-label="增加數量">+</button>
+        </div>
+        <div class="pi-subtotal ${qty===0?'zero':''}">$${subtotal.toLocaleString()}</div>
+      </div>
+    `;
+  });
+}
+
+function changeQty(code, delta){
+  const current = planQty[code] || 0;
+  const newQty = Math.max(0, current + delta);
+  planQty[code] = newQty;
+  refreshPlanner();
+}
+
+function setQty(code, val){
+  const num = Math.max(0, parseInt(val) || 0);
+  planQty[code] = num;
+  refreshPlanner();
+}
+
+function resetPlan(){
+  if(confirm('確定清空所有服務數量?')){
+    Object.keys(planQty).forEach(k=>delete planQty[k]);
+    refreshPlanner();
+  }
+}
+
+function refreshPlanner(){
+  // 重新渲染三個服務列表
+  renderPlannerList('plan-ba-list', plannerServices.ba);
+  renderPlannerList('plan-c-list', plannerServices.c);
+  renderPlannerList('plan-g-list', plannerServices.g);
+
+  // 取得設定
+  const level = parseInt(document.getElementById('plan-level').value);
+  const id = parseInt(document.getElementById('plan-id').value);
+  const budgetBC = planBudgetBC[level];
+  const budgetG = planBudgetG[level];
+  const rate = planCopayRate[id];
+
+  // 計算 B+C 總額
+  let totalBC = 0;
+  [...plannerServices.ba, ...plannerServices.c].forEach(svc=>{
+    totalBC += (planQty[svc.code] || 0) * svc.price;
+  });
+
+  // 計算 G 總額
+  let totalG = 0;
+  plannerServices.g.forEach(svc=>{
+    totalG += (planQty[svc.code] || 0) * svc.price;
+  });
+
+  // 計算政府給付與個案自付
+  // 規則:超額部分需全額自付
+  const usedBC = Math.min(totalBC, budgetBC);
+  const overBC = Math.max(0, totalBC - budgetBC);
+  const selfPayBCWithinBudget = Math.floor(usedBC * rate / 100);
+  const selfPayBC = selfPayBCWithinBudget + overBC;
+  const govBC = usedBC - selfPayBCWithinBudget;
+  const remainBC = budgetBC - totalBC;
+
+  const usedG = Math.min(totalG, budgetG);
+  const overG = Math.max(0, totalG - budgetG);
+  const selfPayGWithinBudget = Math.floor(usedG * rate / 100);
+  const selfPayG = selfPayGWithinBudget + overG;
+  const govG = usedG - selfPayGWithinBudget;
+  const remainG = budgetG - totalG;
+
+  // 更新預算卡
+  const usagePctBC = budgetBC ? Math.min(100, (totalBC/budgetBC)*100) : 0;
+  const usagePctG = budgetG ? Math.min(100, (totalG/budgetG)*100) : 0;
+
+  let bcClass = '', bcBar = '';
+  if(totalBC > budgetBC){ bcClass = 'over'; bcBar = 'over'; }
+  else if(usagePctBC >= 80){ bcClass = 'warn'; bcBar = 'warn'; }
+
+  let gClass = '', gBar = '';
+  if(totalG > budgetG){ gClass = 'over'; gBar = 'over'; }
+  else if(usagePctG >= 80){ gClass = 'warn'; gBar = 'warn'; }
+
+  const levelLabel = {2:'第2級',3:'第3級',4:'第4級',5:'第5級',6:'第6級',7:'第7級',8:'第8級'}[level];
+  const idLabel = {1:'第一類',2:'第二類',3:'第三類'}[id];
+
+  document.getElementById('budget-cards').innerHTML = `
+    <div class="budget-card ${bcClass}">
+      <div class="bc-label">B、C 碼 月額度(${levelLabel})</div>
+      <div class="bc-value">$${budgetBC.toLocaleString()}<span class="bc-unit">/ 月</span></div>
+      <div class="budget-bar"><div class="budget-bar-fill ${bcBar}" style="width:${usagePctBC}%"></div></div>
+      <div style="font-size:12px;color:var(--ink-mute);margin-top:4px">已使用 ${Math.round(usagePctBC)}%</div>
+    </div>
+    <div class="budget-card ${gClass}">
+      <div class="bc-label">G 碼 喘息年額度</div>
+      <div class="bc-value">$${budgetG.toLocaleString()}<span class="bc-unit">/ 年</span></div>
+      <div class="budget-bar"><div class="budget-bar-fill ${gBar}" style="width:${usagePctG}%"></div></div>
+      <div style="font-size:12px;color:var(--ink-mute);margin-top:4px">已使用 ${Math.round(usagePctG)}%</div>
+    </div>
+    <div class="budget-card">
+      <div class="bc-label">部分負擔比率(${idLabel})</div>
+      <div class="bc-value">${rate}<span class="bc-unit">%</span></div>
+      <div style="font-size:12px;color:var(--ink-mute);margin-top:10px">${rate===0?'政府全額補助':rate===5?'低額自付':'一般自付'}</div>
+    </div>
+  `;
+
+  // 更新試算結果
+  document.getElementById('ps-bc-total').textContent = '$' + totalBC.toLocaleString();
+  document.getElementById('ps-bc-gov').textContent = '$' + govBC.toLocaleString();
+  document.getElementById('ps-bc-self').textContent = '$' + selfPayBC.toLocaleString();
+  document.getElementById('ps-bc-remain').textContent = remainBC >= 0 ? '$' + remainBC.toLocaleString() : '-$' + Math.abs(remainBC).toLocaleString();
+  document.getElementById('ps-g-total').textContent = '$' + totalG.toLocaleString();
+  document.getElementById('ps-g-self').textContent = '$' + selfPayG.toLocaleString();
+  document.getElementById('ps-g-remain').textContent = remainG >= 0 ? '$' + remainG.toLocaleString() : '-$' + Math.abs(remainG).toLocaleString();
+
+  // 超額警示
+  const warnBox = document.getElementById('ps-warning-box');
+  const warningTexts = [];
+  if(overBC > 0) warningTexts.push(`B、C 超 $${overBC.toLocaleString()} 須全額自付`);
+  if(overG > 0) warningTexts.push(`G 超 $${overG.toLocaleString()} 須全額自付`);
+  if(warningTexts.length){
+    warnBox.style.display = 'block';
+    document.getElementById('ps-warning').innerHTML = warningTexts.join('<br>');
+  } else {
+    warnBox.style.display = 'none';
+  }
+}
+
+// 初始化:綁定事件
+document.getElementById('plan-level').addEventListener('change', refreshPlanner);
+document.getElementById('plan-id').addEventListener('change', refreshPlanner);
+refreshPlanner();
+
+</script>
+</body>
+</html>
