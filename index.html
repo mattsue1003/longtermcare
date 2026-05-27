@@ -353,6 +353,22 @@ table.data tbody tr:nth-child(even):hover{background:rgba(244,236,217,0.6)}
   color:#fbf7ef;
   font-weight:500;
 }
+.filter-chip.chip-highlight{
+  background:linear-gradient(135deg,var(--vermillion) 0%,var(--gold) 100%);
+  color:#fbf7ef;
+  border-color:transparent;
+  font-weight:600;
+  box-shadow:0 1px 3px rgba(0,0,0,0.15);
+}
+.filter-chip.chip-highlight:hover{
+  filter:brightness(1.1);
+  border-color:transparent;
+  color:#fbf7ef;
+}
+.filter-chip.chip-highlight.active{
+  background:linear-gradient(135deg,var(--jade-deep) 0%,var(--vermillion) 100%);
+  color:#fbf7ef;
+}
 
 /* Calculator */
 .calc-box{
@@ -574,7 +590,7 @@ footer{
 }
 .level-row{
   display:grid;
-  grid-template-columns:80px 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns:80px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   border-bottom:1px solid var(--line-soft);
 }
 .level-row.header{
@@ -609,10 +625,10 @@ footer{
   color:var(--ink);
 }
 @media(max-width:900px){
-  .level-row{grid-template-columns:60px repeat(7,minmax(80px,1fr));font-size:12px}
+  .level-row{grid-template-columns:60px repeat(8,minmax(80px,1fr));font-size:12px}
   .level-row > div{padding:10px 6px}
   .level-table-wrap{overflow-x:auto}
-  .level-table{min-width:780px}
+  .level-table{min-width:880px}
 }
 
 /* Detail item card for assistive devices */
@@ -1142,6 +1158,72 @@ footer{
 .print-btn:hover{transform:scale(1.05);background:var(--jade)}
 @media print{.print-btn{display:none}}
 
+/* ===== Combo Pay Tiers — 三類身分別自付額顯示 ===== */
+.combo-pay-tiers{
+  margin-top:8px;
+  padding:6px 10px;
+  background:linear-gradient(90deg, rgba(43,74,63,0.04) 0%, rgba(43,74,63,0.01) 100%);
+  border-radius:4px;
+  border-left:2px solid var(--jade);
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px;
+  font-family:"DM Mono",monospace;
+  font-size:11.5px;
+}
+.combo-pay-tiers.free-tier{
+  background:linear-gradient(90deg, rgba(74,124,89,0.08) 0%, rgba(74,124,89,0.02) 100%);
+  border-left-color:var(--jade-light);
+}
+.combo-pay-tiers .pt-tag{
+  display:inline-block;
+  background:var(--jade-deep);
+  color:#fbf7ef;
+  padding:2px 7px;
+  border-radius:3px;
+  font-size:10px;
+  letter-spacing:0.5px;
+  font-weight:700;
+}
+.combo-pay-tiers .pt-item{
+  display:inline-flex;
+  align-items:baseline;
+  gap:4px;
+}
+.combo-pay-tiers .pt-class{
+  color:var(--ink-mute);
+  font-family:"Noto Sans TC",sans-serif;
+  font-size:11px;
+}
+.combo-pay-tiers .pt-pay{
+  color:var(--vermillion);
+  font-weight:700;
+  font-size:12.5px;
+}
+.combo-pay-tiers .pt-label{
+  color:var(--jade-deep);
+  font-family:"Noto Sans TC",sans-serif;
+  font-size:12px;
+}
+.combo-pay-tiers .pt-label strong{
+  color:var(--jade);
+  font-weight:700;
+}
+.combo-pay-tiers .pt-note{
+  color:var(--ink-mute);
+  font-family:"Noto Sans TC",sans-serif;
+  font-size:11px;
+  margin-left:auto;
+}
+@media(max-width:600px){
+  .combo-pay-tiers{
+    gap:6px 10px;
+    font-size:11px;
+  }
+  .combo-pay-tiers .pt-note{margin-left:0;width:100%;font-size:10.5px}
+}
+
 /* ===== Care Planner ===== */
 .planner-setup{
   background:linear-gradient(135deg, #fff 0%, var(--paper-2) 100%);
@@ -1352,6 +1434,62 @@ footer{
   text-align:right;
 }
 .plan-item .pi-subtotal.zero{color:var(--ink-mute);font-weight:400;font-size:13px}
+
+/* 三類自付額顯示 */
+.plan-tiers{
+  margin-top:6px;
+  padding:5px 8px;
+  background:linear-gradient(90deg, rgba(43,74,63,0.05) 0%, rgba(43,74,63,0.01) 100%);
+  border-radius:3px;
+  border-left:2px solid var(--jade);
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px;
+  font-family:"DM Mono",monospace;
+  font-size:11px;
+}
+.plan-tiers.free-tier{
+  background:rgba(74,124,89,0.08);
+  border-left-color:var(--jade-light);
+}
+.plan-tiers .pt-item{
+  display:inline-flex;align-items:baseline;gap:4px;
+}
+.plan-tiers .pt-class{
+  color:var(--ink-mute);
+  font-family:"Noto Sans TC",sans-serif;
+  font-size:11px;
+}
+.plan-tiers .pt-pay{
+  color:var(--vermillion);
+  font-weight:700;
+  font-size:12px;
+}
+.plan-tiers .pt-label{
+  color:var(--jade-deep);
+  font-family:"Noto Sans TC",sans-serif;
+  font-size:11px;
+  font-weight:500;
+}
+.plan-tiers .pt-note{
+  color:var(--ink-mute);
+  font-family:"Noto Sans TC",sans-serif;
+  font-size:10.5px;
+  margin-left:auto;
+}
+
+/* AA 區塊不扣額度,項目用淺色背景 */
+.plan-item.free-item{
+  background:linear-gradient(90deg, #fff 0%, rgba(74,124,89,0.04) 100%);
+}
+.plan-item.free-item.active{
+  background:linear-gradient(90deg, #fff 0%, rgba(74,124,89,0.10) 100%);
+  border-color:var(--jade-light);
+}
+.plan-item.free-item .pi-subtotal{
+  color:var(--jade);
+}
 
 /* 平板 / 較窄桌面 */
 @media(max-width:1100px){
@@ -1712,6 +1850,39 @@ footer{
         每 3 年最高 <strong>60,000 元</strong>(採租賃制)<br>含智慧床墊(離床偵測)、移位輔具、排泄感測等
       </div>
     </div>
+
+    <div style="margin-top:20px;padding:16px;background:linear-gradient(90deg, rgba(74,124,89,0.06) 0%, rgba(74,124,89,0.02) 100%);border-left:3px solid var(--jade);border-radius:4px">
+      <h5 style="margin:0 0 12px 0;font-family:'Noto Serif TC',serif;font-size:15px;color:var(--jade-deep);font-weight:600;display:flex;align-items:center;gap:8px">
+        <span style="background:var(--jade-deep);color:#fbf7ef;padding:3px 9px;border-radius:3px;font-size:11px;letter-spacing:0.5px">附表四之一</span>
+        智慧科技輔具五大類(EI01–EI05)
+      </h5>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;font-size:12.5px;line-height:1.6">
+        <div style="background:#fff;padding:12px;border-radius:4px;border:1px solid var(--line)">
+          <div style="font-family:'DM Mono',monospace;font-weight:700;color:var(--vermillion);font-size:13px;margin-bottom:4px">EI01 · 移位類</div>
+          <div style="color:var(--ink-soft);font-size:11.5px">執行移轉位活動經常有困難者。電動/人力省力裝置 + 感測、監控、異常通報。</div>
+        </div>
+        <div style="background:#fff;padding:12px;border-radius:4px;border:1px solid var(--line)">
+          <div style="font-family:'DM Mono',monospace;font-weight:700;color:var(--vermillion);font-size:13px;margin-bottom:4px">EI02 · 移動類</div>
+          <div style="color:var(--ink-soft);font-size:11.5px">電動輪椅、電動代步車或步行裝置 + 活動監控 + APP/雲端推播。</div>
+        </div>
+        <div style="background:#fff;padding:12px;border-radius:4px;border:1px solid var(--line)">
+          <div style="font-family:'DM Mono',monospace;font-weight:700;color:var(--vermillion);font-size:13px;margin-bottom:4px">EI03 · 沐浴排泄類</div>
+          <div style="color:var(--ink-soft);font-size:11.5px">居家環境協助沐浴、如廁或排泄物處理裝置 + 監控、警示反應。</div>
+        </div>
+        <div style="background:#fff;padding:12px;border-radius:4px;border:1px solid var(--line)">
+          <div style="font-family:'DM Mono',monospace;font-weight:700;color:var(--vermillion);font-size:13px;margin-bottom:4px">EI04 · 居家照顧床類</div>
+          <div style="color:var(--ink-soft);font-size:11.5px">照顧床/氣墊床/床用感應墊 + 離床警報、翻身次數、異常通報。</div>
+        </div>
+        <div style="background:#fff;padding:12px;border-radius:4px;border:1px solid var(--line)">
+          <div style="font-family:'DM Mono',monospace;font-weight:700;color:var(--vermillion);font-size:13px;margin-bottom:4px">EI05 · 安全看視類</div>
+          <div style="color:var(--ink-soft);font-size:11.5px">穿戴、感應、室內建置式設備 + IOT + APP 遠端控制。<strong style="color:var(--vermillion)">不補助手機/手錶</strong>。</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;padding:10px 12px;background:rgba(217,166,71,0.10);border-left:3px solid var(--gold);border-radius:3px;font-size:12px;color:var(--ink-soft);line-height:1.7">
+        <strong style="color:var(--gold)">⚠ 重要規定:</strong>
+        全部採<strong>租賃制度</strong>,租賃價格由長照特約單位訂定,並報地方主管機關備查。原民區或離島加計 20%、免部分負擔且不扣額度。需甲類輔具評估人員出具評估報告。涉及個人清潔衛生且購置價 &lt; 5,000 元且無法清潔消毒者得購置。
+      </div>
+    </div>
   </div>
 
   <div class="change-card">
@@ -1795,7 +1966,10 @@ footer{
   <div class="alert alert-info">
     <strong>給付額度的時間單位不同 — 別搞混了!</strong><br>
     照顧及專業服務 · 交通接送服務 → <strong>按月給付</strong>(未滿一個月按比率計算)<br>
-    輔具及居家無障礙環境改善服務 → <strong>每 3 年給付一次</strong> 4 萬元<br>
+    輔具及居家無障礙環境改善服務 → <strong>每 3 年給付一次</strong><br>
+    <span style="display:inline-block;margin-left:18px">▸ 第一組(現行):40,000 元(購置為主)</span><br>
+    <span style="display:inline-block;margin-left:18px">▸ <strong style="color:var(--vermillion)">第二組(2026/07 起施行):60,000 元</strong>(含智慧科技輔具租賃;含 EA01/EB01-03 及 FA08-44、EI01-EI05;其中 F 碼以 2 萬元為限)</span><br>
+    <span style="display:inline-block;margin-left:18px;color:var(--ink-mute);font-size:12px">兩組擇一申請;2026/06/30 前已獲第一組者,滿 3 年後方得申請第二組</span><br>
     喘息服務 → <strong>每年給付一次</strong>(第 2-6 級 32,340 / 第 7-8 級 48,510)
   </div>
 
@@ -1806,23 +1980,24 @@ footer{
       <div class="level-row header">
         <div>等級</div>
         <div>照顧及專業<br>服務 (月)</div>
-        <div>交通<br>第一類 (月)</div>
-        <div>交通<br>第二類 (月)</div>
-        <div>交通<br>第三類 (月)</div>
-        <div>交通<br>第四類 (月)</div>
-        <div>輔具及無障礙<br>(3 年)</div>
+        <div>交通<br>第一區 (月)</div>
+        <div>交通<br>第二區 (月)</div>
+        <div>交通<br>第三區 (月)</div>
+        <div>交通<br>第四區 (月)</div>
+        <div>輔具及無障礙<br>第一組 (3 年)</div>
+        <div>輔具及無障礙<br>第二組 (3 年)</div>
         <div>喘息服務<br>(1 年)</div>
       </div>
-      <div class="level-row l-low"><div class="level-name">第 2 級</div><div class="num-mono">10,020</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono">32,340</div></div>
-      <div class="level-row l-low"><div class="level-name">第 3 級</div><div class="num-mono">15,460</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono">32,340</div></div>
-      <div class="level-row l-low"><div class="level-name">第 4 級</div><div class="num-mono">18,580</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono">32,340</div></div>
-      <div class="level-row l-mid"><div class="level-name">第 5 級</div><div class="num-mono">24,100</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono">32,340</div></div>
-      <div class="level-row l-mid"><div class="level-name">第 6 級</div><div class="num-mono">28,070</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono">32,340</div></div>
-      <div class="level-row l-high"><div class="level-name">第 7 級</div><div class="num-mono">32,090</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono" style="color:var(--vermillion);font-weight:700">48,510</div></div>
-      <div class="level-row l-high"><div class="level-name">第 8 級</div><div class="num-mono" style="color:var(--vermillion);font-weight:700">36,180</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono" style="color:var(--vermillion);font-weight:700">48,510</div></div>
+      <div class="level-row l-low"><div class="level-name">第 2 級</div><div class="num-mono">10,020</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono" style="color:var(--vermillion);font-weight:700">60,000</div><div class="num-mono">32,340</div></div>
+      <div class="level-row l-low"><div class="level-name">第 3 級</div><div class="num-mono">15,460</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono" style="color:var(--vermillion);font-weight:700">60,000</div><div class="num-mono">32,340</div></div>
+      <div class="level-row l-low"><div class="level-name">第 4 級</div><div class="num-mono">18,580</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono" style="color:var(--vermillion);font-weight:700">60,000</div><div class="num-mono">32,340</div></div>
+      <div class="level-row l-mid"><div class="level-name">第 5 級</div><div class="num-mono">24,100</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono" style="color:var(--vermillion);font-weight:700">60,000</div><div class="num-mono">32,340</div></div>
+      <div class="level-row l-mid"><div class="level-name">第 6 級</div><div class="num-mono">28,070</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono" style="color:var(--vermillion);font-weight:700">60,000</div><div class="num-mono">32,340</div></div>
+      <div class="level-row l-high"><div class="level-name">第 7 級</div><div class="num-mono">32,090</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono" style="color:var(--vermillion);font-weight:700">60,000</div><div class="num-mono" style="color:var(--vermillion);font-weight:700">48,510</div></div>
+      <div class="level-row l-high"><div class="level-name">第 8 級</div><div class="num-mono" style="color:var(--vermillion);font-weight:700">36,180</div><div class="num-mono">1,680</div><div class="num-mono">1,840</div><div class="num-mono">2,000</div><div class="num-mono">2,400</div><div class="num-mono">40,000</div><div class="num-mono" style="color:var(--vermillion);font-weight:700">60,000</div><div class="num-mono" style="color:var(--vermillion);font-weight:700">48,510</div></div>
     </div>
     </div>
-    <p style="font-size:12px;color:var(--ink-mute);margin-top:10px">資料來源:《長期照顧服務申請及給付辦法》附表二 · 紅色標示為該等級的最高額度</p>
+    <p style="font-size:12px;color:var(--ink-mute);margin-top:10px">資料來源:《長期照顧服務申請及給付辦法》附表二(114/06/19 修正版) · 紅色標示為該等級的最高額度 · 交通接送依 D 碼第一至第四區劃分(原稱第一至第四類)</p>
   </div>
 
   <div class="grid-2">
@@ -1933,7 +2108,7 @@ footer{
     </div>
   </div>
 
-  <h3 style="font-family:'Noto Serif TC',serif;font-size:20px;margin:32px 0 14px;color:var(--ink)">部分負擔比率對照表(附表五)</h3>
+  <h3 style="font-family:'Noto Serif TC',serif;font-size:20px;margin:32px 0 14px;color:var(--ink)">部分負擔比率對照表(附表五,114/06/19 修正版)</h3>
   <div class="card">
     <table class="data">
       <thead>
@@ -1946,11 +2121,11 @@ footer{
       </thead>
       <tbody>
         <tr><td><strong>照顧及專業服務</strong> <span class="code-pill">B、C碼</span></td><td class="num-cell">0%</td><td class="num-cell">5%</td><td class="num-cell">16%</td></tr>
-        <tr><td>交通接送 — 第一類 <span class="code-pill">D碼</span></td><td class="num-cell">0%</td><td class="num-cell">10%</td><td class="num-cell">30%</td></tr>
-        <tr><td>交通接送 — 第二類 <span class="code-pill">D碼</span></td><td class="num-cell">0%</td><td class="num-cell">9%</td><td class="num-cell">27%</td></tr>
-        <tr><td>交通接送 — 第三類 <span class="code-pill">D碼</span></td><td class="num-cell">0%</td><td class="num-cell">8%</td><td class="num-cell">25%</td></tr>
-        <tr><td>交通接送 — 第四類 <span class="code-pill">D碼</span></td><td class="num-cell">0%</td><td class="num-cell">7%</td><td class="num-cell">21%</td></tr>
-        <tr><td><strong>輔具及居家無障礙</strong> <span class="code-pill">E、F碼</span></td><td class="num-cell">0%</td><td class="num-cell">10%</td><td class="num-cell">30%</td></tr>
+        <tr><td>交通接送 — 第一區 <span class="code-pill">D碼</span></td><td class="num-cell">0%</td><td class="num-cell">10%</td><td class="num-cell">30%</td></tr>
+        <tr><td>交通接送 — 第二區 <span class="code-pill">D碼</span></td><td class="num-cell">0%</td><td class="num-cell">9%</td><td class="num-cell">27%</td></tr>
+        <tr><td>交通接送 — 第三區 <span class="code-pill">D碼</span></td><td class="num-cell">0%</td><td class="num-cell">8%</td><td class="num-cell">25%</td></tr>
+        <tr><td>交通接送 — 第四區 <span class="code-pill">D碼</span></td><td class="num-cell">0%</td><td class="num-cell">7%</td><td class="num-cell">21%</td></tr>
+        <tr><td><strong>輔具及居家無障礙</strong> <span class="code-pill">E、F、EI碼</span></td><td class="num-cell">0%</td><td class="num-cell">10%</td><td class="num-cell">30%</td></tr>
         <tr><td><strong>喘息服務</strong> <span class="code-pill">G碼</span></td><td class="num-cell">0%</td><td class="num-cell">5%</td><td class="num-cell">16%</td></tr>
       </tbody>
     </table>
@@ -2054,6 +2229,11 @@ footer{
   </div>
 
   <div class="plan-section">
+    <h4 style="display:flex;align-items:center;gap:8px">照顧管理與政策鼓勵(AA 碼) <span style="font-size:11px;color:var(--jade);background:rgba(74,124,89,0.12);padding:3px 8px;border-radius:3px;font-weight:400">不扣個人額度・免部分負擔</span></h4>
+    <div id="plan-aa-list"></div>
+  </div>
+
+  <div class="plan-section">
     <h4>家庭照顧者支持服務(G 碼)— 年計,不扣月額度</h4>
     <div id="plan-g-list"></div>
   </div>
@@ -2131,6 +2311,7 @@ footer{
     <button class="filter-chip" data-ltc-filter="EG">EG · 預防壓瘡</button>
     <button class="filter-chip" data-ltc-filter="EH">EH · 照顧床/爬梯機</button>
     <button class="filter-chip" data-ltc-filter="FA">FA · 居家無障礙</button>
+    <button class="filter-chip chip-highlight" data-ltc-filter="EI">EI · 智慧科技輔具 ⭐</button>
   </div>
 
   <div id="ltc-list" class="dev-list"></div>
@@ -2530,84 +2711,117 @@ function recalc(){
 recalc();
 
 /* ===== LTC Assistive Devices Data ===== */
+// ===== 部分負擔比率與三類自付額計算(依附表五 114/06/19 修正版) =====
+// 修正後 B/C 碼為「第一類/第二類/第三類」三類比率;D 碼依交通分區四區
+const payRates = {
+  bc:   [0, 5, 16],   // B、C 碼 照顧及專業服務
+  d1:   [0, 10, 30],  // D 碼第一區
+  d2:   [0, 9, 27],   // D 碼第二區
+  d3:   [0, 8, 25],   // D 碼第三區
+  d4:   [0, 7, 21],   // D 碼第四區
+  ef:   [0, 10, 30],  // E、F 碼 輔具及無障礙
+  g:    [0, 5, 16],   // G 碼 喘息
+  free: [0, 0, 0]     // 免部分負擔(AA 碼、EC03 量身訂製、EC04-10 擺位、EG01-09 氣墊床與座墊)
+};
+
+function calcSelfPay(price, payType){
+  if(price == null || typeof price !== 'number') return null;
+  const rates = payRates[payType] || payRates.bc;
+  return rates.map(r => Math.floor(price * r / 100));  // 部分負擔費用以小數點後無條件捨去計算
+}
+
 const ltcAids = [
-  // EA - 衛浴
-  {code:'EA01', name:'馬桶增高器、便盆椅或沐浴椅', type:'限購置', purchase:1200, rent:null, years:3, note:''},
-  // EB - 步行
-  {code:'EB01', name:'單支拐杖 - 不銹鋼製', type:'限購置', purchase:1000, rent:null, years:5, note:'雙側使用可加倍'},
-  {code:'EB02', name:'單支拐杖 - 鋁製', type:'限購置', purchase:500, rent:null, years:3, note:'雙側使用可加倍'},
-  {code:'EB03', name:'助行器', type:'限購置', purchase:800, rent:null, years:3, note:''},
-  {code:'EB04', name:'帶輪型助步車(助行椅)', type:'可租賃可購置', purchase:3000, rent:300, years:3, note:'附手控煞車及臨時休憩座位'},
-  // EC - 輪椅
-  {code:'EC01', name:'輪椅 - A款(非輕量化量產型)', type:'限購置', purchase:3500, rent:null, years:3, note:'A/B/C款擇一給付'},
-  {code:'EC02', name:'輪椅 - B款(輕量化量產型)', type:'可租賃可購置', purchase:4000, rent:450, years:3, note:'A/B/C款擇一給付'},
-  {code:'EC03', name:'輪椅 - C款(量身訂製型)', type:'限購置', purchase:9000, rent:null, years:3, note:'需甲類評估、免部分負擔'},
-  {code:'EC04', name:'輪椅附加功能 - A款(利於移位)', type:'可租賃可購置', purchase:5000, rent:150, years:3, note:'需搭配EC02或EC03'},
-  {code:'EC05', name:'輪椅附加功能 - B款(仰躺功能)', type:'可租賃可購置', purchase:2000, rent:150, years:3, note:'需搭配EC02或EC03'},
-  {code:'EC06', name:'輪椅附加功能 - C款(空中傾倒)', type:'可租賃可購置', purchase:4000, rent:150, years:3, note:'需搭配EC02或EC03'},
-  {code:'EC07', name:'擺位系統 - A款(平面型背靠)', type:'限購置', purchase:1000, rent:null, years:3, note:'A、B款擇一'},
-  {code:'EC08', name:'擺位系統 - B款(曲面適形背靠)', type:'限購置', purchase:6000, rent:null, years:3, note:'A、B款擇一'},
-  {code:'EC09', name:'擺位系統 - C款(軀幹側支撐架)', type:'限購置', purchase:3000, rent:null, years:3, note:'單支補助減半'},
-  {code:'EC10', name:'擺位系統 - D款(輪椅頭靠)', type:'限購置', purchase:2500, rent:null, years:3, note:''},
-  {code:'EC11', name:'電動輪椅', type:'限租賃', purchase:null, rent:2500, years:null, note:'與電動代步車擇一'},
-  {code:'EC12', name:'電動代步車', type:'限租賃', purchase:null, rent:1200, years:null, note:'四輪規格為原則'},
-  // ED - 移位
-  {code:'ED01', name:'移位腰帶', type:'限購置', purchase:1500, rent:null, years:3, note:'寬度至少10公分'},
-  {code:'ED02', name:'移位板', type:'限購置', purchase:2000, rent:null, years:5, note:'長至少60公分'},
-  {code:'ED03', name:'人力移位吊帶', type:'限購置', purchase:4000, rent:null, years:3, note:'至少4個提把'},
-  {code:'ED04', name:'移位滑墊 - A款', type:'限購置', purchase:3000, rent:null, years:5, note:'坐姿平行位移用'},
-  {code:'ED05', name:'移位滑墊 - B款', type:'限購置', purchase:8000, rent:null, years:5, note:'臥姿平行位移用'},
-  {code:'ED06', name:'移位轉盤', type:'限購置', purchase:2000, rent:null, years:3, note:''},
-  {code:'ED07', name:'移位機', type:'可租賃可購置', purchase:40000, rent:2000, years:10, note:'懸吊式電動,含吊帶'},
-  {code:'ED08', name:'移位機吊帶', type:'限購置', purchase:6000, rent:null, years:3, note:'ED07購置3年後更換'},
-  // EE - 警示
-  {code:'EE01', name:'電話擴音器', type:'限購置', purchase:2000, rent:null, years:5, note:''},
-  {code:'EE02', name:'電話閃光震動器', type:'限購置', purchase:2000, rent:null, years:5, note:''},
-  {code:'EE03', name:'火警閃光警示器', type:'限購置', purchase:2000, rent:null, years:5, note:''},
-  {code:'EE04', name:'門鈴閃光器', type:'限購置', purchase:2000, rent:null, years:5, note:''},
-  {code:'EE05', name:'無線震動警示器', type:'限購置', purchase:2000, rent:null, years:5, note:''},
-  // EF - 生活
-  {code:'EF01', name:'衣著用輔具', type:'限購置', purchase:500, rent:null, years:3, note:'穿衣桿、穿鞋器、長柄取物鉗等'},
-  {code:'EF02', name:'居家用生活輔具', type:'限購置', purchase:500, rent:null, years:3, note:'特殊門把、烹調用具等'},
-  {code:'EF03', name:'飲食用輔具', type:'限購置', purchase:500, rent:null, years:3, note:'特殊餐具、防滑墊等'},
-  // EG - 預防壓瘡
-  {code:'EG01', name:'氣墊床 - A款', type:'可租賃可購置', purchase:8000, rent:300, years:3, note:'18管以上交替充氣'},
-  {code:'EG02', name:'氣墊床 - B款', type:'可租賃可購置', purchase:12000, rent:500, years:3, note:'三管交替式、保固3年'},
-  {code:'EG03', name:'輪椅座墊 - A款(塑膠氣囊)', type:'限購置', purchase:5000, rent:null, years:2, note:'免部分負擔'},
-  {code:'EG04', name:'輪椅座墊 - B款(橡膠氣囊)', type:'限購置', purchase:10000, rent:null, years:2, note:'免部分負擔'},
-  {code:'EG05', name:'輪椅座墊 - C款(液態凝膠)', type:'限購置', purchase:10000, rent:null, years:2, note:'免部分負擔'},
-  {code:'EG06', name:'輪椅座墊 - D款(固態凝膠)', type:'限購置', purchase:8000, rent:null, years:5, note:'免部分負擔'},
-  {code:'EG07', name:'輪椅座墊 - E款(填充式氣囊)', type:'限購置', purchase:8000, rent:null, years:5, note:'免部分負擔'},
-  {code:'EG08', name:'輪椅座墊 - F款(交替充氣型)', type:'限購置', purchase:5000, rent:null, years:3, note:'免部分負擔'},
-  {code:'EG09', name:'輪椅座墊 - G款(量製型)', type:'限購置', purchase:10000, rent:null, years:3, note:'依個別需求取模製作'},
-  // EH - 照顧床、爬梯機
-  {code:'EH01', name:'居家用照顧床', type:'可租賃可購置', purchase:8000, rent:1000, years:5, note:'三片以上、頭腳升降'},
-  {code:'EH02', name:'居家用照顧床 - 附加A款(床面升降)', type:'可租賃可購置', purchase:5000, rent:200, years:5, note:'需搭配EH01'},
-  {code:'EH03', name:'居家用照顧床 - 附加B款(電動升降)', type:'可租賃可購置', purchase:5000, rent:500, years:5, note:'需搭配EH01'},
-  {code:'EH04', name:'爬梯機(單趟)', type:'限租賃', purchase:null, rent:700, years:null, note:'按趟計費,需訓練操作'},
-  {code:'EH05', name:'爬梯機(月)', type:'限租賃', purchase:null, rent:4000, years:null, note:'按月計費'},
-  // FA - 居家無障礙
-  {code:'FA01', name:'居家無障礙設施 - 扶手', type:'限購置', purchase:150, rent:null, years:10, note:'每10公分150元'},
-  {code:'FA02', name:'居家無障礙設施 - 可動式扶手', type:'限購置', purchase:3600, rent:null, years:10, note:'按單支計價'},
-  {code:'FA03', name:'非固定式斜坡板 - A款', type:'限購置', purchase:3500, rent:null, years:10, note:'非輕量化材質'},
-  {code:'FA04', name:'非固定式斜坡板 - B款', type:'限購置', purchase:5000, rent:null, years:10, note:'輕量化、可收折>90cm'},
-  {code:'FA05', name:'非固定式斜坡板 - C款', type:'限購置', purchase:10000, rent:null, years:10, note:'輕量化>120cm、荷重180kg'},
-  {code:'FA06', name:'固定式斜坡道', type:'限購置', purchase:10000, rent:null, years:10, note:'金屬或泥做、防滑、>150cm'},
-  {code:'FA07', name:'架高式和式地板拆除', type:'限購置', purchase:5000, rent:null, years:10, note:'消除地面高低差'},
-  {code:'FA08', name:'反光貼條或消光', type:'限購置', purchase:3000, rent:null, years:3, note:'單處計價'},
-  {code:'FA09', name:'隔間', type:'限購置', purchase:600, rent:null, years:10, note:'每平方公尺600元'},
-  {code:'FA10', name:'防滑措施', type:'限購置', purchase:3000, rent:null, years:10, note:'單處計價'},
-  {code:'FA11', name:'門 A款(門片類型變更)', type:'限購置', purchase:7000, rent:null, years:10, note:'單處計價、A/B款擇一'},
-  {code:'FA12', name:'門 B款(門加寬加高新增)', type:'限購置', purchase:10000, rent:null, years:10, note:'單處計價、A/B款擇一'},
-  {code:'FA13', name:'水龍頭', type:'限購置', purchase:3000, rent:null, years:10, note:'撥桿式/單閥式/電子感應'},
-  {code:'FA14', name:'改善浴缸', type:'限購置', purchase:7000, rent:null, years:10, note:'新增/改換/移除'},
-  {code:'FA15', name:'改善洗臉台(槽)', type:'限購置', purchase:3000, rent:null, years:10, note:'新增/改換/移除'},
-  {code:'FA16', name:'改善馬桶', type:'限購置', purchase:5000, rent:null, years:10, note:'蹲改坐、加裝免治等'},
-  {code:'FA17', name:'壁掛式淋浴椅(床)', type:'限購置', purchase:5000, rent:null, years:10, note:''},
-  {code:'FA18', name:'改善流理台', type:'限購置', purchase:15000, rent:null, years:10, note:'腿部淨空>65cm'},
-  {code:'FA19', name:'改善抽油煙機(位置調整)', type:'限購置', purchase:1000, rent:null, years:10, note:''},
-  {code:'FA20', name:'特殊簡易洗槽', type:'限購置', purchase:2000, rent:null, years:10, note:''},
-  {code:'FA21', name:'特殊簡易浴槽', type:'限購置', purchase:5000, rent:null, years:10, note:''},
+  // ===== EA - 個人照顧及保護輔具 =====
+  {code:'EA01', name:'馬桶增高器、便盆椅或沐浴椅', type:'限購置', purchase:1200, rent:null, years:3, note:'第二組給付項目', payType:'ef'},
+  // ===== EB - 步行輔具 =====
+  {code:'EB01', name:'單支拐杖 - 不銹鋼製', type:'限購置', purchase:1000, rent:null, years:5, note:'雙側可加倍;第二組給付項目', payType:'ef'},
+  {code:'EB02', name:'單支拐杖 - 鋁製', type:'限購置', purchase:500, rent:null, years:3, note:'雙側可加倍;第二組給付項目', payType:'ef'},
+  {code:'EB03', name:'助行器', type:'限購置', purchase:800, rent:null, years:3, note:'第二組給付項目', payType:'ef'},
+  {code:'EB04', name:'帶輪型助步車(助行椅)', type:'可租賃可購置', purchase:3000, rent:300, years:3, note:'附手控煞車+臨時休憩座位', payType:'ef'},
+  // ===== EC - 輪椅 =====
+  {code:'EC01', name:'輪椅 - A款(非輕量化量產型)', type:'限購置', purchase:3500, rent:null, years:3, note:'A/B/C款擇一給付', payType:'ef'},
+  {code:'EC02', name:'輪椅 - B款(輕量化量產型)', type:'可租賃可購置', purchase:4000, rent:450, years:3, note:'A/B/C款擇一給付', payType:'ef'},
+  {code:'EC03', name:'輪椅 - C款(量身訂製型)', type:'限購置', purchase:9000, rent:null, years:3, note:'需甲類評估;免部分負擔', payType:'free'},
+  {code:'EC04', name:'輪椅附加功能 - A款(利於移位)', type:'可租賃可購置', purchase:5000, rent:150, years:3, note:'需搭配EC02或EC03;免部分負擔', payType:'free'},
+  {code:'EC05', name:'輪椅附加功能 - B款(仰躺功能)', type:'可租賃可購置', purchase:2000, rent:150, years:3, note:'需搭配EC02或EC03;免部分負擔', payType:'free'},
+  {code:'EC06', name:'輪椅附加功能 - C款(空中傾倒)', type:'可租賃可購置', purchase:4000, rent:150, years:3, note:'需搭配EC02或EC03;免部分負擔', payType:'free'},
+  {code:'EC07', name:'擺位系統 - A款(平面型背靠)', type:'限購置', purchase:1000, rent:null, years:3, note:'A、B款擇一;免部分負擔', payType:'free'},
+  {code:'EC08', name:'擺位系統 - B款(曲面適形背靠)', type:'限購置', purchase:6000, rent:null, years:3, note:'A、B款擇一;免部分負擔', payType:'free'},
+  {code:'EC09', name:'擺位系統 - C款(軀幹側支撐架)', type:'限購置', purchase:3000, rent:null, years:3, note:'單支補助減半;免部分負擔', payType:'free'},
+  {code:'EC10', name:'擺位系統 - D款(輪椅頭靠)', type:'限購置', purchase:2500, rent:null, years:3, note:'免部分負擔', payType:'free'},
+  {code:'EC11', name:'電動輪椅', type:'限租賃', purchase:null, rent:2500, years:null, note:'與電動代步車擇一;含沙發型/擺位型/變姿功能', payType:'ef'},
+  {code:'EC12', name:'電動代步車', type:'限租賃', purchase:null, rent:1200, years:null, note:'四輪規格為原則,前輪內側距離>30cm', payType:'ef'},
+  // ===== ED - 移位輔具 =====
+  {code:'ED01', name:'移位腰帶', type:'限購置', purchase:1500, rent:null, years:3, note:'寬度≥10cm,提把≥4個', payType:'ef'},
+  {code:'ED02', name:'移位板', type:'限購置', purchase:2000, rent:null, years:5, note:'長≥60cm、寬≥20cm、厚<1cm', payType:'ef'},
+  {code:'ED03', name:'人力移位吊帶', type:'限購置', purchase:4000, rent:null, years:3, note:'至少4個提把', payType:'ef'},
+  {code:'ED04', name:'移位滑墊 - A款', type:'限購置', purchase:3000, rent:null, years:5, note:'坐姿平行位移,寬長皆≥50cm', payType:'ef'},
+  {code:'ED05', name:'移位滑墊 - B款', type:'限購置', purchase:8000, rent:null, years:5, note:'臥姿平行位移,寬≥45cm/長≥170cm', payType:'ef'},
+  {code:'ED06', name:'移位轉盤', type:'限購置', purchase:2000, rent:null, years:3, note:'上下接觸面為防滑材質,厚度<2cm', payType:'ef'},
+  {code:'ED07', name:'移位機', type:'可租賃可購置', purchase:40000, rent:2000, years:10, note:'懸吊式電動移位設備,含吊帶', payType:'ef'},
+  {code:'ED08', name:'移位機吊帶', type:'限購置', purchase:6000, rent:null, years:3, note:'ED07購置3年後更換', payType:'ef'},
+  // ===== EE - 警示通訊輔具 =====
+  {code:'EE01', name:'電話擴音器', type:'限購置', purchase:2000, rent:null, years:5, note:'', payType:'ef'},
+  {code:'EE02', name:'電話閃光震動器', type:'限購置', purchase:2000, rent:null, years:5, note:'', payType:'ef'},
+  {code:'EE03', name:'火警閃光警示器', type:'限購置', purchase:2000, rent:null, years:5, note:'', payType:'ef'},
+  {code:'EE04', name:'門鈴閃光器', type:'限購置', purchase:2000, rent:null, years:5, note:'', payType:'ef'},
+  {code:'EE05', name:'無線震動警示器', type:'限購置', purchase:2000, rent:null, years:5, note:'', payType:'ef'},
+  // ===== EF - 生活輔具 =====
+  {code:'EF01', name:'衣著用輔具', type:'限購置', purchase:500, rent:null, years:3, note:'穿衣桿/穿鞋器/襪輔助器/長柄取物鉗', payType:'ef'},
+  {code:'EF02', name:'居家用生活輔具', type:'限購置', purchase:500, rent:null, years:3, note:'特殊門把/烹調用具/開瓶罐器/服藥提醒', payType:'ef'},
+  {code:'EF03', name:'飲食用輔具', type:'限購置', purchase:500, rent:null, years:3, note:'特殊刀叉湯匙筷子/防滑墊', payType:'ef'},
+  // ===== EG - 預防壓瘡輔具 =====
+  {code:'EG01', name:'氣墊床 - A款', type:'可租賃可購置', purchase:8000, rent:300, years:3, note:'18管以上交替充氣;免部分負擔', payType:'free'},
+  {code:'EG02', name:'氣墊床 - B款', type:'可租賃可購置', purchase:12000, rent:500, years:3, note:'三管交替式、保固3年;免部分負擔', payType:'free'},
+  {code:'EG03', name:'輪椅座墊 - A款(塑膠氣囊)', type:'限購置', purchase:5000, rent:null, years:2, note:'氣囊≥20顆/高>2吋;免部分負擔', payType:'free'},
+  {code:'EG04', name:'輪椅座墊 - B款(橡膠氣囊)', type:'限購置', purchase:10000, rent:null, years:2, note:'氣囊≥20顆/高>2吋;免部分負擔', payType:'free'},
+  {code:'EG05', name:'輪椅座墊 - C款(液態凝膠)', type:'限購置', purchase:10000, rent:null, years:2, note:'適形泡棉底+凝膠覆蓋≥1/2;免部分負擔', payType:'free'},
+  {code:'EG06', name:'輪椅座墊 - D款(固態凝膠)', type:'限購置', purchase:8000, rent:null, years:5, note:'凝膠厚度≥1吋;免部分負擔', payType:'free'},
+  {code:'EG07', name:'輪椅座墊 - E款(填充式氣囊)', type:'限購置', purchase:8000, rent:null, years:5, note:'高度>2吋;免部分負擔', payType:'free'},
+  {code:'EG08', name:'輪椅座墊 - F款(交替充氣型)', type:'限購置', purchase:5000, rent:null, years:3, note:'含電動空氣幫浦;免部分負擔', payType:'free'},
+  {code:'EG09', name:'輪椅座墊 - G款(量製型)', type:'限購置', purchase:10000, rent:null, years:3, note:'依個別需求取模製作;免部分負擔', payType:'free'},
+  // ===== EH - 照顧床、爬梯機 =====
+  {code:'EH01', name:'居家用照顧床', type:'可租賃可購置', purchase:8000, rent:1000, years:5, note:'三片以上、頭腳升降', payType:'ef'},
+  {code:'EH02', name:'居家用照顧床 - 附加A款(床面升降)', type:'可租賃可購置', purchase:5000, rent:200, years:5, note:'需搭配EH01同時申請', payType:'ef'},
+  {code:'EH03', name:'居家用照顧床 - 附加B款(電動升降)', type:'可租賃可購置', purchase:5000, rent:500, years:5, note:'需搭配EH01同時申請', payType:'ef'},
+  {code:'EH04', name:'爬梯機(單趟)', type:'限租賃', purchase:null, rent:700, years:null, note:'按趟計費,需訓練操作', payType:'ef'},
+  {code:'EH05', name:'爬梯機(月)', type:'限租賃', purchase:null, rent:4000, years:null, note:'按月計費,需訓練操作', payType:'ef'},
+  // ===== FA - 居家無障礙環境改善服務(115/07/01 施行新規定) =====
+  {code:'FA08', name:'反光貼條或消光處理', type:'限購置', purchase:3000, rent:null, years:3, note:'單處計價;樓梯/通路/浴廁/臥房等', payType:'ef'},
+  {code:'FA13', name:'水龍頭(新增、改換)', type:'限購置', purchase:3000, rent:null, years:10, note:'單處;撥桿式/單閥式/電子感應式', payType:'ef'},
+  {code:'FA15', name:'改善洗臉台(槽)', type:'限購置', purchase:3000, rent:null, years:10, note:'單處;不含水龍頭', payType:'ef'},
+  {code:'FA17', name:'壁掛式淋浴台', type:'限購置', purchase:5000, rent:null, years:10, note:'附掛壁面之身體支撐平台', payType:'ef'},
+  {code:'FA18', name:'改善流理台(新增、改換)', type:'限購置', purchase:15000, rent:null, years:10, note:'邊緣20cm內須有≥65cm腿部淨空', payType:'ef'},
+  {code:'FA19', name:'改善抽油煙機(位置調整)', type:'限購置', purchase:1000, rent:null, years:10, note:'高度或位置調整', payType:'ef'},
+  {code:'FA22', name:'固定式扶手', type:'限購置', purchase:160, rent:null, years:10, note:'每10公分為1單位 $160', payType:'ef'},
+  {code:'FA23', name:'可動式扶手(單支)', type:'限購置', purchase:3600, rent:null, years:10, note:'基座鎖固牆面,具可動關節', payType:'ef'},
+  {code:'FA24', name:'床邊扶手(單處)', type:'限購置', purchase:1000, rent:null, years:10, note:'置於床板/床架/床旁地面', payType:'ef'},
+  {code:'FA25', name:'門檻斜角(單側)', type:'限購置', purchase:1000, rent:null, years:10, note:'≤10cm高低差;同一側可申請2側補助', payType:'ef'},
+  {code:'FA26', name:'非固定式斜坡板 - A款', type:'限購置', purchase:3500, rent:null, years:10, note:'攜帶式,長度<90cm', payType:'ef'},
+  {code:'FA27', name:'非固定式斜坡板 - B款', type:'限購置', purchase:5000, rent:null, years:10, note:'可收折,長度 90-120cm', payType:'ef'},
+  {code:'FA28', name:'非固定式斜坡板 - C款', type:'限購置', purchase:7000, rent:null, years:10, note:'可收折,長度 120-150cm', payType:'ef'},
+  {code:'FA29', name:'非固定式斜坡板 - D款', type:'限購置', purchase:10000, rent:null, years:10, note:'可收折,長度 ≥150cm', payType:'ef'},
+  {code:'FA30', name:'改善高低差(≤10cm)', type:'限購置', purchase:3500, rent:null, years:10, note:'門檻順平/剔除/固定式斜坡道等', payType:'ef'},
+  {code:'FA31', name:'改善高低差(10~20cm)', type:'限購置', purchase:5000, rent:null, years:10, note:'門檻或地面高低落差改善', payType:'ef'},
+  {code:'FA32', name:'改善高低差(20~30cm)', type:'限購置', purchase:7000, rent:null, years:10, note:'門檻或地面高低落差改善', payType:'ef'},
+  {code:'FA33', name:'改善高低差(>30cm)', type:'限購置', purchase:10000, rent:null, years:10, note:'門檻或地面高低落差改善', payType:'ef'},
+  {code:'FA34', name:'防滑地磚', type:'限購置', purchase:6000, rent:null, years:10, note:'單處≥1平方公尺,含原磚移除、地面整平', payType:'ef'},
+  {code:'FA35', name:'防滑措施', type:'限購置', purchase:2000, rent:null, years:3, note:'防滑貼片/貼條/地墊/防滑劑等', payType:'ef'},
+  {code:'FA36', name:'隔間(新增,每平方公尺)', type:'限購置', purchase:800, rent:null, years:10, note:'新增固定於地面之牆面;扣除門面積', payType:'ef'},
+  {code:'FA37', name:'門 — 簡易型(單處)', type:'限購置', purchase:7000, rent:null, years:10, note:'改變門片類型或增設門片;FA37/FA38擇一', payType:'ef'},
+  {code:'FA38', name:'門 — 進階型(單處)', type:'限購置', purchase:10000, rent:null, years:10, note:'含門框施工之加寬/加高/新增/調整位置', payType:'ef'},
+  {code:'FA39', name:'截水槽(單處)', type:'限購置', purchase:6000, rent:null, years:10, note:'施工長度≥60cm,含面蓋及施工費', payType:'ef'},
+  {code:'FA40', name:'改善浴缸(單處)', type:'限購置', purchase:7000, rent:null, years:10, note:'新增/改換為開門式浴缸/移除', payType:'ef'},
+  {code:'FA41', name:'改善馬桶(單處)', type:'限購置', purchase:5000, rent:null, years:10, note:'新增/改換/移除/蹲改坐/加裝免治', payType:'ef'},
+  {code:'FA42', name:'馬桶背靠(單處)', type:'限購置', purchase:2000, rent:null, years:10, note:'支撐面積≥500平方公分,鎖固牆面', payType:'ef'},
+  {code:'FA43', name:'移動式身體清洗槽 — 局部型', type:'限購置', purchase:2000, rent:null, years:3, note:'內建排水裝置,深度≥15cm', payType:'ef'},
+  {code:'FA44', name:'移動式身體清洗槽 — 全身型', type:'限購置', purchase:5000, rent:null, years:3, note:'內建排水,深度≥25cm,槽體包覆全身', payType:'ef'},
+  // ===== EI - 附表四之一 智慧科技輔具(115/07/01 施行,全租賃) =====
+  {code:'EI01', name:'智慧科技輔具 — 移位類', type:'限租賃', purchase:null, rent:'地方備查', years:null, note:'電動或人力省力移轉位裝置+感測/監控/異常通報', payType:'ef'},
+  {code:'EI02', name:'智慧科技輔具 — 移動類', type:'限租賃', purchase:null, rent:'地方備查', years:null, note:'電動輪椅/代步車/步行裝置+活動監控+APP推播', payType:'ef'},
+  {code:'EI03', name:'智慧科技輔具 — 沐浴排泄類', type:'限租賃', purchase:null, rent:'地方備查', years:null, note:'居家環境輔助沐浴/如廁/排泄物處理+監控警示', payType:'ef'},
+  {code:'EI04', name:'智慧科技輔具 — 居家照顧床類', type:'限租賃', purchase:null, rent:'地方備查', years:null, note:'照顧床/氣墊床/床用感應墊+離床/翻身/異常通報', payType:'ef'},
+  {code:'EI05', name:'智慧科技輔具 — 安全看視類', type:'限租賃', purchase:null, rent:'地方備查', years:null, note:'穿戴/感應/室內建置+IOT+APP遠端控制(不補助手機手錶)', payType:'ef'},
 ];
 
 function renderLTC(){
@@ -2631,13 +2845,36 @@ function renderLTC(){
     const typeClass = item.type==='限購置'?'t-buy':item.type==='限租賃'?'t-rent':'t-both';
     let payHTML = '';
     if(item.purchase) payHTML += `<div><span class="pay-lbl">購置上限</span>$${item.purchase.toLocaleString()}</div>`;
-    if(item.rent) payHTML += `<div><span class="pay-lbl">月租上限</span>$${item.rent.toLocaleString()}</div>`;
+    if(item.rent){
+      const rentDisplay = (typeof item.rent === 'string') ? item.rent : ('$'+item.rent.toLocaleString());
+      payHTML += `<div><span class="pay-lbl">月租上限</span>${rentDisplay}</div>`;
+    }
     if(!item.purchase && !item.rent) payHTML = '<div><span class="pay-lbl">-</span>不適用</div>';
+
+    // 計算三類自付額
+    let payTiersHtml = '';
+    const refPrice = item.purchase || (typeof item.rent === 'number' ? item.rent : null);
+    if(refPrice && item.payType){
+      const tiers = calcSelfPay(refPrice, item.payType);
+      if(tiers){
+        if(item.payType === 'free'){
+          payTiersHtml = `<div class="combo-pay-tiers free-tier" style="margin-top:6px"><span class="pt-label">三類身分皆 <strong>$0</strong> 自付</span><span class="pt-note">本項目免部分負擔</span></div>`;
+        } else {
+          const refLabel = item.purchase ? '購置' : '月租';
+          payTiersHtml = `<div class="combo-pay-tiers" style="margin-top:6px">
+            <span class="pt-tag">${refLabel}自付</span>
+            <span class="pt-item"><span class="pt-class">第一類</span><span class="pt-pay">$${tiers[0].toLocaleString()}</span></span>
+            <span class="pt-item"><span class="pt-class">第二類</span><span class="pt-pay">$${tiers[1].toLocaleString()}</span></span>
+            <span class="pt-item"><span class="pt-class">第三類</span><span class="pt-pay">$${tiers[2].toLocaleString()}</span></span>
+          </div>`;
+        }
+      }
+    }
 
     list.innerHTML += `
       <div class="dev-item">
         <div class="dev-code">${item.code}</div>
-        <div class="dev-name">${item.name}${item.note?`<span class="dev-note">${item.note}</span>`:''}</div>
+        <div class="dev-name">${item.name}${item.note?`<span class="dev-note">${item.note}</span>`:''}${payTiersHtml}</div>
         <div class="dev-pay">${payHTML}</div>
         <div class="dev-years"><span class="yr-num">${item.years||'-'}</span>${item.years?'年':''}</div>
         <div class="dev-type ${typeClass}">${item.type}</div>
@@ -2999,82 +3236,113 @@ document.querySelectorAll('[data-dis-cat]').forEach(btn=>{
 });
 renderDis();
 
-/* ===== Care Combos Data (B/C/D/G/AA codes) ===== */
+/* ===== Care Combos Data (附表四完整版,114/06/19 修正) ===== */
+/* payType:bc=照顧及專業, d1-d4=交通分區, ef=輔具及無障礙, g=喘息, free=免部分負擔 */
 const careCombos = [
+  // ===== AA 碼:照顧管理與政策鼓勵服務(全部免部分負擔且不扣個人額度) =====
+  {grp:'AA', grpName:'照顧管理與政策鼓勵服務(AA 碼) — 免額度免部分負擔', code:'AA01', name:'照顧計畫擬訂與服務連結', desc:'A單位個管員接案、家訪擬計畫、送照管中心核定、每6個月複訪重新擬訂', price:1700, unit:'每月1次(原民區/離島 2,040)', rule:'不得與 AA02 同月併計;A單位個管員可申報組數上限', ruleType:'free', payType:'free'},
+  {grp:'AA', grpName:'照顧管理與政策鼓勵服務(AA 碼) — 免額度免部分負擔', code:'AA02', name:'照顧管理', desc:'依需求變化調整照顧計畫、執行服務計畫、追蹤服務連結情形、品質追蹤、諮詢申訴', price:400, unit:'每月1次(原民區/離島 480)', rule:'不得與 AA01 同月併計', ruleType:'free', payType:'free'},
+  {grp:'AA', grpName:'照顧管理與政策鼓勵服務(AA 碼) — 免額度免部分負擔', code:'AA03', name:'照顧服務員配合專業服務', desc:'照服員同行學習專業服務並參與計畫執行,且須同時段提供 BA 居家服務', price:600, unit:'1次1組(原民區/離島 720)', rule:'每個 C 碼(不含 CC01)只能申請一次', ruleType:'free', payType:'free'},
+  {grp:'AA', grpName:'照顧管理與政策鼓勵服務(AA 碼) — 免額度免部分負擔', code:'AA04', name:'於臨終日提供服務加計', desc:'臨終日或前一日提供 BA 居家服務,或後一日提供 BA01 基本身體清潔', price:1200, unit:'限申請1次(原民區/離島 1,440)', rule:'人本關懷加計', ruleType:'free', payType:'free'},
+  {grp:'AA', grpName:'照顧管理與政策鼓勵服務(AA 碼) — 免額度免部分負擔', code:'AA05', name:'照顧困難之服務加計', desc:'抗拒/攻擊行為、傳染病(疥瘡/肺結核/梅毒)、心智障/失智/頑性癲癇/植物人/罕病、腦麻/脊損等', price:200, unit:'每日1次(原民區/離島 240)', rule:'限提供照顧服務(BA16代購除外)、專業、喘息加計;失智已取消年齡限制', ruleType:'free', payType:'free'},
+  {grp:'AA', grpName:'照顧管理與政策鼓勵服務(AA 碼) — 免額度免部分負擔', code:'AA06', name:'身體照顧困難加計', desc:'有管路/傷口/燒燙傷或>70公斤移位困難使用 BA01/BA07;ADL移位完全依賴使用 BA12;12歲以下使用 BA01/BA02/BA07', price:200, unit:'每日1次(原民區/離島 240)', rule:'免額度免部分負擔', ruleType:'free', payType:'free'},
+  {grp:'AA', grpName:'照顧管理與政策鼓勵服務(AA 碼) — 免額度免部分負擔', code:'AA07', name:'家庭照顧功能微弱加計', desc:'第4級以上,且家庭照顧者>75歲、領身障證明或獨居,使用基本 BA 照顧時加計', price:760, unit:'每月1次(原民區/離島 915)', rule:'限 BA01/02/03/04/07/08/10/11/12/14', ruleType:'free', payType:'free'},
+  {grp:'AA', grpName:'照顧管理與政策鼓勵服務(AA 碼) — 免額度免部分負擔', code:'AA08', name:'晚間服務加計', desc:'晚上 8 點至 12 點提供照顧及專業服務時加計', price:385, unit:'每日1次(原民區/離島 465)', rule:'同日 AA08 與 AA09 不得同時申請', ruleType:'free', payType:'free'},
+  {grp:'AA', grpName:'照顧管理與政策鼓勵服務(AA 碼) — 免額度免部分負擔', code:'AA09', name:'例假日服務加計', desc:'週六、週日或國定假日提供照顧、專業、喘息時加計', price:770, unit:'每日1次(原民區/離島 925)', rule:'同日 AA08 與 AA09 不得同時申請', ruleType:'free', payType:'free'},
+  {grp:'AA', grpName:'照顧管理與政策鼓勵服務(AA 碼) — 免額度免部分負擔', code:'AA10', name:'夜間緊急服務', desc:'晚上 12 點至隔日 6 點緊急提供非照顧計畫既定之照顧服務加計', price:1000, unit:'1日1單位(原民區/離島 1,200)', rule:'免額度免部分負擔', ruleType:'free', payType:'free'},
+  {grp:'AA', grpName:'照顧管理與政策鼓勵服務(AA 碼) — 免額度免部分負擔', code:'AA11', name:'照顧服務員進階訓練', desc:'針對身障證明之慢性精神病、自閉、智障、失智、頑性癲癇、植物人、罕病、腦麻、脊損,提供 BA/BB/BC 加計', price:50, unit:'每日1次(原民區/離島 60)', rule:'照服員須完成相關訓練', ruleType:'free', payType:'free'},
+  {grp:'AA', grpName:'照顧管理與政策鼓勵服務(AA 碼) — 免額度免部分負擔', code:'AA12', name:'開立醫師意見書', desc:'承接照管中心轉介個案,家訪評估後開立醫師意見書;已收案者每6個月開立', price:1500, unit:'每年上限2次(原民區/離島 1,800)', rule:'免額度免部分負擔', ruleType:'free', payType:'free'},
+
   // ===== BA 碼:居家照顧服務 =====
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA01', name:'基本身體清潔', desc:'梳頭修面、穿脫衣服、床上擦澡、床上洗頭、排泄物清理(含當次更換尿片、倒尿袋等)', price:260, unit:'1日1組', rule:'不可併同 BA07、BA23;早晚可各使用1組', ruleType:'warn'},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA02', name:'基本日常照顧', desc:'協助翻身、移位、上下床、刷牙洗臉、穿脫衣服、如廁、換尿片、修剪指甲、協助用藥等', price:195, unit:'每30分鐘1單位,1日3小時', rule:'除 BA22 外不得與其他組合併用'},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA03', name:'測量生命徵象', desc:'血壓、體溫、脈搏、呼吸監測', price:35, unit:'1次1組', rule:'若為其他服務前後觀察則不適用'},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA04', name:'協助進食或管灌餵食', desc:'準備進食環境、加熱餐食或管灌飲食、餵食或灌食、觀察反應、善後', price:130, unit:'1餐1組', rule:''},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA05', name:'餐食照顧(備一餐)', desc:'代備一餐飲食及餐後清潔(三菜一湯)、或備一日管灌飲食', price:310, unit:'1餐1組', rule:'同住長照對象共用本組合時,僅能擇一扣額度及部分負擔'},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA07', name:'協助沐浴及洗頭', desc:'至浴間進行淋浴或坐浴及洗頭、引導至浴室、更換尿片、浴室事前事後清潔', price:325, unit:'1次1組', rule:'不可併同 BA01、BA23 同時段', ruleType:'warn'},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA08', name:'足部照護', desc:'評估趾甲及足部皮膚、修剪足部趾甲、長繭處、足部按摩及保養', price:500, unit:'1次1組', rule:''},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA09', name:'到宅沐浴車服務(第1型)', desc:'利用專用車輛攜帶行動浴槽至案家,提供全身式沐浴,至少 3 位長照人員提供', price:2200, unit:'1次1組', rule:'外籍看護家庭可使用,不受 30% 限制', ruleType:'free'},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA09a', name:'到宅沐浴車服務(第2型)', desc:'針對有管路、呼吸器、燒燙傷或第三級傷口者提供', price:2640, unit:'1次1組', rule:'外籍看護家庭可使用', ruleType:'free'},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA10', name:'翻身拍背', desc:'扣背、震顫、翻身', price:155, unit:'1次1組', rule:''},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA11', name:'肢體關節活動', desc:'上肢、下肢被動運動,督促進行主動運動或站立練習', price:195, unit:'1次1組', rule:''},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA12', name:'協助上(下)樓梯', desc:'樓梯間上下協助', price:130, unit:'每30分鐘1單位', rule:'不適用於使用電梯、爬梯機、樓梯升降椅者'},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA13', name:'陪同外出', desc:'陪同購物、復健、洗腎、散步、運動、辦理事務、用餐', price:195, unit:'每30分鐘1單位', rule:'不含交通工具;單獨使用不得臨時提供'},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA14', name:'陪同就醫', desc:'協助掛號(含預約)、陪同就診、聽取及轉知醫囑', price:685, unit:'1次1組(1.5小時內)', rule:'不含交通工具;從案家出門起算'},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA15', name:'家務協助', desc:'清潔長照對象專用區域、衣物清洗、廚房整理等', price:195, unit:'每30分鐘1單位', rule:'與家人共用區域者,個案自付 50%'},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA16', name:'代購、代領、代送服務', desc:'代購餐食、生活用品、藥品、領處方簽、郵件、送洗衣物等(住家5公里內)', price:180, unit:'1次1組', rule:'同住失能者共同使用須擇一扣其額度及部分負擔'},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA17', name:'協助執行輔助性醫療', desc:'BA17a 人工氣道抽吸 · BA17b 鼻腔口腔抽吸 · BA17c 尿管鼻胃管清潔固定 · BA17d1 血糖機驗血糖 · BA17d2 甘油球通便 · BA17e 依指示置入藥盒', price:null, unit:'依細項計價', rule:'須有醫療轉介或評估'},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA18', name:'安全看視(限心智障礙者)', desc:'針對失智、心智障礙者之安全看視', price:null, unit:'依評估', rule:'限心智障礙者'},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA20', name:'陪伴服務', desc:'提供陪伴、心理支持、社會性互動', price:null, unit:'每30分鐘1單位', rule:''},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA22', name:'巡視服務', desc:'到宅短時間巡視個案安全狀況', price:null, unit:'1次1組', rule:'不得搭配其他組合;不得臨時提供', ruleType:'warn'},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA23', name:'協助洗頭', desc:'單純洗頭服務', price:null, unit:'1次1組', rule:'不可併同 BA01、BA07'},
-  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA24', name:'協助排泄', desc:'單純協助排泄、更換尿片、清潔', price:null, unit:'1次1組', rule:''},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA01', name:'基本身體清潔', desc:'梳頭修面、穿脫衣服、床上擦澡、床上洗頭、排泄物清理(含當次更換尿片、倒尿袋)', price:260, unit:'1日1組(原民區/離島 310)', rule:'同時段不可併同 BA07、BA23;早晚可各使用1組', ruleType:'warn', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA02', name:'基本日常照顧', desc:'協助翻身、移位、上下床、刷牙洗臉、穿脫衣服、如廁、換尿片、修剪指甲、協助用藥等', price:195, unit:'每30分鐘1單位,1日3小時(原民區/離島 235)', rule:'除 BA22 外不得與其他組合併用', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA03', name:'測量生命徵象', desc:'測量血壓、體溫、脈搏、呼吸,記錄並異常時轉知家屬', price:35, unit:'1次1組(原民區/離島 40)', rule:'其他服務前後觀察不適用', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA04', name:'協助進食或管灌餵食', desc:'進食環境準備、加熱餐食或管灌、餵食或灌食、觀察進食量及反應、善後', price:130, unit:'1餐1組(原民區/離島 155)', rule:'', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA05', name:'餐食照顧(代備餐)', desc:'代備一餐飲食及餐後清潔,或備一日管灌飲食', price:310, unit:'1餐1組(原民區/離島 370)', rule:'同住者共用此組合,僅擇一扣額度及部分負擔', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA07', name:'協助沐浴及洗頭', desc:'至浴間進行淋浴或坐浴及洗頭、引導至浴間、浴室事前事後清潔', price:325, unit:'1次1組(原民區/離島 385)', rule:'同時段不可併同 BA01、BA23', ruleType:'warn', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA08', name:'足部照護(限糖尿病患)', desc:'評估趾甲及足部皮膚、修剪足部趾甲長繭處、足部按摩及保養,須有走路/皮膚/傷口問題之糖尿病患', price:500, unit:'1次1組(原民區/離島 600)', rule:'須有認可訓練之照服員;115/01/01 施行', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA09', name:'到宅沐浴車服務 — 第1型', desc:'攜帶行動浴槽至案家提供全身式沐浴,3 位照服員團隊;限 CMS 5-8 級', price:2200, unit:'1次1組(原民區/離島 2,640)', rule:'外籍看護家庭可使用,不受第10條限制;115/01/01 施行', ruleType:'free', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA09a', name:'到宅沐浴車服務 — 第2型', desc:'有管路/呼吸器/燒燙傷/三級傷口者;由 1 護理人員 + 2 照服員提供', price:2500, unit:'1次1組(原民區/離島 3,000)', rule:'外籍看護家庭可使用;115/01/01 施行', ruleType:'free', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA10', name:'翻身拍背', desc:'扣背、震顫、翻身及相關照顧指導', price:155, unit:'1次1組(原民區/離島 190)', rule:'', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA11', name:'肢體關節活動', desc:'上肢、下肢被動運動或督促主動運動/站立練習', price:195, unit:'1次1組(原民區/離島 235)', rule:'', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA12', name:'協助上(下)樓梯', desc:'樓梯間上下協助(住家內及二樓以上之家門口至一樓)', price:130, unit:'每30分鐘1單位(原民區/離島 155)', rule:'不適用使用電梯、爬梯機、樓梯升降椅者', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA13', name:'陪同外出', desc:'外出工具安排、陪同購物、社交、辦事、宗教、用餐、散步、上下學、復健、透析、運動', price:195, unit:'每30分鐘1單位(原民區/離島 235)', rule:'不含交通工具', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA14', name:'陪同就醫', desc:'協助掛號、陪同就診、聽取轉知醫囑(自案家出門起算1.5小時內)', price:685, unit:'1次1組(原民區/離島 825)', rule:'不適用定期復健/透析;不含交通', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA15', name:'家務協助', desc:'長照對象專用區域清理或洗滌、衣物洗滌晾曬熨燙、家事服務', price:195, unit:'每30分鐘1單位(原民區/離島 235)', rule:'與家人共用區域,個案自付 50%;同臥室共用擇一扣額度', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA16', name:'代購、代領、代送服務', desc:'代購餐食、生活用品、藥品、領處方簽、郵寄、洽公繳費(住家5公里內)', price:130, unit:'1次1組(原民區/離島 155)', rule:'非個案專用物品自付50%;超過5公里自付', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA17a', name:'人工氣道管內分泌物抽吸', desc:'人工氣道(非氣管內管)分泌物清潔抽吸、氣切造口照顧處理', price:75, unit:'1日上限3組(原民區/離島 90)', rule:'同時處理口腔分泌物可加計 BA17b', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA17b', name:'口腔內(懸壅垂前)分泌物抽吸', desc:'口腔內分泌物之清潔、抽吸與移除', price:65, unit:'1日上限3組(原民區/離島 80)', rule:'認可訓練之照服員', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA17c', name:'尿管及鼻胃管之清潔與固定', desc:'尿管清潔、鼻胃管清潔(陰部尿道口沖洗、確認管路位置、更換固定膠布)', price:50, unit:'每週上限7組(原民區/離島 60)', rule:'', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA17d1', name:'血糖機驗血糖', desc:'攜帶式血糖機驗血糖', price:50, unit:'每日上限1組(原民區/離島 60)', rule:'', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA17d2', name:'甘油球通便', desc:'甘油球通便', price:50, unit:'每週上限3組(原民區/離島 60)', rule:'特殊需求需照管中心專案核給次數', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA17e', name:'依指示置入藥盒', desc:'依藥袋指示置入藥盒', price:50, unit:'每週上限1組(原民區/離島 60)', rule:'', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA18', name:'安全看視(限心智障礙者)', desc:'到宅陪伴支持(遊戲/嗜好)、看視注意安全', price:200, unit:'每30分鐘1單位(原民區/離島 240)', rule:'限心智障礙者;不得與其他組合併同使用,但可接續', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA20', name:'陪伴服務', desc:'到宅陪伴看視、日常生活參與、讀紙本或電子新聞或書信', price:175, unit:'每30分鐘1單位(原民區/離島 210)', rule:'不得與其他組合併用,但可接續', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA22', name:'巡視服務', desc:'上午6點至晚上8點,至案家探視長照對象,並進行簡易協助至少3次', price:130, unit:'1次1組(原民區/離島 160)', rule:'不得搭配其他照顧組合;晚上時段加計 AA08', ruleType:'warn', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA23', name:'協助洗頭', desc:'移位或引導至浴間、穿脫衣服、洗頭、清潔', price:200, unit:'1次1組(原民區/離島 240)', rule:'同時段不可併同 BA01、BA07', payType:'bc'},
+  {grp:'BA', grpName:'居家照顧服務(BA 碼)', code:'BA24', name:'協助排泄', desc:'協助一般小便、大便、排泄物觀察、尿袋更換、造廡袋清理、人工肛門周圍照料', price:220, unit:'1次1組(原民區/離島 265)', rule:'執行 BA01/BA07 過程中同時執行則不得併計', payType:'bc'},
 
-  // ===== BB 碼:日間照顧 =====
-  {grp:'BB', grpName:'日間照顧服務(BB 碼,依失能程度分型)', code:'BB01-02', name:'日間照顧 — 第1型(CMS-2)', desc:'全日/半日各一支,適用 CMS 等級 2', price:null, unit:'全日/半日', rule:'依失能等級對應 BB 型號'},
-  {grp:'BB', grpName:'日間照顧服務(BB 碼,依失能程度分型)', code:'BB03-04', name:'日間照顧 — 第2型(CMS-3)', desc:'適用 CMS 等級 3', price:null, unit:'全日/半日', rule:''},
-  {grp:'BB', grpName:'日間照顧服務(BB 碼,依失能程度分型)', code:'BB05-06', name:'日間照顧 — 第3型(CMS-4)', desc:'適用 CMS 等級 4', price:null, unit:'全日/半日', rule:''},
-  {grp:'BB', grpName:'日間照顧服務(BB 碼,依失能程度分型)', code:'BB07-08', name:'日間照顧 — 第4型(CMS-5)', desc:'適用 CMS 等級 5', price:1045, unit:'全日 1,045 / 半日 525', rule:''},
-  {grp:'BB', grpName:'日間照顧服務(BB 碼,依失能程度分型)', code:'BB09-10', name:'日間照顧 — 第5型(CMS-6)', desc:'適用 CMS 等級 6', price:1130, unit:'全日 1,130 / 半日 565', rule:''},
-  {grp:'BB', grpName:'日間照顧服務(BB 碼,依失能程度分型)', code:'BB11-12', name:'日間照顧 — 第6型(CMS-7)', desc:'適用 CMS 等級 7', price:1210, unit:'全日 1,210 / 半日 605', rule:''},
-  {grp:'BB', grpName:'日間照顧服務(BB 碼,依失能程度分型)', code:'BB13-14', name:'日間照顧 — 第7型(CMS-8)', desc:'適用 CMS 等級 8', price:null, unit:'全日/半日', rule:'最高失能等級之日照'},
+  // ===== BB 碼:日間照顧服務(依失能等級分7型,每型有全日/半日) =====
+  {grp:'BB', grpName:'日間照顧服務(BB 碼)', code:'BB01', name:'日間照顧(全日) — 第1型', desc:'適用 CMS 2 級。生活照顧、健康促進、文康活動、家屬指導、備餐', price:675, unit:'1日1單位(原民區/離島 810)', rule:'交通接送另計', payType:'bc'},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼)', code:'BB02', name:'日間照顧(半日) — 第1型', desc:'適用 CMS 2 級。半日服務', price:340, unit:'半日(原民區/離島 405)', rule:'同日不得申請2次', payType:'bc'},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼)', code:'BB03', name:'日間照顧(全日) — 第2型', desc:'適用 CMS 3 級', price:840, unit:'1日1單位(原民區/離島 1,005)', rule:'交通接送另計', payType:'bc'},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼)', code:'BB04', name:'日間照顧(半日) — 第2型', desc:'適用 CMS 3 級。半日', price:420, unit:'半日(原民區/離島 505)', rule:'', payType:'bc'},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼)', code:'BB05', name:'日間照顧(全日) — 第3型', desc:'適用 CMS 4 級', price:920, unit:'1日1單位(原民區/離島 1,105)', rule:'', payType:'bc'},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼)', code:'BB06', name:'日間照顧(半日) — 第3型', desc:'適用 CMS 4 級。半日', price:460, unit:'半日(原民區/離島 555)', rule:'', payType:'bc'},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼)', code:'BB07', name:'日間照顧(全日) — 第4型', desc:'適用 CMS 5 級', price:1045, unit:'1日1單位(原民區/離島 1,255)', rule:'', payType:'bc'},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼)', code:'BB08', name:'日間照顧(半日) — 第4型', desc:'適用 CMS 5 級。半日', price:525, unit:'半日(原民區/離島 630)', rule:'', payType:'bc'},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼)', code:'BB09', name:'日間照顧(全日) — 第5型', desc:'適用 CMS 6 級', price:1130, unit:'1日1單位(原民區/離島 1,355)', rule:'', payType:'bc'},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼)', code:'BB10', name:'日間照顧(半日) — 第5型', desc:'適用 CMS 6 級。半日', price:565, unit:'半日(原民區/離島 680)', rule:'', payType:'bc'},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼)', code:'BB11', name:'日間照顧(全日) — 第6型', desc:'適用 CMS 7 級', price:1210, unit:'1日1單位(原民區/離島 1,450)', rule:'', payType:'bc'},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼)', code:'BB12', name:'日間照顧(半日) — 第6型', desc:'適用 CMS 7 級。半日', price:605, unit:'半日(原民區/離島 725)', rule:'', payType:'bc'},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼)', code:'BB13', name:'日間照顧(全日) — 第7型', desc:'適用 CMS 8 級', price:1285, unit:'1日1單位(原民區/離島 1,540)', rule:'', payType:'bc'},
+  {grp:'BB', grpName:'日間照顧服務(BB 碼)', code:'BB14', name:'日間照顧(半日) — 第7型', desc:'適用 CMS 8 級。半日', price:645, unit:'半日(原民區/離島 770)', rule:'', payType:'bc'},
 
-  // ===== BC 碼:家庭托顧 =====
-  {grp:'BC', grpName:'家庭托顧服務(BC 碼)', code:'BC01-12', name:'家庭托顧服務', desc:'長照對象至照顧服務員家中接受托顧;依失能等級與全日/半日分組合', price:null, unit:'全日/半日', rule:'須由具 500 小時以上照顧經驗之照顧服務員擔任'},
+  // ===== BC 碼:家庭托顧(依失能等級分7型) =====
+  {grp:'BC', grpName:'家庭托顧服務(BC 碼)', code:'BC01', name:'家庭托顧(全日) — 第1型', desc:'適用 CMS 2 級。長照對象至家庭托顧服務員家中接受托顧', price:625, unit:'1日1單位(原民區/離島 750)', rule:'交通接送另計', payType:'bc'},
+  {grp:'BC', grpName:'家庭托顧服務(BC 碼)', code:'BC02', name:'家庭托顧(半日) — 第1型', desc:'適用 CMS 2 級。半日', price:315, unit:'半日(原民區/離島 375)', rule:'', payType:'bc'},
+  {grp:'BC', grpName:'家庭托顧服務(BC 碼)', code:'BC03', name:'家庭托顧(全日) — 第2型', desc:'適用 CMS 3 級', price:760, unit:'1日1單位(原民區/離島 915)', rule:'', payType:'bc'},
+  {grp:'BC', grpName:'家庭托顧服務(BC 碼)', code:'BC04', name:'家庭托顧(半日) — 第2型', desc:'適用 CMS 3 級。半日', price:380, unit:'半日(原民區/離島 460)', rule:'', payType:'bc'},
+  {grp:'BC', grpName:'家庭托顧服務(BC 碼)', code:'BC05', name:'家庭托顧(全日) — 第3型', desc:'適用 CMS 4 級', price:785, unit:'1日1單位(原民區/離島 945)', rule:'', payType:'bc'},
+  {grp:'BC', grpName:'家庭托顧服務(BC 碼)', code:'BC06', name:'家庭托顧(半日) — 第3型', desc:'適用 CMS 4 級。半日', price:395, unit:'半日(原民區/離島 475)', rule:'', payType:'bc'},
+  {grp:'BC', grpName:'家庭托顧服務(BC 碼)', code:'BC07', name:'家庭托顧(全日) — 第4型', desc:'適用 CMS 5 級', price:880, unit:'1日1單位(原民區/離島 1,055)', rule:'', payType:'bc'},
+  {grp:'BC', grpName:'家庭托顧服務(BC 碼)', code:'BC08', name:'家庭托顧(半日) — 第4型', desc:'適用 CMS 5 級。半日', price:440, unit:'半日(原民區/離島 530)', rule:'', payType:'bc'},
+  {grp:'BC', grpName:'家庭托顧服務(BC 碼)', code:'BC09', name:'家庭托顧(全日) — 第5型', desc:'適用 CMS 6 級', price:960, unit:'1日1單位(原民區/離島 1,155)', rule:'', payType:'bc'},
+  {grp:'BC', grpName:'家庭托顧服務(BC 碼)', code:'BC10', name:'家庭托顧(半日) — 第5型', desc:'適用 CMS 6 級。半日', price:480, unit:'半日(原民區/離島 580)', rule:'', payType:'bc'},
+  {grp:'BC', grpName:'家庭托顧服務(BC 碼)', code:'BC11', name:'家庭托顧(全日) — 第6型', desc:'適用 CMS 7 級', price:980, unit:'1日1單位(原民區/離島 1,180)', rule:'', payType:'bc'},
+  {grp:'BC', grpName:'家庭托顧服務(BC 碼)', code:'BC12', name:'家庭托顧(半日) — 第6型', desc:'適用 CMS 7 級。半日', price:490, unit:'半日(原民區/離島 590)', rule:'', payType:'bc'},
+  {grp:'BC', grpName:'家庭托顧服務(BC 碼)', code:'BC13', name:'家庭托顧(全日) — 第7型', desc:'適用 CMS 8 級', price:1040, unit:'1日1單位(原民區/離島 1,250)', rule:'', payType:'bc'},
+  {grp:'BC', grpName:'家庭托顧服務(BC 碼)', code:'BC14', name:'家庭托顧(半日) — 第7型', desc:'適用 CMS 8 級。半日', price:520, unit:'半日(原民區/離島 625)', rule:'', payType:'bc'},
 
-  // ===== CA 碼:復能照護(114/06/19 修正) =====
-  {grp:'CA', grpName:'專業服務 — 復能照護(CA 碼,114/06/19 修正)', code:'CA07', name:'IADLs 復能、ADLs 復能照護', desc:'評估並與長照給付對象及家屬討論 IADLs、ADLs 復能項目及期待、擬訂復能計畫、指導措施及記錄。三次措施(含評估)為一給付單位。復能目標:協助善用潛能、維持生活參與能力不退化', price:4500, unit:'3次措施(含評估)為1單位', rule:'同訓練目標不超過12次,每週至多1次,6個月內完成;同代碼新目標需間隔90天。服務完成指標依衛福部公告之長照專業服務手冊規定', ruleType:''},
-  {grp:'CA', grpName:'專業服務 — 復能照護(CA 碼,114/06/19 修正)', code:'CA08', name:'「個別化服務計畫(ISP)擬定與執行」', desc:'針對領有身心障礙證明之慢性精神病患者、自閉症者、智能障礙者及失智症者(含 50 歲以上經確診失智症者)之生活自理能力增進、人際關係及社交技巧訓練、休閒生活服務、健康促進服務、社區適應服務之評估,並擬訂個別化服務計畫(含執行策略)、執行紀錄。四次措施(含評估)為一給付單位', price:6000, unit:'4次措施(含評估)為1單位', rule:'訓練目標:提升生活自理能力、促進社會參與。限身障證明之慢性精神病、自閉症、智能障礙、失智症者,或 50 歲以上 CDR ≥ 0.5 失智症者', ruleType:''},
+  // ===== BD 碼:社區式服務 =====
+  {grp:'BD', grpName:'社區式服務(BD 碼)', code:'BD01', name:'社區式協助沐浴', desc:'於日照中心(含小規多機能)或托顧家庭浴間執行沐浴', price:200, unit:'1次1組(原民區/離島 240)', rule:'', payType:'bc'},
+  {grp:'BD', grpName:'社區式服務(BD 碼)', code:'BD02', name:'社區式晚餐', desc:'準備晚餐、協助進食(餵食)、飯後口腔清潔', price:150, unit:'1次1組(原民區/離島 180)', rule:'', payType:'bc'},
+  {grp:'BD', grpName:'社區式服務(BD 碼)', code:'BD03', name:'社區式服務交通接送', desc:'接送個案居家至日照、小規多、托顧家庭、巷弄站、文健站、失智據點、輔具中心、身障日照', price:115, unit:'1趟為1單位(原民區/離島 140)', rule:'10公里內;超過自付;持職業駕照之駕駛員', payType:'bc'},
 
-  // ===== CB 碼:專業照護 =====
-  {grp:'CB', grpName:'專業服務 — 專業照護(CB 碼)', code:'CB01', name:'營養照護', desc:'依個案狀況提供專業營養評估與照護指導', price:4000, unit:'4次措施為1單位', rule:'長照3.0 將提升給付水準'},
-  {grp:'CB', grpName:'專業服務 — 專業照護(CB 碼)', code:'CB02', name:'進食與吞嚥照護', desc:'依個案進食與吞嚥功能提供照護指導', price:9000, unit:'6次措施為1單位', rule:'須由完成認可訓練之醫事人員提供'},
-  {grp:'CB', grpName:'專業服務 — 專業照護(CB 碼)', code:'CB03', name:'困擾行為照護', desc:'提供困擾行為(BPSD)相關照護指導,維護照顧者及個案安全', price:null, unit:'依次計', rule:'多用於失智症照護'},
-  {grp:'CB', grpName:'專業服務 — 專業照護(CB 碼)', code:'CB04', name:'臥床或長期活動受限照護', desc:'針對臥床或長期活動受限導致之照護需求提供指導', price:null, unit:'依次計', rule:''},
+  // ===== CA 碼:復能照護(114/06/19 修正後) =====
+  {grp:'CA', grpName:'專業服務 — 復能照護(CA 碼)', code:'CA07', name:'IADLs 復能、ADLs 復能照護', desc:'評估與家屬討論 IADLs/ADLs 復能項目、擬訂復能計畫、指導措施、紀錄。目標:善用潛能、維持生活參與不退化', price:4500, unit:'3次措施(含評估)為1單位(原民區/離島 5,400)', rule:'同訓練目標≤12次,每週≤1次,6個月內完成;同代碼新目標需間隔90天', payType:'bc'},
+  {grp:'CA', grpName:'專業服務 — 復能照護(CA 碼)', code:'CA08', name:'「個別化服務計畫(ISP)擬定與執行」', desc:'限身障證明之慢性精神病、自閉症、智能障礙、失智症者(含經確診失智)。提升自理能力、社會參與、減緩退化', price:6000, unit:'4次措施(含評估及ISP)為1單位(原民區/離島 7,200)', rule:'評估、ISP擬訂與執行', payType:'bc'},
+
+  // ===== CB 碼:專業照護(已配合修正調整) =====
+  {grp:'CB', grpName:'專業服務 — 專業照護(CB 碼)', code:'CB01a', name:'營養照護', desc:'評估、觀察與確認照護需求、指導措施、轉介必要醫療、紀錄', price:4500, unit:'3次措施(含評估)為1單位(原民區/離島 5,400)', rule:'須由完成認可訓練之醫事人員', payType:'bc'},
+  {grp:'CB', grpName:'專業服務 — 專業照護(CB 碼)', code:'CB02', name:'進食與吞嚥照護', desc:'評估、觀察、指導進食吞嚥功能、轉介、紀錄', price:9000, unit:'6次措施(含評估)為1單位(原民區/離島 10,800)', rule:'須由完成認可訓練之醫事人員', payType:'bc'},
+  {grp:'CB', grpName:'專業服務 — 專業照護(CB 碼)', code:'CB03', name:'困擾行為照護', desc:'評估、觀察、指導 BPSD 等困擾行為照護(多用於失智),轉介必要醫療', price:4500, unit:'3次措施(含評估)為1單位(原民區/離島 5,400)', rule:'', payType:'bc'},
+  {grp:'CB', grpName:'專業服務 — 專業照護(CB 碼)', code:'CB04', name:'臥床或長期活動受限照護', desc:'針對臥床或長期活動受限導致之照護需求,評估、指導、轉介、紀錄', price:9000, unit:'6次措施(含評估)為1單位(原民區/離島 10,800)', rule:'', payType:'bc'},
 
   // ===== CC、CD 碼 =====
-  {grp:'CC', grpName:'專業服務 — 居家環境規劃與護理(CC、CD 碼)', code:'CC01', name:'居家環境安全或無障礙空間規劃', desc:'依個案需求,提供並教導家屬於家中維護安全之方式及注意事項', price:null, unit:'依次計', rule:'長照給付對象有家屬可指導者適用'},
-  {grp:'CC', grpName:'專業服務 — 居家環境規劃與護理(CC、CD 碼)', code:'CD01', name:'居家護理指導與諮詢', desc:'由居家護理師到家提供專業護理服務,改善照護問題與生活品質', price:null, unit:'依次計', rule:''},
+  {grp:'CC', grpName:'專業服務 — 居家環境與護理(CC、CD 碼)', code:'CC01', name:'居家環境安全或無障礙空間規劃', desc:'活動方式建議、家具擺設、輔具使用空間動線規劃;居家環境檢視、安全改善方式、教導家屬注意事項', price:2000, unit:'2次措施(含評估)為1單位(原民區/離島 2,400)', rule:'空間修繕另依輔具或無障礙改善服務計', payType:'bc'},
+  {grp:'CC', grpName:'專業服務 — 居家環境與護理(CC、CD 碼)', code:'CD02', name:'居家護理指導與諮詢', desc:'評估護理照護需求及家庭評估、擬定家庭護理計畫、護理問題處理、個案及照顧者照護指導與回覆示教', price:6000, unit:'3次措施+1評值為1單位(原民區/離島 7,200)', rule:'須由衛福部認可訓練之居家護理機構/居家式長照機構之護理人員', payType:'bc'},
 
-  // ===== AA 碼:加計(免額度免部分負擔) =====
-  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA01', name:'照顧計畫', desc:'由社區整合型服務中心(A 單位)擬訂照顧計畫', price:null, unit:'依計畫', rule:'免部分負擔且不扣個人額度', ruleType:'free'},
-  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA02', name:'照顧管理服務', desc:'A 單位個管員提供持續照顧管理', price:null, unit:'依次計', rule:'免部分負擔且不扣個人額度', ruleType:'free'},
-  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA03', name:'照顧服務員配合專業服務', desc:'照服員於專業服務時同行學習,並參與後續專業服務計畫執行', price:600, unit:'1次1組(原民區720)', rule:'每個 C 碼專業服務只能申請一次', ruleType:'free'},
-  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA04', name:'於臨終日提供服務加計', desc:'臨終日或前一日提供居家服務(BA 碼),或後一日提供基本身體清潔(BA01)', price:1200, unit:'限申請1次(原民區1,440)', rule:'人本關懷加計', ruleType:'free'},
-  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA05', name:'照顧困難之服務加計', desc:'針對特殊照顧困難情境之服務加計', price:null, unit:'依條件', rule:'免額度免部分負擔', ruleType:'free'},
-  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA06', name:'身體照顧困難加計', desc:'有管路/傷口/燒燙傷或移位困難>70公斤者使用BA01/BA07;ADL移位完全依賴使用BA12;12歲以下使用BA01/BA02/BA07', price:200, unit:'每日1次(原民區240)', rule:'免額度免部分負擔', ruleType:'free'},
-  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA07', name:'家庭照顧功能微弱加計', desc:'第4級以上,且家庭照顧者>75歲或領身障證明或獨居,使用 BA 碼基本照顧時加計', price:760, unit:'每月1次(原民區915)', rule:'免額度免部分負擔', ruleType:'free'},
-  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA08', name:'晚間服務加計', desc:'晚上 8 點至 12 點提供照顧及專業服務時加計', price:385, unit:'每日1次(原民區465)', rule:'同日 AA08 與 AA09 不得同時申請', ruleType:'free'},
-  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA09', name:'例假日服務加計', desc:'週六、週日或國定假日提供照顧及專業服務、喘息服務時加計', price:385, unit:'每日1次(原民區465)', rule:'同日 AA08 與 AA09 不得同時申請', ruleType:'free'},
-  {grp:'AA', grpName:'照顧管理與加計(AA 碼) — 免額度、免部分負擔', code:'AA11', name:'照顧服務員進階訓練加計', desc:'針對特殊需求失能障礙者長照服務(身障證明之慢性精神病、自閉症、智障、失智、腦麻、脊損、頑性癲癇、植物人、罕病、50歲以上CDR≥0.5失智)', price:null, unit:'每日1次', rule:'照服員須完成特殊需求在職訓練', ruleType:'free'},
+  // ===== DA01 碼:交通接送(依分區計價) =====
+  {grp:'D', grpName:'交通接送服務(DA01 碼) — 限就醫/復健/透析', code:'DA01', name:'交通接送 — 由地方主管機關訂定公告', desc:'往返居家至醫療院所就醫、定期式復健或透析治療之交通接送;含必要轉乘或接駁', price:null, unit:'1次1單位', rule:'各縣市公告;依分區計算部分負擔比率', payType:'d1'},
 
   // ===== GA 碼:喘息服務 =====
-  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA09', name:'居家喘息服務', desc:'照服員到宅提供身體照顧、進食、服藥、翻身、被動關節活動等', price:770, unit:'每 2 小時為 1 組,單日 10 小時上限', rule:'GA01、GA02 已於 2025/09 起整併為 GA09', ruleType:'free'},
-  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA03', name:'日間照顧中心喘息 — 全日', desc:'白天於日照中心接受照顧(含交通)', price:1250, unit:'1日1組', rule:''},
-  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA04', name:'日間照顧中心喘息 — 半日', desc:'白天半日於日照中心接受照顧(含交通)', price:625, unit:'1次1組', rule:''},
-  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA05', name:'機構住宿式喘息服務', desc:'入住長照機構接受 24 小時照顧(含交通)', price:2310, unit:'24小時為1單位', rule:''},
-  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA06', name:'小規模多機能 — 夜間喘息', desc:'下午 6 點至隔天上午 8 點之夜間喘息(含交通)', price:2000, unit:'1夜1組', rule:''},
-  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA07', name:'巷弄長照站臨托', desc:'巷弄長照站短時間臨時托顧(含沐浴、進食、服藥、活動、交通)', price:170, unit:'1小時為1單位', rule:''},
-
-  // ===== D 碼:交通接送 =====
-  {grp:'D', grpName:'交通接送服務(D 碼) — 限就醫、復健、透析', code:'DA01', name:'交通接送 — 就醫/復健/透析', desc:'以就醫、復健或透析治療為限', price:115, unit:'1趟1單位(2025/下半年新制)', rule:'長照3.0:一般地區由100元提至115元'},
-  {grp:'D', grpName:'交通接送服務(D 碼) — 限就醫、復健、透析', code:'DA01', name:'交通接送 — 偏遠/原民區/離島', desc:'偏遠地區、原住民族地區、離島之就醫接送', price:140, unit:'1趟1單位(2025/下半年新制)', rule:'長照3.0:偏遠地區由120元提至140元'},
-  {grp:'D', grpName:'交通接送服務(D 碼) — 限就醫、復健、透析', code:'BD03', name:'社區式服務交通接送', desc:'接送長照對象居家至日照、小規機、家托、巷弄站、文健站、失智據點、輔具中心等', price:115, unit:'1趟1單位', rule:'住家與機構距離10公里以內;超過部分自行負擔'},
+  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA09', name:'居家喘息服務', desc:'照服員到宅提供身體照顧、進食、服藥、翻身、被動關節活動、陪同運動等', price:770, unit:'每2小時為1單位,單日10小時上限(原民區/離島 925)', rule:'GA01、GA02 已於 2025/09 整併為 GA09', payType:'g'},
+  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA03', name:'日間照顧中心喘息 — 全日', desc:'長照對象至日照中心接受照顧、停留;含交通、護理、沐浴、進食、服藥、活動', price:1250, unit:'1日1單位(原民區/離島 1,500)', rule:'', payType:'g'},
+  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA04', name:'日間照顧中心喘息 — 半日', desc:'半日於日照中心接受照顧(含交通)', price:625, unit:'1次1單位(原民區/離島 750)', rule:'', payType:'g'},
+  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA05', name:'機構住宿式喘息服務', desc:'入住住宿式長照機構接受 24 小時照顧(含交通、護理、沐浴、進食、服藥、活動)', price:2310, unit:'1日(24小時)為1單位(原民區/離島 2,775)', rule:'', payType:'g'},
+  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA06', name:'小規模多機能服務 — 夜間喘息', desc:'下午6點至翌日上午8點之夜間喘息(含交通)', price:2000, unit:'1次1單位(原民區/離島 2,400)', rule:'', payType:'g'},
+  {grp:'GA', grpName:'家庭照顧者支持服務 — 喘息(GA 碼)', code:'GA07', name:'巷弄長照站喘息服務', desc:'至巷弄站接受照顧、停留(含進食、服藥、活動)', price:170, unit:'1小時為1單位(原民區/離島 205)', rule:'', payType:'g'},
 ];
 
 function renderCombos(){
@@ -3111,10 +3379,30 @@ function renderCombos(){
     g.items.forEach(c=>{
       const ruleClass = c.ruleType==='warn'?'warn':c.ruleType==='free'?'free':'';
       const priceStr = c.price ? '$'+c.price.toLocaleString() : '依次計';
+
+      // 計算三類自付額
+      let payTiersHtml = '';
+      if(c.price && c.payType){
+        const tiers = calcSelfPay(c.price, c.payType);
+        if(tiers){
+          if(c.payType === 'free'){
+            payTiersHtml = `<div class="combo-pay-tiers free-tier"><span class="pt-label">三類身分皆 <strong>$0</strong> 自付</span><span class="pt-note">本組合免部分負擔且不扣額度</span></div>`;
+          } else {
+            const typeLabel = {bc:'B/C',d1:'D 第一區',d2:'D 第二區',d3:'D 第三區',d4:'D 第四區',ef:'E/F',g:'G'}[c.payType] || c.payType;
+            payTiersHtml = `<div class="combo-pay-tiers">
+              <span class="pt-tag">${typeLabel}</span>
+              <span class="pt-item"><span class="pt-class">第一類</span><span class="pt-pay">$${tiers[0].toLocaleString()}</span></span>
+              <span class="pt-item"><span class="pt-class">第二類</span><span class="pt-pay">$${tiers[1].toLocaleString()}</span></span>
+              <span class="pt-item"><span class="pt-class">第三類</span><span class="pt-pay">$${tiers[2].toLocaleString()}</span></span>
+            </div>`;
+          }
+        }
+      }
+
       html += `
         <div class="combo-item">
           <div class="combo-code">${c.code}</div>
-          <div class="combo-name">${c.name}<span class="combo-desc">${c.desc}</span></div>
+          <div class="combo-name">${c.name}<span class="combo-desc">${c.desc}</span>${payTiersHtml}</div>
           <div class="combo-price">${priceStr}<span class="price-unit">${c.unit||''}</span></div>
           <div class="combo-restriction ${ruleClass}">${c.rule||'—'}</div>
         </div>
@@ -3124,6 +3412,9 @@ function renderCombos(){
     list.innerHTML += html;
   });
 }
+
+// ===== 部分負擔比率與三類自付額計算(依附表五 114/06/19 修正版) =====
+// payRates 與 calcSelfPay 已於 ltcAids 之前定義(供 renderLTC、renderCombos 共用)
 
 document.getElementById('combo-search').addEventListener('input',renderCombos);
 document.querySelectorAll('[data-combo-filter]').forEach(btn=>{
@@ -3301,41 +3592,103 @@ const planCopayRate = {
 // 常用服務組合(供計畫工具勾選)
 const plannerServices = {
   ba: [
-    {code:'BA01', name:'基本身體清潔', desc:'梳頭、穿脫衣、床上擦澡、床上洗頭、排泄物清理', price:260, unit:'1次1組'},
-    {code:'BA02', name:'基本日常照顧', desc:'翻身、移位、刷牙洗臉、穿衣、如廁、換尿片、修剪指甲、協助用藥', price:195, unit:'30分鐘/單位'},
-    {code:'BA03', name:'測量生命徵象', desc:'血壓、體溫、脈搏、呼吸監測', price:35, unit:'1次1組'},
-    {code:'BA04', name:'協助進食或管灌餵食', desc:'準備、加熱、餵食或灌食、觀察反應', price:130, unit:'1餐1組'},
-    {code:'BA05', name:'餐食照顧(備餐)', desc:'代備一餐飲食及餐後清潔(三菜一湯)', price:310, unit:'1餐1組'},
-    {code:'BA07', name:'協助沐浴及洗頭', desc:'至浴間淋浴或坐浴及洗頭', price:325, unit:'1次1組'},
-    {code:'BA08', name:'足部護理', desc:'修剪足部趾甲、長繭處、足部按摩及保養', price:500, unit:'1次1組'},
-    {code:'BA09', name:'到宅沐浴車服務(第1型)', desc:'攜帶行動浴槽至案家,3 位人員提供', price:2200, unit:'1次1組'},
-    {code:'BA10', name:'翻身拍背', desc:'扣背、震顫、翻身', price:155, unit:'1次1組'},
-    {code:'BA11', name:'肢體關節活動', desc:'上下肢被動運動、督促站立練習', price:195, unit:'1次1組'},
-    {code:'BA12', name:'協助上(下)樓梯', desc:'樓梯間上下協助', price:130, unit:'30分鐘/單位'},
-    {code:'BA13', name:'陪同外出', desc:'陪同購物、復健、洗腎、散步、運動', price:195, unit:'30分鐘/單位'},
-    {code:'BA14', name:'陪同就醫', desc:'協助掛號、陪診、聽取轉知醫囑(1.5小時內)', price:685, unit:'1次1組'},
-    {code:'BA15', name:'家務協助', desc:'清潔長照對象專用區域、衣物清洗、廚房整理', price:195, unit:'30分鐘/單位'},
-    {code:'BA16', name:'代購、代領、代送', desc:'代購餐食、藥品、領處方簽、郵件等(住家5公里內)', price:180, unit:'1次1組'},
-    {code:'BA23', name:'協助洗頭', desc:'單純洗頭服務', price:155, unit:'1次1組'},
-    {code:'BA24', name:'協助排泄', desc:'協助排泄、更換尿片、清潔', price:130, unit:'1次1組'}
+    // BA 居家照顧服務 — 全部 26 項
+    {code:'BA01', name:'基本身體清潔', desc:'梳頭、穿脫衣、床上擦澡、床上洗頭、排泄物清理', price:260, unit:'1次/組', payType:'bc'},
+    {code:'BA02', name:'基本日常照顧', desc:'翻身、移位、刷牙洗臉、穿衣、如廁、換尿片、修剪指甲、協助用藥', price:195, unit:'30分鐘/單位', payType:'bc'},
+    {code:'BA03', name:'測量生命徵象', desc:'血壓、體溫、脈搏、呼吸監測', price:35, unit:'1次/組', payType:'bc'},
+    {code:'BA04', name:'協助進食或管灌餵食', desc:'準備、加熱、餵食或灌食、觀察反應', price:130, unit:'1餐/組', payType:'bc'},
+    {code:'BA05', name:'餐食照顧(備餐)', desc:'代備一餐飲食及餐後清潔', price:310, unit:'1餐/組', payType:'bc'},
+    {code:'BA07', name:'協助沐浴及洗頭', desc:'至浴間淋浴或坐浴及洗頭', price:325, unit:'1次/組', payType:'bc'},
+    {code:'BA08', name:'足部照護(限糖尿病)', desc:'修剪足部趾甲長繭處、足部按摩及保養', price:500, unit:'1次/組', payType:'bc'},
+    {code:'BA09', name:'到宅沐浴車服務(第1型)', desc:'攜帶行動浴槽至案家,3 位人員提供;CMS 5-8級', price:2200, unit:'1次/組', payType:'bc'},
+    {code:'BA09a', name:'到宅沐浴車服務(第2型)', desc:'有管路/呼吸器/燒燙傷/3級傷口者,1護理+2照服員', price:2500, unit:'1次/組', payType:'bc'},
+    {code:'BA10', name:'翻身拍背', desc:'扣背、震顫、翻身', price:155, unit:'1次/組', payType:'bc'},
+    {code:'BA11', name:'肢體關節活動', desc:'上下肢被動運動、督促站立練習', price:195, unit:'1次/組', payType:'bc'},
+    {code:'BA12', name:'協助上(下)樓梯', desc:'樓梯間上下協助', price:130, unit:'30分鐘/單位', payType:'bc'},
+    {code:'BA13', name:'陪同外出', desc:'陪同購物、復健、散步、運動、辦事', price:195, unit:'30分鐘/單位', payType:'bc'},
+    {code:'BA14', name:'陪同就醫', desc:'協助掛號、陪診、聽取轉知醫囑(1.5小時內)', price:685, unit:'1次/組', payType:'bc'},
+    {code:'BA15', name:'家務協助', desc:'清潔長照對象專用區域、衣物清洗、家事服務', price:195, unit:'30分鐘/單位', payType:'bc'},
+    {code:'BA16', name:'代購、代領、代送', desc:'代購餐食、藥品、領處方簽、郵件(5公里內)', price:130, unit:'1次/組', payType:'bc'},
+    {code:'BA17a', name:'人工氣道分泌物抽吸', desc:'人工氣道(非氣管內管)分泌物清潔抽吸', price:75, unit:'1日上限3組', payType:'bc'},
+    {code:'BA17b', name:'口腔分泌物抽吸', desc:'口腔內(懸壅垂前)分泌物清潔抽吸', price:65, unit:'1日上限3組', payType:'bc'},
+    {code:'BA17c', name:'尿管鼻胃管清潔固定', desc:'尿管清潔、鼻胃管清潔', price:50, unit:'每週上限7組', payType:'bc'},
+    {code:'BA17d1', name:'血糖機驗血糖', desc:'攜帶式血糖機驗血糖', price:50, unit:'每日上限1組', payType:'bc'},
+    {code:'BA17d2', name:'甘油球通便', desc:'甘油球通便', price:50, unit:'每週上限3組', payType:'bc'},
+    {code:'BA17e', name:'依指示置入藥盒', desc:'依藥袋指示置入藥盒', price:50, unit:'每週上限1組', payType:'bc'},
+    {code:'BA18', name:'安全看視(限心智障礙者)', desc:'到宅陪伴支持、看視注意安全', price:200, unit:'30分鐘/單位', payType:'bc'},
+    {code:'BA20', name:'陪伴服務', desc:'到宅陪伴看視、日常生活參與、讀新聞', price:175, unit:'30分鐘/單位', payType:'bc'},
+    {code:'BA22', name:'巡視服務', desc:'上午6點至晚上8點到案家探視至少3次', price:130, unit:'1次/組', payType:'bc'},
+    {code:'BA23', name:'協助洗頭', desc:'單純洗頭服務(於浴間或床上)', price:200, unit:'1次/組', payType:'bc'},
+    {code:'BA24', name:'協助排泄', desc:'協助小便/大便、尿袋更換、造廡袋清理', price:220, unit:'1次/組', payType:'bc'},
+    // BB 日間照顧服務(依等級)— 14 款
+    {code:'BB01', name:'日間照顧(全日)第1型 — CMS2', desc:'CMS 2級 全日;含生活照顧、健康促進、文康活動、備餐', price:675, unit:'1日/組', payType:'bc'},
+    {code:'BB02', name:'日間照顧(半日)第1型 — CMS2', desc:'CMS 2級 半日', price:340, unit:'半日/組', payType:'bc'},
+    {code:'BB03', name:'日間照顧(全日)第2型 — CMS3', desc:'CMS 3級 全日', price:840, unit:'1日/組', payType:'bc'},
+    {code:'BB04', name:'日間照顧(半日)第2型 — CMS3', desc:'CMS 3級 半日', price:420, unit:'半日/組', payType:'bc'},
+    {code:'BB05', name:'日間照顧(全日)第3型 — CMS4', desc:'CMS 4級 全日', price:920, unit:'1日/組', payType:'bc'},
+    {code:'BB06', name:'日間照顧(半日)第3型 — CMS4', desc:'CMS 4級 半日', price:460, unit:'半日/組', payType:'bc'},
+    {code:'BB07', name:'日間照顧(全日)第4型 — CMS5', desc:'CMS 5級 全日', price:1045, unit:'1日/組', payType:'bc'},
+    {code:'BB08', name:'日間照顧(半日)第4型 — CMS5', desc:'CMS 5級 半日', price:525, unit:'半日/組', payType:'bc'},
+    {code:'BB09', name:'日間照顧(全日)第5型 — CMS6', desc:'CMS 6級 全日', price:1130, unit:'1日/組', payType:'bc'},
+    {code:'BB10', name:'日間照顧(半日)第5型 — CMS6', desc:'CMS 6級 半日', price:565, unit:'半日/組', payType:'bc'},
+    {code:'BB11', name:'日間照顧(全日)第6型 — CMS7', desc:'CMS 7級 全日', price:1210, unit:'1日/組', payType:'bc'},
+    {code:'BB12', name:'日間照顧(半日)第6型 — CMS7', desc:'CMS 7級 半日', price:605, unit:'半日/組', payType:'bc'},
+    {code:'BB13', name:'日間照顧(全日)第7型 — CMS8', desc:'CMS 8級 全日', price:1285, unit:'1日/組', payType:'bc'},
+    {code:'BB14', name:'日間照顧(半日)第7型 — CMS8', desc:'CMS 8級 半日', price:645, unit:'半日/組', payType:'bc'},
+    // BC 家庭托顧(依等級)— 14 款
+    {code:'BC01', name:'家庭托顧(全日)第1型 — CMS2', desc:'CMS 2級 全日;至家庭托顧員家中接受托顧', price:625, unit:'1日/組', payType:'bc'},
+    {code:'BC02', name:'家庭托顧(半日)第1型 — CMS2', desc:'CMS 2級 半日', price:315, unit:'半日/組', payType:'bc'},
+    {code:'BC03', name:'家庭托顧(全日)第2型 — CMS3', desc:'CMS 3級 全日', price:760, unit:'1日/組', payType:'bc'},
+    {code:'BC04', name:'家庭托顧(半日)第2型 — CMS3', desc:'CMS 3級 半日', price:380, unit:'半日/組', payType:'bc'},
+    {code:'BC05', name:'家庭托顧(全日)第3型 — CMS4', desc:'CMS 4級 全日', price:785, unit:'1日/組', payType:'bc'},
+    {code:'BC06', name:'家庭托顧(半日)第3型 — CMS4', desc:'CMS 4級 半日', price:395, unit:'半日/組', payType:'bc'},
+    {code:'BC07', name:'家庭托顧(全日)第4型 — CMS5', desc:'CMS 5級 全日', price:880, unit:'1日/組', payType:'bc'},
+    {code:'BC08', name:'家庭托顧(半日)第4型 — CMS5', desc:'CMS 5級 半日', price:440, unit:'半日/組', payType:'bc'},
+    {code:'BC09', name:'家庭托顧(全日)第5型 — CMS6', desc:'CMS 6級 全日', price:960, unit:'1日/組', payType:'bc'},
+    {code:'BC10', name:'家庭托顧(半日)第5型 — CMS6', desc:'CMS 6級 半日', price:480, unit:'半日/組', payType:'bc'},
+    {code:'BC11', name:'家庭托顧(全日)第6型 — CMS7', desc:'CMS 7級 全日', price:980, unit:'1日/組', payType:'bc'},
+    {code:'BC12', name:'家庭托顧(半日)第6型 — CMS7', desc:'CMS 7級 半日', price:490, unit:'半日/組', payType:'bc'},
+    {code:'BC13', name:'家庭托顧(全日)第7型 — CMS8', desc:'CMS 8級 全日', price:1040, unit:'1日/組', payType:'bc'},
+    {code:'BC14', name:'家庭托顧(半日)第7型 — CMS8', desc:'CMS 8級 半日', price:520, unit:'半日/組', payType:'bc'},
+    // BD 社區式服務
+    {code:'BD01', name:'社區式協助沐浴', desc:'於日照中心或托顧家庭浴間執行沐浴', price:200, unit:'1次/組', payType:'bc'},
+    {code:'BD02', name:'社區式晚餐', desc:'晚餐準備、協助進食、飯後口腔清潔', price:150, unit:'1次/組', payType:'bc'},
+    {code:'BD03', name:'社區式服務交通接送', desc:'接送至日照/小規多/托顧家庭/巷弄站等(10公里內)', price:115, unit:'1趟/單位', payType:'bc'}
   ],
   c: [
-    {code:'CA07', name:'IADLs 復能、ADLs 復能照護', desc:'評估、擬訂復能計畫、指導措施(同目標≤12次,6個月內)', price:4500, unit:'3次措施/單位'},
-    {code:'CA08', name:'個別化服務計畫(ISP)擬定與執行', desc:'限身障證明之精神病/自閉/智障/失智或50歲以上CDR≥0.5', price:6000, unit:'4次措施/單位'},
-    {code:'CB01', name:'營養照護', desc:'依個案狀況提供專業營養評估與照護指導', price:4000, unit:'4次措施/單位'},
-    {code:'CB02', name:'進食與吞嚥照護', desc:'進食與吞嚥功能照護指導', price:9000, unit:'6次措施/單位'},
-    {code:'CB03', name:'困擾行為照護', desc:'BPSD 等困擾行為照護指導(多用於失智)', price:4500, unit:'估算單位'},
-    {code:'CB04', name:'臥床或長期活動受限照護', desc:'針對臥床照護需求提供指導', price:4500, unit:'估算單位'},
-    {code:'CC01', name:'居家環境安全/無障礙規劃', desc:'家屬居家安全方式及注意事項指導', price:3000, unit:'估算單位'},
-    {code:'CD01', name:'居家護理指導與諮詢', desc:'居家護理師到家提供專業護理', price:3500, unit:'估算單位'}
+    // 專業服務(CA、CB、CC、CD)
+    {code:'CA07', name:'IADLs 復能、ADLs 復能照護', desc:'評估、擬訂復能計畫、指導措施(同目標≤12次,6個月內)', price:4500, unit:'3次措施/單位', payType:'bc'},
+    {code:'CA08', name:'個別化服務計畫(ISP)擬定與執行', desc:'限身障證明之精神病/自閉/智障/失智症者', price:6000, unit:'4次措施/單位', payType:'bc'},
+    {code:'CB01a', name:'營養照護', desc:'評估、觀察與確認照護需求、指導措施、轉介必要醫療', price:4500, unit:'3次措施/單位', payType:'bc'},
+    {code:'CB02', name:'進食與吞嚥照護', desc:'進食與吞嚥功能照護指導', price:9000, unit:'6次措施/單位', payType:'bc'},
+    {code:'CB03', name:'困擾行為照護', desc:'BPSD 等困擾行為照護指導(多用於失智)', price:4500, unit:'3次措施/單位', payType:'bc'},
+    {code:'CB04', name:'臥床或長期活動受限照護', desc:'針對臥床照護需求提供指導', price:9000, unit:'6次措施/單位', payType:'bc'},
+    {code:'CC01', name:'居家環境安全/無障礙規劃', desc:'家屬居家安全方式及注意事項指導', price:2000, unit:'2次措施/單位', payType:'bc'},
+    {code:'CD02', name:'居家護理指導與諮詢', desc:'居家護理師到家提供護理計畫與指導', price:6000, unit:'3次措施+1評值/單位', payType:'bc'}
+  ],
+  aa: [
+    // AA 照顧管理與政策鼓勵(全部免額度免部分負擔,但仍列出以方便估算)
+    {code:'AA01', name:'照顧計畫擬訂與服務連結', desc:'A單位個管員擬計畫、家訪、複訪重新擬訂', price:1700, unit:'每月1次', payType:'free'},
+    {code:'AA02', name:'照顧管理', desc:'依需求調整照顧計畫、執行、追蹤連結', price:400, unit:'每月1次', payType:'free'},
+    {code:'AA03', name:'照服員配合專業服務', desc:'照服員同行學習專業服務並參與計畫執行', price:600, unit:'1次/組', payType:'free'},
+    {code:'AA04', name:'臨終日服務加計', desc:'臨終日前後提供照顧服務加計', price:1200, unit:'限1次', payType:'free'},
+    {code:'AA05', name:'照顧困難加計', desc:'抗拒/攻擊、傳染病、心智障/失智/腦麻/脊損等', price:200, unit:'每日1次', payType:'free'},
+    {code:'AA06', name:'身體照顧困難加計', desc:'有管路/傷口/燒燙傷,或移位困難>70公斤等', price:200, unit:'每日1次', payType:'free'},
+    {code:'AA07', name:'家庭照顧功能微弱加計', desc:'第4級以上+家照>75歲/身障/獨居', price:760, unit:'每月1次', payType:'free'},
+    {code:'AA08', name:'晚間服務加計', desc:'晚上 8-12 點提供照顧及專業服務', price:385, unit:'每日1次', payType:'free'},
+    {code:'AA09', name:'例假日服務加計', desc:'週六日或國定假日提供照顧、專業、喘息服務', price:770, unit:'每日1次', payType:'free'},
+    {code:'AA10', name:'夜間緊急服務', desc:'晚上12點至隔日6點緊急非計畫之照顧服務', price:1000, unit:'1日/單位', payType:'free'},
+    {code:'AA11', name:'照服員進階訓練加計', desc:'針對特殊需求個案使用BA/BB/BC加計', price:50, unit:'每日1次', payType:'free'},
+    {code:'AA12', name:'開立醫師意見書', desc:'承接照管中心轉介個案,開立醫師意見書', price:1500, unit:'每年上限2次', payType:'free'}
   ],
   g: [
-    {code:'GA09', name:'居家喘息服務', desc:'照服員到宅提供身體照顧、餵食、翻身等(2小時/組,單日10小時上限)', price:770, unit:'2小時/單位'},
-    {code:'GA03', name:'日間照顧中心喘息 — 全日', desc:'白天於日照中心接受照顧(含交通)', price:1250, unit:'1日1組'},
-    {code:'GA04', name:'日間照顧中心喘息 — 半日', desc:'白天半日於日照中心接受照顧', price:625, unit:'1次1組'},
-    {code:'GA05', name:'機構住宿式喘息服務', desc:'入住長照機構接受 24 小時照顧', price:2310, unit:'24小時/單位'},
-    {code:'GA06', name:'小規模多機能-夜間喘息', desc:'下午6點至隔天上午8點之夜間喘息', price:2000, unit:'1夜1組'},
-    {code:'GA07', name:'巷弄長照站臨托', desc:'巷弄長照站短時間臨托(含活動、交通)', price:170, unit:'1小時/單位'}
+    // 喘息服務
+    {code:'GA09', name:'居家喘息服務', desc:'照服員到宅提供身體照顧、餵食、翻身、被動關節活動(2小時/組,單日10小時上限)', price:770, unit:'2小時/單位', payType:'g'},
+    {code:'GA03', name:'日間照顧中心喘息 — 全日', desc:'白天於日照中心接受照顧(含交通)', price:1250, unit:'1日/組', payType:'g'},
+    {code:'GA04', name:'日間照顧中心喘息 — 半日', desc:'白天半日於日照中心接受照顧', price:625, unit:'1次/組', payType:'g'},
+    {code:'GA05', name:'機構住宿式喘息服務', desc:'入住長照機構接受 24 小時照顧', price:2310, unit:'24小時/單位', payType:'g'},
+    {code:'GA06', name:'小規模多機能-夜間喘息', desc:'下午6點至隔天上午8點之夜間喘息', price:2000, unit:'1夜/組', payType:'g'},
+    {code:'GA07', name:'巷弄長照站喘息服務', desc:'至巷弄長照站接受臨托', price:170, unit:'1小時/單位', payType:'g'}
   ]
 };
 
@@ -3348,10 +3701,29 @@ function renderPlannerList(listId, services){
   services.forEach(svc=>{
     const qty = planQty[svc.code] || 0;
     const subtotal = svc.price * qty;
+    const isFree = svc.payType === 'free';
+
+    // 計算三類自付額(單位價格)
+    let tiersHtml = '';
+    if(qty > 0){
+      const tiers = calcSelfPay(subtotal, svc.payType || 'bc');
+      if(tiers){
+        if(isFree){
+          tiersHtml = `<div class="plan-tiers free-tier"><span class="pt-label">免部分負擔</span><span class="pt-note">不扣個人額度</span></div>`;
+        } else {
+          tiersHtml = `<div class="plan-tiers">
+            <span class="pt-item"><span class="pt-class">第一類</span><span class="pt-pay">$${tiers[0].toLocaleString()}</span></span>
+            <span class="pt-item"><span class="pt-class">第二類</span><span class="pt-pay">$${tiers[1].toLocaleString()}</span></span>
+            <span class="pt-item"><span class="pt-class">第三類</span><span class="pt-pay">$${tiers[2].toLocaleString()}</span></span>
+          </div>`;
+        }
+      }
+    }
+
     container.innerHTML += `
-      <div class="plan-item ${qty>0?'active':''}" data-code="${svc.code}">
+      <div class="plan-item ${qty>0?'active':''} ${isFree?'free-item':''}" data-code="${svc.code}">
         <div class="pi-code">${svc.code}</div>
-        <div class="pi-name">${svc.name}<span class="pi-desc">${svc.desc}</span></div>
+        <div class="pi-name">${svc.name}<span class="pi-desc">${svc.desc}</span>${tiersHtml}</div>
         <div class="pi-price">$${svc.price.toLocaleString()}<span class="pi-unit">${svc.unit}</span></div>
         <div class="qty-stepper">
           <button class="qty-minus" onclick="changeQty('${svc.code}',-1)" aria-label="減少數量">−</button>
@@ -3385,9 +3757,10 @@ function resetPlan(){
 }
 
 function refreshPlanner(){
-  // 重新渲染三個服務列表
+  // 重新渲染四個服務列表
   renderPlannerList('plan-ba-list', plannerServices.ba);
   renderPlannerList('plan-c-list', plannerServices.c);
+  renderPlannerList('plan-aa-list', plannerServices.aa);
   renderPlannerList('plan-g-list', plannerServices.g);
 
   // 取得設定
@@ -3397,10 +3770,12 @@ function refreshPlanner(){
   const budgetG = planBudgetG[level];
   const rate = planCopayRate[id];
 
-  // 計算 B+C 總額
+  // 計算 B+C 總額(排除 AA 碼,因 AA 不扣個人額度)
   let totalBC = 0;
   [...plannerServices.ba, ...plannerServices.c].forEach(svc=>{
-    totalBC += (planQty[svc.code] || 0) * svc.price;
+    if(svc.payType !== 'free'){
+      totalBC += (planQty[svc.code] || 0) * svc.price;
+    }
   });
 
   // 計算 G 總額
