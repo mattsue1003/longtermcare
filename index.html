@@ -3,12 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<meta name="theme-color" content="#fbf7ef">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>長照・身障輔具補助查詢系統 | 個管・復能・家屬實務工具</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
+  color-scheme: light only;
   --paper:#fbf7ef;
   --paper-2:#f4ecd9;
   --ink:#1f1d1a;
@@ -26,11 +31,17 @@
   --shadow: 0 1px 0 rgba(31,29,26,0.04), 0 8px 24px -8px rgba(31,29,26,0.12);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{
+  scroll-behavior:smooth;
+  background-color:#fbf7ef;
+  color:#1f1d1a;
+  color-scheme:light only;
+  -webkit-text-size-adjust:100%;
+}
 body{
   font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
-  background:var(--paper);
-  color:var(--ink);
+  background-color:#fbf7ef;
+  color:#1f1d1a;
   line-height:1.7;
   font-size:15px;
   -webkit-font-smoothing:antialiased;
@@ -38,6 +49,20 @@ body{
     radial-gradient(circle at 20% 10%, rgba(160,126,58,0.04) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(43,74,63,0.04) 0%, transparent 50%);
   min-height:100vh;
+}
+/* 強制覆寫系統深色模式 - 確保所有環境(iOS Safari、LINE、Messenger 內嵌瀏覽器等)維持亮色主題 */
+@media (prefers-color-scheme: dark){
+  :root{color-scheme: light only !important}
+  html, body, main, .section, .section-head{
+    background-color:#fbf7ef !important;
+    color:#1f1d1a !important;
+  }
+  .section-title, h1, h2, h3, h4, h5{color:#1f1d1a !important}
+  p, .section-desc, .card{color:#1f1d1a !important}
+  .card, .alert, .qa-item, .problem-card, .combo-item, .plan-item, .dev-item{
+    background-color:#ffffff !important;
+  }
+  .alert{background-color:#fff !important}
 }
 
 /* Header */
@@ -142,8 +167,10 @@ nav.tabs{
 main{
   max-width:1280px;margin:0 auto;
   padding:40px 32px 80px;
+  background-color:transparent;
+  color:#1f1d1a;
 }
-.section{display:none}
+.section{display:none;background-color:transparent;color:#1f1d1a}
 .section.active{display:block;animation:fadeIn .4s ease-out}
 @keyframes fadeIn{
   from{opacity:0;transform:translateY(8px)}
@@ -156,24 +183,25 @@ main{
   flex-wrap:wrap;
   border-bottom:1px solid var(--line);
   padding-bottom:18px;
+  background-color:transparent;
 }
 .section-num{
   font-family:"DM Mono",monospace;
   font-size:13px;
-  color:var(--gold);
+  color:#a07e3a;
   letter-spacing:2px;
 }
 .section-title{
   font-family:"Noto Serif TC",serif;
   font-size:30px;
   font-weight:700;
-  color:var(--ink);
+  color:#1f1d1a;
   letter-spacing:-0.5px;
 }
 .section-desc{
   width:100%;
   font-size:14px;
-  color:var(--ink-mute);
+  color:#7a746a;
   margin-top:6px;
 }
 
@@ -882,15 +910,186 @@ footer{
   display:inline-block;
   background:var(--paper-2);
   color:var(--jade-deep);
-  padding:3px 8px;
+  padding:5px 11px;
   border-radius:3px;
   font-family:"DM Mono",monospace;
-  font-size:11px;
+  font-size:11.5px;
   font-weight:600;
+  cursor:pointer;
+  transition:all .15s;
+  border:1px solid transparent;
+  -webkit-tap-highlight-color:transparent;
+}
+.problem-card .p-svc:hover{
+  border-color:currentColor;
+  transform:translateY(-1px);
+  box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+.problem-card .p-svc:active{
+  transform:translateY(0);
 }
 .problem-card .p-svc.c-code{background:rgba(160,126,58,0.15);color:var(--gold)}
 .problem-card .p-svc.g-code{background:rgba(199,90,78,0.12);color:var(--vermillion)}
 .problem-card .p-svc.e-code{background:rgba(43,74,63,0.12);color:var(--jade-deep)}
+.problem-card .p-svc.a-code{background:rgba(74,124,89,0.15);color:var(--jade)}
+
+/* ===== Service Info Modal ===== */
+.svc-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:200;
+  align-items:center;
+  justify-content:center;
+}
+.svc-modal.active{display:flex}
+.svc-modal-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(28,38,30,0.55);
+  backdrop-filter:blur(2px);
+  -webkit-backdrop-filter:blur(2px);
+  animation:fadeIn .15s ease-out;
+}
+.svc-modal-body{
+  position:relative;
+  background:#fbf7ef;
+  border-radius:10px;
+  max-width:520px;
+  width:calc(100% - 32px);
+  max-height:85vh;
+  overflow-y:auto;
+  box-shadow:0 12px 40px rgba(0,0,0,0.25);
+  animation:slideUp .2s ease-out;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.svc-modal-close{
+  position:absolute;
+  top:10px;right:12px;
+  background:rgba(0,0,0,0.06);
+  border:none;
+  width:32px;height:32px;
+  border-radius:50%;
+  font-size:22px;
+  color:var(--ink-mute);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  line-height:1;
+  transition:all .15s;
+}
+.svc-modal-close:hover{background:rgba(0,0,0,0.12);color:var(--ink)}
+.svc-modal-content{padding:24px 26px}
+.svc-modal-head{
+  border-bottom:2px solid var(--line);
+  padding-bottom:14px;
+  margin-bottom:14px;
+}
+.svc-code-big{
+  display:inline-block;
+  background:var(--jade-deep);
+  color:#fbf7ef;
+  padding:4px 11px;
+  border-radius:4px;
+  font-family:"DM Mono",monospace;
+  font-weight:700;
+  font-size:14px;
+  letter-spacing:1px;
+  margin-bottom:8px;
+}
+.svc-modal-title{
+  font-family:"Noto Serif TC",serif;
+  font-size:19px;
+  font-weight:600;
+  color:var(--ink);
+  line-height:1.4;
+}
+.svc-modal-grp{
+  font-size:12px;
+  color:var(--ink-mute);
+  margin-top:4px;
+}
+.svc-modal-desc{
+  font-size:13.5px;
+  color:var(--ink-soft);
+  line-height:1.7;
+  margin-bottom:14px;
+  padding:10px 12px;
+  background:#fff;
+  border-radius:5px;
+  border-left:3px solid var(--jade-light);
+}
+.svc-modal-meta{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.svc-meta-item{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13px;
+  padding:6px 0;
+  border-bottom:1px dashed var(--line-soft);
+}
+.svc-meta-item:last-child{border-bottom:none}
+.svc-meta-item .m-lbl{
+  min-width:80px;
+  color:var(--ink-mute);
+  font-size:12px;
+}
+.svc-meta-item .m-val{
+  color:var(--ink);
+  flex:1;
+  line-height:1.5;
+}
+.svc-tier-box{
+  background:linear-gradient(135deg, var(--jade-deep) 0%, var(--jade) 100%);
+  color:#fbf7ef;
+  padding:14px 16px;
+  border-radius:6px;
+}
+.svc-tier-box.free{
+  background:linear-gradient(135deg, var(--jade) 0%, var(--jade-light) 100%);
+  text-align:center;
+}
+.svc-tier-label{
+  font-size:12px;
+  letter-spacing:0.5px;
+  margin-bottom:10px;
+  opacity:0.92;
+  font-weight:500;
+}
+.svc-tier-label strong{
+  font-size:14px;
+  color:var(--gold-light);
+}
+.svc-tier-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.svc-tier-cell{
+  background:rgba(255,255,255,0.10);
+  padding:8px 6px;
+  border-radius:4px;
+  text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+}
+.svc-tier-cell .t-class{
+  font-size:11px;
+  opacity:0.85;
+}
+.svc-tier-cell .t-pay{
+  font-family:"DM Mono",monospace;
+  font-weight:700;
+  font-size:17px;
+  color:var(--gold-light);
+}
+.svc-tier-cell .t-rate{
+  font-family:"DM Mono",monospace;
+  font-size:10px;
+  opacity:0.7;
+}
+@media(max-width:480px){
+  .svc-modal-content{padding:20px 18px}
+  .svc-modal-title{font-size:17px}
+  .svc-tier-cell .t-pay{font-size:15px}
+}
 
 /* ===== Q&A ===== */
 .qa-item{
@@ -1570,7 +1769,81 @@ footer{
   grid-template-columns:repeat(4,1fr);
   gap:18px;
 }
-@media(max-width:700px){.planner-summary-grid{grid-template-columns:repeat(2,1fr)}}
+/* 手機版收合按鈕 - 預設隱藏(僅手機顯示) */
+.ps-toggle{display:none}
+.ps-mobile-summary{display:none}
+
+@media(max-width:700px){
+  .planner-summary-grid{grid-template-columns:repeat(2,1fr)}
+
+  /* 手機版改為可收合浮動面板 */
+  .planner-summary{
+    position:fixed;
+    left:0;right:0;bottom:0;
+    margin:0;
+    border-radius:14px 14px 0 0;
+    padding:0;
+    max-height:75vh;
+    overflow:hidden;
+    transition:transform .25s ease;
+    transform:translateY(calc(100% - 64px));  /* 收合時只露頭部 64px */
+  }
+  .planner-summary.expanded{
+    transform:translateY(0);
+  }
+  /* 顯示收合切換按鈕 */
+  .ps-toggle{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:100%;
+    padding:12px 18px;
+    background:linear-gradient(135deg, var(--jade-deep) 0%, var(--jade) 100%);
+    border:none;
+    color:#fbf7ef;
+    font-family:inherit;
+    font-size:14px;
+    cursor:pointer;
+    border-bottom:1px solid rgba(255,255,255,0.15);
+    -webkit-tap-highlight-color:transparent;
+  }
+  .ps-toggle .toggle-info{
+    display:flex;align-items:center;gap:10px;
+    font-family:"Noto Serif TC",serif;letter-spacing:1px;
+  }
+  .ps-toggle .toggle-self{
+    font-family:"DM Mono",monospace;
+    font-weight:700;
+    color:var(--gold-light);
+    font-size:15px;
+  }
+  .ps-toggle .toggle-arrow{
+    transition:transform .2s;
+    font-size:14px;
+    opacity:0.7;
+  }
+  .planner-summary.expanded .ps-toggle .toggle-arrow{
+    transform:rotate(180deg);
+  }
+  /* 收合時隱藏標題和清空鈕(因為按鈕已在收合條中) */
+  .planner-summary > h4{display:none}
+  .planner-summary > .plan-reset{display:none}
+  /* 展開後的內容區域 */
+  .planner-summary-grid{
+    padding:18px 22px 24px;
+    max-height:calc(75vh - 64px);
+    overflow-y:auto;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+  }
+  .ps-stat .ps-val{font-size:18px}
+  /* 為內容區的底部留出空間,避免被收合面板遮擋 */
+  .planner-section + .planner-summary{margin-bottom:0}
+}
+@media(max-width:700px){
+  /* 整個 planner 區段底部留空避免被遮擋 */
+  #planner .alert-gold{margin-bottom:80px}
+}
 .ps-stat{}
 .ps-stat .ps-lbl{
   font-size:11px;
@@ -1633,13 +1906,13 @@ footer{
   <div class="tabs-inner">
     <button class="tab-btn active" data-tab="home"><span class="num">00</span>首頁總覽</button>
     <button class="tab-btn" data-tab="ltc3"><span class="num">01</span>長照 3.0 新制</button>
-    <button class="tab-btn" data-tab="levels"><span class="num">02</span>等級給付額度</button>
-    <button class="tab-btn" data-tab="calc"><span class="num">03</span>部分負擔試算</button>
-    <button class="tab-btn" data-tab="combos"><span class="num">04</span>照顧組合速查</button>
-    <button class="tab-btn" data-tab="planner"><span class="num">05</span>照顧計畫組合工具</button>
-    <button class="tab-btn" data-tab="ltc-aids"><span class="num">06</span>長照輔具 E、F 碼</button>
-    <button class="tab-btn" data-tab="dis-aids"><span class="num">07</span>身障輔具補助</button>
-    <button class="tab-btn" data-tab="compare"><span class="num">08</span>長照 v.s 身障</button>
+    <button class="tab-btn" data-tab="ltc-aids"><span class="num">02</span>長照輔具 E、F 碼</button>
+    <button class="tab-btn" data-tab="dis-aids"><span class="num">03</span>身障輔具補助</button>
+    <button class="tab-btn" data-tab="compare"><span class="num">04</span>長照 v.s 身障</button>
+    <button class="tab-btn" data-tab="combos"><span class="num">05</span>照顧組合速查</button>
+    <button class="tab-btn" data-tab="planner"><span class="num">06</span>照顧計畫組合工具</button>
+    <button class="tab-btn" data-tab="levels"><span class="num">07</span>等級給付額度</button>
+    <button class="tab-btn" data-tab="calc"><span class="num">08</span>部分負擔試算</button>
     <button class="tab-btn" data-tab="problems"><span class="num">09</span>照顧問題對應</button>
     <button class="tab-btn" data-tab="qa"><span class="num">10</span>實務 Q&A</button>
     <button class="tab-btn" data-tab="rules"><span class="num">11</span>規定速查</button>
@@ -1958,7 +2231,7 @@ footer{
 <!-- ==================== 長照等級給付額度 ==================== -->
 <section id="levels" class="section">
   <div class="section-head">
-    <div class="section-num">02 / PAYMENT LEVELS</div>
+    <div class="section-num">07 / PAYMENT LEVELS</div>
     <h2 class="section-title">長照 1-8 級給付額度總表</h2>
     <p class="section-desc">依《長期照顧服務申請及給付辦法》附表二。第 1 級為身體或心智未失能者,不適用本辦法。等級越高,失能程度越重,額度越高。</p>
   </div>
@@ -2054,7 +2327,7 @@ footer{
 <!-- ==================== 部分負擔試算 ==================== -->
 <section id="calc" class="section">
   <div class="section-head">
-    <div class="section-num">03 / CO-PAYMENT</div>
+    <div class="section-num">08 / CO-PAYMENT</div>
     <h2 class="section-title">部分負擔試算機</h2>
     <p class="section-desc">輸入個案的身分別、服務類別與使用金額,即時算出政府給付與個案自付金額。依《給付辦法》附表五規定計算。</p>
   </div>
@@ -2143,7 +2416,7 @@ footer{
 <!-- ==================== 照顧組合速查 ==================== -->
 <section id="combos" class="section">
   <div class="section-head">
-    <div class="section-num">04 / CARE COMBOS</div>
+    <div class="section-num">05 / CARE COMBOS</div>
     <h2 class="section-title">照顧組合速查(B、C、D、G、AA 碼)</h2>
     <p class="section-desc">依《長期照顧(照顧服務、專業服務、交通接送服務、輔具服務及居家無障礙環境改善服務)給付及支付基準》附表四。價格以一般地區為準,原民區或離島約加成 20%。</p>
   </div>
@@ -2184,7 +2457,7 @@ footer{
 <!-- ==================== 照顧計畫組合工具 ==================== -->
 <section id="planner" class="section">
   <div class="section-head">
-    <div class="section-num">05 / CARE PLAN BUILDER</div>
+    <div class="section-num">06 / CARE PLAN BUILDER</div>
     <h2 class="section-title">照顧計畫組合工具(個管師排計畫)</h2>
     <p class="section-desc">輸入個案 CMS 等級與身分別,勾選每月使用的服務組合,系統即時計算總額、政府給付、個案自付與剩餘額度。協助個管師快速試算服務方案是否符合額度。</p>
   </div>
@@ -2239,6 +2512,12 @@ footer{
   </div>
 
   <div class="planner-summary" id="planner-summary">
+    <button class="ps-toggle" onclick="togglePlanSummary()" aria-label="展開或收合試算結果">
+      <span class="toggle-info">
+        即時試算 · 個案自付 <span class="toggle-self" id="ps-toggle-self">$0</span>
+      </span>
+      <span class="toggle-arrow">▲</span>
+    </button>
     <button class="plan-reset" onclick="resetPlan()">↻ 清空所有數量</button>
     <h4>即 時 試 算 結 果</h4>
     <div class="planner-summary-grid">
@@ -2290,7 +2569,7 @@ footer{
 <!-- ==================== 長照輔具 E、F 碼 ==================== -->
 <section id="ltc-aids" class="section">
   <div class="section-head">
-    <div class="section-num">06 / LTC ASSISTIVE DEVICES</div>
+    <div class="section-num">02 / LTC ASSISTIVE DEVICES</div>
     <h2 class="section-title">長照輔具及居家無障礙環境改善服務</h2>
     <p class="section-desc">E 碼為輔具項目、F 碼為居家無障礙設施。每 3 年共 4 萬元給付額度,搭配身分別自付 0% / 10% / 30%。</p>
   </div>
@@ -2320,7 +2599,7 @@ footer{
 <!-- ==================== 身障輔具補助 ==================== -->
 <section id="dis-aids" class="section">
   <div class="section-head">
-    <div class="section-num">07 / DISABILITY ASSISTIVE DEVICES</div>
+    <div class="section-num">03 / DISABILITY ASSISTIVE DEVICES</div>
     <h2 class="section-title">身心障礙者輔具費用補助</h2>
     <p class="section-desc">依《身心障礙者輔具費用補助辦法》附表分十大類,共 242 項已全部具體列出。標示「※」者第一類、第二類、第三類均可接受最高補助金額之全額補助。</p>
   </div>
@@ -2360,7 +2639,7 @@ footer{
 <!-- ==================== 長照 v.s 身障 比較 ==================== -->
 <section id="compare" class="section">
   <div class="section-head">
-    <div class="section-num">08 / COMPARISON</div>
+    <div class="section-num">04 / COMPARISON</div>
     <h2 class="section-title">長照 v.s 身障輔具補助 — 對照與選擇</h2>
     <p class="section-desc">當個案同時具備長照給付資格與身心障礙身分時,部分輔具項目兩管道皆可申請,但<strong>不得重複申請</strong>。本表協助比較兩管道差異,選擇對個案最有利的路徑。</p>
   </div>
@@ -2472,6 +2751,11 @@ footer{
   <div class="alert alert-info">
     <strong>使用方式</strong><br>
     照管中心評估後,將個案的照顧問題清單轉給社區整合型服務中心(A 單位)。A 單位個管員依問題清單擬訂照顧計畫,連結適合的長照特約單位提供服務。本表為實務對應建議,實際服務以照顧計畫核定為準。
+  </div>
+
+  <div class="alert alert-gold" style="display:flex;align-items:center;gap:10px;font-size:13.5px">
+    <span style="font-size:18px">👆</span>
+    <span><strong>點擊任一代碼</strong>(例如 BA04、CB02、EI01),即可查看該服務的完整內容、給付價格及第一/二/三類自付額。</span>
   </div>
 
   <div class="problem-grid" id="problem-grid">
@@ -3429,39 +3713,39 @@ renderCombos();
 /* ===== Problem Mapping (附表一 34 項) ===== */
 const problemList = [
   {no:1,  name:'進食問題',          svcs:[{c:'BA04',t:'居家'},{c:'CB02',t:'吞嚥照護'}]},
-  {no:2,  name:'洗澡問題',          svcs:[{c:'BA01',t:'居家'},{c:'BA07',t:'居家'},{c:'BA09',t:'居家'},{c:'EA01',t:'輔具'}]},
-  {no:3,  name:'個人修飾問題',      svcs:[{c:'BA02',t:'居家'}]},
+  {no:2,  name:'洗澡問題',          svcs:[{c:'BA01',t:'居家'},{c:'BA07',t:'居家'},{c:'BA09',t:'居家'},{c:'BA09a',t:'居家'},{c:'EA01',t:'輔具'},{c:'FA17',t:'居家'},{c:'FA43',t:'居家'},{c:'FA44',t:'居家'}]},
+  {no:3,  name:'個人修飾問題',      svcs:[{c:'BA02',t:'居家'},{c:'BA23',t:'居家'}]},
   {no:4,  name:'穿脫衣物問題',      svcs:[{c:'BA02',t:'居家'},{c:'EF01',t:'輔具'}]},
-  {no:5,  name:'大小便控制問題',    svcs:[{c:'BA24',t:'居家'},{c:'BA02',t:'居家'}]},
-  {no:6,  name:'上廁所問題',        svcs:[{c:'BA02',t:'居家'},{c:'BA24',t:'居家'},{c:'EA01',t:'輔具'}]},
-  {no:7,  name:'移位問題',          svcs:[{c:'BA02',t:'居家'},{c:'CA07',t:'復能'},{c:'ED01',t:'輔具'},{c:'ED07',t:'輔具'}]},
-  {no:8,  name:'走路問題',          svcs:[{c:'CA07',t:'復能'},{c:'EB01',t:'輔具'},{c:'EB03',t:'輔具'},{c:'EB04',t:'輔具'}]},
-  {no:9,  name:'上下樓梯問題',      svcs:[{c:'BA12',t:'居家'},{c:'EH04',t:'輔具'},{c:'EH05',t:'輔具'},{c:'FA06',t:'居家'}]},
+  {no:5,  name:'大小便控制問題',    svcs:[{c:'BA24',t:'居家'},{c:'BA02',t:'居家'},{c:'CD02',t:'護理'}]},
+  {no:6,  name:'上廁所問題',        svcs:[{c:'BA02',t:'居家'},{c:'BA24',t:'居家'},{c:'EA01',t:'輔具'},{c:'FA41',t:'居家'},{c:'FA42',t:'居家'}]},
+  {no:7,  name:'移位問題',          svcs:[{c:'BA02',t:'居家'},{c:'CA07',t:'復能'},{c:'ED01',t:'輔具'},{c:'ED02',t:'輔具'},{c:'ED03',t:'輔具'},{c:'ED07',t:'輔具'},{c:'EI01',t:'智慧'}]},
+  {no:8,  name:'走路問題',          svcs:[{c:'CA07',t:'復能'},{c:'EB01',t:'輔具'},{c:'EB02',t:'輔具'},{c:'EB03',t:'輔具'},{c:'EB04',t:'輔具'},{c:'EI02',t:'智慧'}]},
+  {no:9,  name:'上下樓梯問題',      svcs:[{c:'BA12',t:'居家'},{c:'EH04',t:'輔具'},{c:'EH05',t:'輔具'},{c:'FA30',t:'居家'},{c:'FA31',t:'居家'},{c:'FA32',t:'居家'},{c:'FA33',t:'居家'}]},
   {no:10, name:'使用電話問題',      svcs:[{c:'EE01',t:'輔具'},{c:'EE02',t:'輔具'},{c:'CA07',t:'復能'}]},
   {no:11, name:'購物或外出問題',    svcs:[{c:'BA13',t:'居家'},{c:'BA16',t:'居家'},{c:'CA07',t:'復能'}]},
   {no:12, name:'備餐問題',          svcs:[{c:'BA05',t:'居家'},{c:'BA15',t:'居家'},{c:'CA07',t:'復能'}]},
   {no:13, name:'處理家務問題',      svcs:[{c:'BA15',t:'居家'},{c:'CA07',t:'復能'}]},
-  {no:14, name:'用藥問題',          svcs:[{c:'BA02',t:'居家'},{c:'BA17e',t:'居家'}]},
+  {no:14, name:'用藥問題',          svcs:[{c:'BA02',t:'居家'},{c:'BA17e',t:'居家'},{c:'EF02',t:'輔具'}]},
   {no:15, name:'處理財務問題',      svcs:[{c:'CA07',t:'復能'},{c:'BA20',t:'居家'}]},
-  {no:16, name:'溝通問題',          svcs:[{c:'CA07',t:'復能'}]},
-  {no:17, name:'短期記憶障礙',      svcs:[{c:'CA08',t:'復能'},{c:'CA08',t:'復能'},{c:'CB03',t:'專業'}]},
-  {no:18, name:'疼痛問題',          svcs:[{c:'CD01',t:'護理'},{c:'CA07',t:'復能'}]},
+  {no:16, name:'溝通問題',          svcs:[{c:'CA07',t:'復能'},{c:'BA20',t:'居家'}]},
+  {no:17, name:'短期記憶障礙',      svcs:[{c:'CA08',t:'復能'},{c:'CB03',t:'專業'},{c:'BA18',t:'居家'}]},
+  {no:18, name:'疼痛問題',          svcs:[{c:'CD02',t:'護理'},{c:'CA07',t:'復能'}]},
   {no:19, name:'不動症候群風險',    svcs:[{c:'BA10',t:'居家'},{c:'BA11',t:'居家'},{c:'CB04',t:'專業'},{c:'CA07',t:'復能'}]},
-  {no:20, name:'皮膚照護問題',      svcs:[{c:'CD01',t:'護理'},{c:'EG01',t:'輔具'},{c:'EG02',t:'輔具'}]},
-  {no:21, name:'傷口問題',          svcs:[{c:'CD01',t:'護理'},{c:'EG01',t:'輔具'}]},
-  {no:22, name:'水份及營養問題',    svcs:[{c:'CB01',t:'專業'},{c:'BA04',t:'居家'},{c:'BA05',t:'居家'}]},
+  {no:20, name:'皮膚照護問題',      svcs:[{c:'CD02',t:'護理'},{c:'EG01',t:'輔具'},{c:'EG02',t:'輔具'},{c:'EI04',t:'智慧'}]},
+  {no:21, name:'傷口問題',          svcs:[{c:'CD02',t:'護理'},{c:'EG01',t:'輔具'},{c:'EG02',t:'輔具'}]},
+  {no:22, name:'水份及營養問題',    svcs:[{c:'CB01a',t:'專業'},{c:'BA04',t:'居家'},{c:'BA05',t:'居家'}]},
   {no:23, name:'吞嚥問題',          svcs:[{c:'CB02',t:'專業'},{c:'BA04',t:'居家'}]},
-  {no:24, name:'管路照顧問題',      svcs:[{c:'BA17a',t:'居家'},{c:'BA17b',t:'居家'},{c:'BA17c',t:'居家'},{c:'CD01',t:'護理'}]},
-  {no:25, name:'其他醫療照護問題',  svcs:[{c:'CD01',t:'護理'},{c:'BA17',t:'居家'}]},
-  {no:26, name:'跌倒風險',          svcs:[{c:'CA07',t:'復能'},{c:'CC01',t:'規劃'},{c:'FA01',t:'居家'},{c:'FA10',t:'居家'},{c:'EB01',t:'輔具'}]},
-  {no:27, name:'安全疑慮',          svcs:[{c:'BA18',t:'居家'},{c:'BA22',t:'居家'},{c:'CC01',t:'規劃'}]},
-  {no:28, name:'居住環境障礙',      svcs:[{c:'FA01',t:'居家'},{c:'FA10',t:'居家'},{c:'FA16',t:'居家'},{c:'CC01',t:'規劃'}]},
-  {no:29, name:'社會參與需協助',    svcs:[{c:'BA13',t:'居家'},{c:'BA20',t:'居家'},{c:'BB',t:'日照'}]},
-  {no:30, name:'困擾行為',          svcs:[{c:'CB03',t:'專業'},{c:'CA08',t:'復能'},{c:'AA11',t:'加計'}]},
-  {no:31, name:'照顧負荷過重',      svcs:[{c:'GA09',t:'喘息'},{c:'GA03',t:'喘息'},{c:'GA05',t:'喘息'},{c:'AA07',t:'加計'}]},
-  {no:32, name:'輔具使用問題',      svcs:[{c:'CC01',t:'規劃'},{c:'CA07',t:'復能'},{c:'CA07',t:'復能'}]},
-  {no:33, name:'感染問題',          svcs:[{c:'CD01',t:'護理'}]},
-  {no:34, name:'其他問題',          svcs:[{c:'AA02',t:'個管'}]}
+  {no:24, name:'管路照顧問題',      svcs:[{c:'BA17a',t:'居家'},{c:'BA17b',t:'居家'},{c:'BA17c',t:'居家'},{c:'CD02',t:'護理'}]},
+  {no:25, name:'其他醫療照護問題',  svcs:[{c:'CD02',t:'護理'},{c:'BA17d1',t:'居家'},{c:'BA17d2',t:'居家'}]},
+  {no:26, name:'跌倒風險',          svcs:[{c:'CA07',t:'復能'},{c:'CC01',t:'規劃'},{c:'FA22',t:'居家'},{c:'FA23',t:'居家'},{c:'FA35',t:'居家'},{c:'EB01',t:'輔具'},{c:'EI04',t:'智慧'}]},
+  {no:27, name:'安全疑慮',          svcs:[{c:'BA18',t:'居家'},{c:'BA22',t:'居家'},{c:'CC01',t:'規劃'},{c:'EI05',t:'智慧'}]},
+  {no:28, name:'居住環境障礙',      svcs:[{c:'FA22',t:'居家'},{c:'FA35',t:'居家'},{c:'FA37',t:'居家'},{c:'FA38',t:'居家'},{c:'FA41',t:'居家'},{c:'CC01',t:'規劃'}]},
+  {no:29, name:'社會參與需協助',    svcs:[{c:'BA13',t:'居家'},{c:'BA20',t:'居家'},{c:'BB01',t:'日照'},{c:'BC01',t:'家托'},{c:'BD03',t:'交通'}]},
+  {no:30, name:'困擾行為',          svcs:[{c:'CB03',t:'專業'},{c:'CA08',t:'復能'},{c:'AA11',t:'加計'},{c:'BA18',t:'居家'}]},
+  {no:31, name:'照顧負荷過重',      svcs:[{c:'GA09',t:'喘息'},{c:'GA03',t:'喘息'},{c:'GA05',t:'喘息'},{c:'GA06',t:'喘息'},{c:'AA07',t:'加計'}]},
+  {no:32, name:'輔具使用問題',      svcs:[{c:'CC01',t:'規劃'},{c:'CA07',t:'復能'}]},
+  {no:33, name:'感染問題',          svcs:[{c:'CD02',t:'護理'}]},
+  {no:34, name:'其他問題',          svcs:[{c:'AA01',t:'個管'},{c:'AA02',t:'個管'}]}
 ];
 
 function renderProblems(){
@@ -3475,7 +3759,8 @@ function renderProblems(){
       if(s.c.startsWith('C')) cls = 'c-code';
       else if(s.c.startsWith('G')) cls = 'g-code';
       else if(s.c.startsWith('E') || s.c.startsWith('F')) cls = 'e-code';
-      svcHtml += `<span class="p-svc ${cls}" title="${s.t}">${s.c}</span>`;
+      else if(s.c.startsWith('AA')) cls = 'a-code';
+      svcHtml += `<span class="p-svc ${cls}" onclick="showServiceInfo('${s.c}')" title="點擊查看 ${s.c} 詳細內容">${s.c}</span>`;
     });
     grid.innerHTML += `
       <div class="problem-card">
@@ -3487,6 +3772,136 @@ function renderProblems(){
   });
 }
 renderProblems();
+
+// ===== 服務代碼點擊查詢功能 =====
+function showServiceInfo(code){
+  // 從 careCombos 和 ltcAids 中查找
+  let info = null;
+  let source = '';
+
+  // 先找 careCombos
+  const combo = careCombos.find(c => c.code === code);
+  if(combo){
+    info = combo;
+    source = 'combo';
+  } else {
+    // 找 ltcAids
+    const aid = ltcAids.find(a => a.code === code);
+    if(aid){ info = aid; source = 'aid'; }
+  }
+
+  // 建立或取得 modal
+  let modal = document.getElementById('service-info-modal');
+  if(!modal){
+    modal = document.createElement('div');
+    modal.id = 'service-info-modal';
+    modal.className = 'svc-modal';
+    modal.innerHTML = `
+      <div class="svc-modal-backdrop" onclick="closeServiceInfo()"></div>
+      <div class="svc-modal-body">
+        <button class="svc-modal-close" onclick="closeServiceInfo()" aria-label="關閉">×</button>
+        <div class="svc-modal-content" id="svc-modal-content"></div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+
+  const contentEl = document.getElementById('svc-modal-content');
+  if(!info){
+    contentEl.innerHTML = `
+      <div class="svc-modal-head">
+        <div class="svc-code-big">${code}</div>
+        <div class="svc-modal-title">代碼資訊</div>
+      </div>
+      <p style="color:var(--ink-mute);margin-top:18px;text-align:center;padding:24px">查無此代碼的詳細資料</p>
+    `;
+  } else if(source === 'combo'){
+    const isFree = info.payType === 'free';
+    const tiers = info.price ? calcSelfPay(info.price, info.payType || 'bc') : null;
+    let tiersTable = '';
+    if(tiers){
+      if(isFree){
+        tiersTable = `<div class="svc-tier-box free"><div class="svc-tier-label">三類身分別均 <strong>$0 自付</strong>(免部分負擔且不扣額度)</div></div>`;
+      } else {
+        const typeLabel = {bc:'B/C 碼',d1:'D第一區',d2:'D第二區',d3:'D第三區',d4:'D第四區',ef:'E/F 碼',g:'G 喘息'}[info.payType] || info.payType;
+        tiersTable = `
+          <div class="svc-tier-box">
+            <div class="svc-tier-label">部分負擔自付額(${typeLabel} · 給付價 $${info.price.toLocaleString()})</div>
+            <div class="svc-tier-row">
+              <div class="svc-tier-cell"><span class="t-class">第一類</span><span class="t-pay">$${tiers[0].toLocaleString()}</span><span class="t-rate">0%</span></div>
+              <div class="svc-tier-cell"><span class="t-class">第二類</span><span class="t-pay">$${tiers[1].toLocaleString()}</span><span class="t-rate">${payRates[info.payType][1]}%</span></div>
+              <div class="svc-tier-cell"><span class="t-class">第三類</span><span class="t-pay">$${tiers[2].toLocaleString()}</span><span class="t-rate">${payRates[info.payType][2]}%</span></div>
+            </div>
+          </div>`;
+      }
+    }
+    contentEl.innerHTML = `
+      <div class="svc-modal-head">
+        <div class="svc-code-big">${info.code}</div>
+        <div class="svc-modal-title">${info.name}</div>
+        <div class="svc-modal-grp">${info.grpName || ''}</div>
+      </div>
+      <div class="svc-modal-desc">${info.desc || ''}</div>
+      <div class="svc-modal-meta">
+        ${info.price ? `<div class="svc-meta-item"><span class="m-lbl">給付價格</span><span class="m-val">$${info.price.toLocaleString()} <span style="font-size:11px;color:var(--ink-mute)">${info.unit||''}</span></span></div>` : ''}
+        ${info.rule ? `<div class="svc-meta-item"><span class="m-lbl">使用規則</span><span class="m-val">${info.rule}</span></div>` : ''}
+      </div>
+      ${tiersTable}
+    `;
+  } else if(source === 'aid'){
+    const isFree = info.payType === 'free';
+    const refPrice = info.purchase || (typeof info.rent === 'number' ? info.rent : null);
+    const tiers = refPrice ? calcSelfPay(refPrice, info.payType || 'ef') : null;
+    let tiersTable = '';
+    if(tiers){
+      if(isFree){
+        tiersTable = `<div class="svc-tier-box free"><div class="svc-tier-label">三類身分別均 <strong>$0 自付</strong>(免部分負擔)</div></div>`;
+      } else {
+        const refLabel = info.purchase ? '購置' : '月租';
+        tiersTable = `
+          <div class="svc-tier-box">
+            <div class="svc-tier-label">自付額(E/F 碼 · ${refLabel}上限 $${refPrice.toLocaleString()})</div>
+            <div class="svc-tier-row">
+              <div class="svc-tier-cell"><span class="t-class">第一類</span><span class="t-pay">$${tiers[0].toLocaleString()}</span><span class="t-rate">0%</span></div>
+              <div class="svc-tier-cell"><span class="t-class">第二類</span><span class="t-pay">$${tiers[1].toLocaleString()}</span><span class="t-rate">10%</span></div>
+              <div class="svc-tier-cell"><span class="t-class">第三類</span><span class="t-pay">$${tiers[2].toLocaleString()}</span><span class="t-rate">30%</span></div>
+            </div>
+          </div>`;
+      }
+    }
+    let payHTML = '';
+    if(info.purchase) payHTML += `<div class="svc-meta-item"><span class="m-lbl">購置上限</span><span class="m-val">$${info.purchase.toLocaleString()}</span></div>`;
+    if(info.rent){
+      const rentStr = typeof info.rent === 'string' ? info.rent : '$' + info.rent.toLocaleString() + '/月';
+      payHTML += `<div class="svc-meta-item"><span class="m-lbl">月租</span><span class="m-val">${rentStr}</span></div>`;
+    }
+    contentEl.innerHTML = `
+      <div class="svc-modal-head">
+        <div class="svc-code-big">${info.code}</div>
+        <div class="svc-modal-title">${info.name}</div>
+        <div class="svc-modal-grp">長照輔具及無障礙環境改善服務</div>
+      </div>
+      <div class="svc-modal-desc">${info.note || ''}</div>
+      <div class="svc-modal-meta">
+        ${payHTML}
+        <div class="svc-meta-item"><span class="m-lbl">給付方式</span><span class="m-val">${info.type}</span></div>
+        ${info.years ? `<div class="svc-meta-item"><span class="m-lbl">最低使用年限</span><span class="m-val">${info.years} 年</span></div>` : ''}
+      </div>
+      ${tiersTable}
+    `;
+  }
+  modal.classList.add('active');
+}
+
+function closeServiceInfo(){
+  const modal = document.getElementById('service-info-modal');
+  if(modal) modal.classList.remove('active');
+}
+
+// 鍵盤 ESC 關閉
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape') closeServiceInfo();
+});
 
 /* ===== Q&A Data ===== */
 const qaList = [
@@ -3756,6 +4171,12 @@ function resetPlan(){
   }
 }
 
+// 手機版收合切換
+function togglePlanSummary(){
+  const summary = document.getElementById('planner-summary');
+  if(summary) summary.classList.toggle('expanded');
+}
+
 function refreshPlanner(){
   // 重新渲染四個服務列表
   renderPlannerList('plan-ba-list', plannerServices.ba);
@@ -3843,6 +4264,11 @@ function refreshPlanner(){
   document.getElementById('ps-g-total').textContent = '$' + totalG.toLocaleString();
   document.getElementById('ps-g-self').textContent = '$' + selfPayG.toLocaleString();
   document.getElementById('ps-g-remain').textContent = remainG >= 0 ? '$' + remainG.toLocaleString() : '-$' + Math.abs(remainG).toLocaleString();
+
+  // 同步更新手機收合條上的個案自付總額(B/C + G)
+  const totalSelfPay = selfPayBC + selfPayG;
+  const toggleSelf = document.getElementById('ps-toggle-self');
+  if(toggleSelf) toggleSelf.textContent = '$' + totalSelfPay.toLocaleString();
 
   // 超額警示
   const warnBox = document.getElementById('ps-warning-box');
