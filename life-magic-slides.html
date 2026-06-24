@@ -1,0 +1,2532 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生活魔法師 — 以人為本的輔具及智慧科技輔具的認識</title>
+<style>
+  :root{
+    --ink:#2a241d;--paper:#f6efe2;--paper2:#efe5d2;
+    --amber:#e08a2c;--amber-deep:#c06d15;
+    --teal:#3f7d77;--teal-deep:#2c5b56;
+    --red:#b8472f;--line:#d8c9ad;--shadow:rgba(58,46,30,.18);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+    background:var(--ink);color:var(--ink);line-height:1.7;overflow-x:hidden;}
+  .deck{width:100%;}
+  .slide{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;
+    padding:clamp(56px,11vw,80px) clamp(22px,6vw,80px) clamp(82px,16vw,96px);position:relative;
+    background:radial-gradient(circle at 12% 10%,rgba(255,255,255,.5),transparent 45%),var(--paper);
+    border-bottom:3px solid var(--ink);scroll-margin-top:0;}
+  .slide::before{content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:radial-gradient(rgba(120,95,55,.05) 1px,transparent 1px);background-size:4px 4px;opacity:.6;}
+  .slide > *{position:relative;z-index:2;}
+  .pageno{position:absolute;top:clamp(14px,3vw,22px);right:clamp(16px,4vw,40px);
+    font-weight:800;font-size:.68rem;letter-spacing:.12em;color:var(--amber-deep);
+    border:2px solid var(--amber-deep);padding:3px 10px;border-radius:30px;transform:rotate(3deg);
+    background:rgba(255,255,255,.7);z-index:4;}
+  .eyebrow{display:inline-block;font-weight:800;font-size:.8rem;letter-spacing:.22em;
+    color:#fff;background:var(--teal-deep);padding:6px 16px;transform:rotate(-1.5deg);
+    box-shadow:3px 3px 0 var(--ink);margin-bottom:20px;align-self:flex-start;}
+  h1{font-size:clamp(2.1rem,8vw,4.4rem);font-weight:900;line-height:1.18;}
+  h2{font-size:clamp(1.55rem,5.6vw,2.8rem);font-weight:900;line-height:1.25;margin-bottom:.55em;}
+  h3{font-size:clamp(1.12rem,4.2vw,1.5rem);font-weight:800;}
+  p{font-size:clamp(1rem,3.6vw,1.18rem);}
+  .lead{font-size:clamp(1.05rem,3.9vw,1.32rem);max-width:44ch;}
+  .accent{color:var(--amber-deep);}.accent-t{color:var(--teal-deep);}.accent-r{color:var(--red);}
+
+  /* ===== 封面 重做 v4:明亮、有設計感 ===== */
+  .cover{align-items:stretch;justify-content:flex-start;text-align:left;overflow:hidden;padding:0;
+    background:var(--paper);border-bottom:3px solid var(--ink);}
+  .cover::before{opacity:.5;}
+  .cover-top{background:var(--teal-deep);color:#fff;padding:clamp(22px,6vw,34px) clamp(26px,7vw,52px) clamp(18px,5vw,26px);
+    border-bottom:4px solid var(--ink);position:relative;z-index:3;}
+  .cover-top .kicker{font-weight:800;letter-spacing:.22em;font-size:clamp(.74rem,3vw,.9rem);color:#ffe6c2;}
+  .cover-top .wand{font-size:clamp(2rem,9vw,3rem);position:absolute;right:clamp(20px,6vw,46px);top:50%;transform:translateY(-50%) rotate(-12deg);}
+  .cover-mid{flex:1;display:flex;flex-direction:column;justify-content:center;
+    padding:clamp(40px,11vw,72px) clamp(26px,7vw,52px);position:relative;z-index:3;}
+  .cover-mid .badge{display:inline-block;align-self:flex-start;background:var(--amber);color:var(--ink);
+    font-weight:800;font-size:clamp(.8rem,3.2vw,1rem);padding:7px 18px;border:3px solid var(--ink);
+    box-shadow:4px 4px 0 var(--ink);transform:rotate(-2deg);margin-bottom:24px;}
+  .cover-mid h1{font-size:clamp(3rem,15vw,6rem);font-weight:900;line-height:1.02;color:var(--ink);
+    letter-spacing:.02em;margin-bottom:6px;text-shadow:4px 4px 0 var(--amber);}
+  .cover-mid .underline{width:clamp(120px,40vw,230px);height:9px;background:var(--red);margin:14px 0 22px;
+    border:2px solid var(--ink);transform:skewX(-12deg);}
+  .cover-mid .sub{font-size:clamp(1.2rem,5vw,1.8rem);font-weight:800;color:var(--teal-deep);line-height:1.5;}
+  .cover-mid .sub em{color:var(--red);font-style:normal;background:rgba(224,138,44,.25);padding:0 4px;}
+  .cover-bot{background:var(--ink);color:var(--paper);padding:clamp(20px,6vw,30px) clamp(26px,7vw,52px);
+    border-top:4px solid var(--amber);display:flex;align-items:center;justify-content:space-between;gap:16px;
+    flex-wrap:wrap;position:relative;z-index:3;}
+  .cover-bot .meta{font-weight:700;font-size:clamp(.92rem,3.6vw,1.12rem);letter-spacing:.02em;}
+  .cover-bot .meta b{color:var(--amber);}
+  .cover-bot .start-btn{display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:var(--ink);
+    font-weight:800;font-size:clamp(.95rem,3.6vw,1.08rem);padding:12px 26px;border-radius:40px;text-decoration:none;
+    border:3px solid var(--amber);box-shadow:0 4px 0 var(--amber-deep);transition:transform .15s,box-shadow .15s;white-space:nowrap;}
+  .cover-bot .start-btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--amber-deep);}
+  .cover .scroll-hint{color:var(--teal-deep);}
+
+  /* ===== 目錄頁 ===== */
+  .toc{background:var(--paper2);}
+  .toc-grid{display:flex;flex-direction:column;gap:11px;margin-top:6px;max-width:600px;}
+  .toc-item{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.6);
+    border:2px solid var(--ink);border-left:8px solid var(--amber);padding:15px 18px;
+    box-shadow:4px 4px 0 var(--shadow);text-decoration:none;color:var(--ink);
+    transition:transform .15s,box-shadow .15s;}
+  .toc-item:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--shadow);}
+  .toc-item .tn{font-size:1.5rem;font-weight:900;color:var(--amber-deep);flex:none;min-width:1.6em;text-align:center;}
+  .toc-item .tt{font-weight:800;font-size:clamp(1rem,3.8vw,1.18rem);}
+  .toc-item .ta{margin-left:auto;color:var(--teal-deep);font-weight:900;flex:none;}
+
+  /* 浮動目錄按鈕 */
+  .nav-fab{position:fixed;right:13px;bottom:14px;z-index:50;display:flex;flex-direction:column;gap:9px;}
+  .nav-fab a,.nav-fab button{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:1.2rem;font-weight:900;text-decoration:none;border:2px solid var(--ink);cursor:pointer;
+    box-shadow:0 2px 0 rgba(0,0,0,.3);transition:transform .12s;font-family:inherit;}
+  .nav-fab a:active,.nav-fab button:active{transform:translateY(2px);}
+  .nav-fab .menu{background:var(--amber);color:var(--ink);}
+  .nav-fab .toc-btn{background:var(--teal);color:#fff;font-size:.72rem;font-weight:800;letter-spacing:.02em;}
+  .nav-fab .top{background:var(--ink);color:#fff;}
+
+  /* 彈出式跳頁選單 */
+  .menu-overlay{position:fixed;inset:0;background:rgba(20,16,12,.5);z-index:80;opacity:0;
+    pointer-events:none;transition:opacity .25s ease;backdrop-filter:blur(2px);}
+  .menu-overlay.open{opacity:1;pointer-events:auto;}
+  .menu-panel{position:fixed;top:0;right:0;height:100%;width:min(380px,86vw);z-index:81;
+    background:var(--paper);border-left:4px solid var(--ink);box-shadow:-12px 0 40px rgba(0,0,0,.35);
+    transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
+    display:flex;flex-direction:column;}
+  .menu-panel.open{transform:translateX(0);}
+  .menu-head{flex:none;display:flex;align-items:center;justify-content:space-between;
+    padding:18px 20px;border-bottom:3px solid var(--ink);background:var(--teal-deep);color:#fff;}
+  .menu-head b{font-size:1.15rem;font-weight:900;letter-spacing:.04em;}
+  .menu-head .x{width:34px;height:34px;border-radius:50%;border:2px solid #fff;background:transparent;
+    color:#fff;font-size:1.1rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .menu-list{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:7px;}
+  .menu-list button{display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+    background:rgba(255,255,255,.65);border:2px solid var(--line);border-radius:9px;
+    padding:11px 14px;cursor:pointer;font-family:inherit;font-size:.98rem;font-weight:700;color:var(--ink);
+    box-shadow:2px 2px 0 var(--shadow);transition:transform .1s,background .1s;}
+  .menu-list button:hover{background:#fff;transform:translateX(-2px);}
+  .menu-list button:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--shadow);}
+  .menu-list button .mn{font-size:1.15rem;flex:none;min-width:1.5em;text-align:center;color:var(--amber-deep);font-weight:900;}
+  .menu-list button.is-section{background:var(--teal-deep);color:#fff;border-color:var(--ink);}
+  .menu-list button.is-section .mn{color:#ffd9a0;}
+
+  .info-grid{display:flex;flex-direction:column;gap:13px;max-width:560px;}
+  .info-row{display:flex;align-items:flex-start;gap:15px;background:rgba(255,255,255,.55);
+    border:2px solid var(--line);border-left:7px solid var(--amber);padding:15px 17px;box-shadow:4px 4px 0 var(--shadow);}
+  .info-row .ic{font-size:1.4rem;flex:none;}
+  .info-row b{display:block;font-size:.76rem;letter-spacing:.14em;color:var(--teal-deep);margin-bottom:3px;}
+  .info-row span{font-size:clamp(.98rem,3.6vw,1.14rem);font-weight:700;}
+
+  .units{display:flex;flex-direction:column;gap:16px;margin-top:8px;}
+  .unit{background:rgba(255,255,255,.6);border:2px solid var(--ink);padding:18px 18px 18px 20px;
+    box-shadow:6px 6px 0 var(--ink);display:flex;gap:18px;align-items:flex-start;}
+  .unit .num{font-size:clamp(1.9rem,8vw,3rem);font-weight:900;color:var(--amber);line-height:.9;flex:none;text-shadow:2px 2px 0 var(--ink);}
+  .unit .body h3{margin-bottom:5px;}
+  .unit .body p{font-size:clamp(.9rem,3.2vw,1.03rem);color:#5c5040;}
+
+  .duo{display:flex;flex-direction:column;gap:16px;margin-top:6px;}
+  .card{background:rgba(255,255,255,.62);border:2px solid var(--line);padding:20px;box-shadow:5px 5px 0 var(--shadow);}
+  .card.t{border-top:7px solid var(--teal);}.card.a{border-top:7px solid var(--amber);}
+  .card h3{margin-bottom:7px;}
+  .chip-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;}
+  .chip{background:var(--paper2);border:2px solid var(--ink);padding:5px 12px;font-weight:700;font-size:.88rem;border-radius:30px;}
+  .principle-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:10px;max-width:980px;}
+  .principle{background:rgba(255,255,255,.66);border:2px solid var(--line);border-left:7px solid var(--teal);
+    padding:13px 15px;box-shadow:4px 4px 0 var(--shadow);}
+  .principle:nth-child(even){border-left-color:var(--amber);}
+  .principle b{display:block;font-size:clamp(.98rem,1.7vw,1.12rem);line-height:1.25;}
+  .principle span{display:block;color:#5c5040;font-size:clamp(.84rem,1.25vw,.96rem);line-height:1.48;margin-top:4px;}
+  .principle em{font-style:normal;color:var(--teal-deep);font-weight:900;}
+  .quiz-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:10px;max-width:980px;}
+  .quiz-card{background:rgba(255,255,255,.66);border:2px solid var(--line);border-left:7px solid var(--teal);
+    padding:14px 16px;box-shadow:4px 4px 0 var(--shadow);cursor:pointer;position:relative;transition:transform .18s ease,box-shadow .18s ease,background .18s ease;}
+  .quiz-card:hover{transform:translateY(-2px);box-shadow:6px 6px 0 var(--shadow);}
+  .quiz-card.revealed{background:#fff;}
+  .quiz-card:nth-child(even){border-left-color:var(--amber);}
+  .quiz-card .q{font-weight:900;font-size:clamp(.98rem,1.7vw,1.12rem);line-height:1.35;}
+  .quiz-card .hint{display:block;color:#5c5040;font-size:clamp(.84rem,1.25vw,.96rem);line-height:1.48;margin-top:4px;}
+  .quiz-card .ans{display:none;margin-top:9px;color:#fff;background:var(--teal-deep);padding:5px 11px;border-radius:999px;font-size:.8rem;font-weight:900;line-height:1.45;}
+  .quiz-card:nth-child(even) .ans{background:var(--amber-deep);}
+  .quiz-card.revealed .ans{display:inline-block;}
+  .reveal-answer,.qa-toggle{display:inline-flex;align-items:center;gap:6px;margin-top:10px;border:2px solid var(--ink);background:var(--amber);color:var(--ink);
+    padding:5px 11px;border-radius:999px;font-weight:900;font-family:inherit;font-size:.82rem;cursor:pointer;box-shadow:2px 2px 0 var(--shadow);}
+  .reveal-answer:active,.qa-toggle:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--shadow);}
+  .quiz-card.revealed .reveal-answer,.trend-row.revealed .qa-toggle{background:var(--teal-deep);color:#fff;}
+  .qa-answer{display:none!important;margin-top:8px;}
+  .trend-row.revealed .qa-answer{display:block!important;}
+
+  /* 生活應用表格卡 */
+  .life-intro{max-width:46ch;margin-bottom:20px;}
+  .life-map{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px;max-width:880px;}
+  .life-map .lm{background:rgba(255,255,255,.62);border:2px solid var(--line);border-left:7px solid var(--teal);
+    padding:13px 14px;box-shadow:4px 4px 0 var(--shadow);display:flex;gap:10px;align-items:flex-start;}
+  .life-map .lm:nth-child(3n+2){border-left-color:var(--amber);}
+  .life-map .lm:nth-child(3n){border-left-color:var(--red);}
+  .life-map .lm .e{font-size:1.55rem;line-height:1;flex:none;}
+  .life-map .lm b{display:block;font-size:clamp(.95rem,2vw,1.08rem);line-height:1.25;}
+  .life-map .lm span{display:block;color:#5c5040;font-size:clamp(.8rem,1.4vw,.94rem);line-height:1.45;margin-top:3px;}
+  .design-legend{display:flex;flex-wrap:wrap;gap:12px 24px;margin-top:18px;font-weight:800;color:var(--teal-deep);}
+  .design-legend .tag{color:#fff;padding:3px 9px;border-radius:5px;font-size:.78rem;margin-right:6px;white-space:nowrap;}
+  .life-list{display:flex;flex-direction:column;gap:14px;margin-top:4px;}
+  .life{background:rgba(255,255,255,.62);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);overflow:hidden;}
+  .life .lh{display:flex;align-items:center;gap:13px;background:var(--paper2);padding:13px 17px;border-bottom:2px solid var(--ink);}
+  .life .lh .e{font-size:1.6rem;flex:none;}
+  .life .lh b{font-size:clamp(1.05rem,4vw,1.28rem);}
+  .life .lb{padding:15px 17px;display:flex;flex-direction:column;gap:12px;}
+  .life .seg{display:flex;gap:11px;align-items:flex-start;}
+  .life .seg .lbl{flex:none;font-size:.72rem;font-weight:800;letter-spacing:.06em;color:#fff;padding:4px 9px;border-radius:5px;min-width:62px;text-align:center;line-height:1.3;}
+  .life .seg.u .lbl{background:var(--teal-deep);}
+  .life .seg.e .lbl{background:var(--amber-deep);}
+  .life .seg p{font-size:clamp(.92rem,3.4vw,1.04rem);color:#473f33;}
+
+  .spec{background:rgba(255,255,255,.65);border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink);padding:22px;margin-top:6px;}
+  .spec .head{display:flex;align-items:center;gap:14px;margin-bottom:16px;border-bottom:2px dashed var(--line);padding-bottom:14px;}
+  .spec .head .e{font-size:2.2rem;flex:none;}
+  .spec .head h3{line-height:1.2;}
+  .spec .head .tag{font-size:.74rem;font-weight:800;letter-spacing:.1em;color:#fff;background:var(--teal-deep);padding:3px 9px;border-radius:20px;display:inline-block;margin-top:4px;}
+  .spec dl{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;}
+  .spec dt{font-weight:800;font-size:.84rem;color:var(--amber-deep);white-space:nowrap;padding-top:2px;}
+  .spec dd{font-size:clamp(.92rem,3.3vw,1.04rem);}
+  .spec dd .good{color:var(--teal-deep);font-weight:700;}
+  .spec dd .bad{color:var(--red);font-weight:700;}
+  .smart-detail{display:grid;grid-template-columns:minmax(320px,.95fr) minmax(360px,1.05fr);gap:22px;align-items:start;margin-top:8px;}
+  .smart-detail .spec{margin-top:0;height:100%;}
+  .smart-detail .video-card{margin-top:0;}
+  .five-list{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:18px;max-width:900px;}
+  .five-list .five{background:rgba(255,255,255,.62);border:2px solid var(--line);border-top:6px solid var(--teal);
+    padding:12px 10px;box-shadow:3px 3px 0 var(--shadow);text-align:center;font-weight:900;color:var(--ink);}
+  .five-list .five:nth-child(even){border-top-color:var(--amber);}
+  .five-list .five span{display:block;color:#5c5040;font-size:.82rem;font-weight:700;margin-top:2px;}
+  .product-links{border-top:1px dashed var(--line);margin-top:14px;padding-top:12px;display:flex;flex-direction:column;gap:9px;}
+  .product-links b{color:var(--teal-deep);font-size:.92rem;}
+  .product-links a{display:block;color:var(--teal-deep);font-weight:900;text-decoration:none;overflow-wrap:anywhere;}
+  .product-links span{display:block;color:#5c5040;font-size:.82rem;line-height:1.45;margin-top:2px;}
+  .product-links .subsidy-note{color:#7a6e5a;font-size:.78rem;border-top:1px solid rgba(216,201,173,.75);padding-top:7px;margin-top:2px;}
+  .subsidy-status{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+  .subsidy-status span{font-size:.72rem!important;font-weight:900;border:1.5px solid var(--ink);border-radius:999px;padding:3px 8px;background:#fff;color:var(--ink);line-height:1.25;}
+  .subsidy-status .new{background:#d9f0ea;color:var(--teal-deep);}
+  .subsidy-status .old{background:#fff3d8;color:var(--amber-deep);}
+  .subsidy-status .check{background:#f7e1d8;color:var(--red);}
+
+  .subsidy{background:rgba(224,138,44,.12);border:2px solid var(--amber-deep);border-radius:8px;padding:20px 22px;margin-top:6px;max-width:620px;}
+  .subsidy .big{font-size:clamp(1.8rem,7vw,2.8rem);font-weight:900;color:var(--amber-deep);line-height:1.1;}
+  .subsidy ul{list-style:none;margin-top:14px;display:flex;flex-direction:column;gap:10px;}
+  .subsidy li{display:flex;gap:10px;font-size:clamp(.94rem,3.4vw,1.08rem);}
+  .subsidy li::before{content:"▶";color:var(--amber-deep);flex:none;font-size:.8rem;padding-top:5px;}
+
+  .warn{background:rgba(184,71,47,.08);border:2px dashed var(--red);border-radius:8px;padding:20px 22px;margin-top:6px;max-width:620px;}
+  .warn ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .warn li{display:flex;gap:11px;font-size:clamp(.94rem,3.4vw,1.08rem);}
+  .warn li .n{flex:none;font-weight:900;color:var(--red);}
+
+  .vendor{display:flex;flex-direction:column;gap:14px;margin-top:6px;max-width:640px;}
+  .vendor .row{background:rgba(255,255,255,.6);border:2px solid var(--line);border-left:7px solid var(--teal);padding:15px 18px;box-shadow:4px 4px 0 var(--shadow);}
+  .vendor .row b{font-size:clamp(1rem,3.7vw,1.15rem);}
+  .vendor .row span{display:block;color:#5c5040;font-size:.92rem;margin-top:3px;}
+
+  .pillars{display:flex;flex-direction:column;gap:14px;margin-top:6px;}
+  .pillar{background:rgba(63,125,119,.1);border:2px dashed var(--teal-deep);padding:17px 19px;border-radius:6px;}
+  .pillar b{color:var(--teal-deep);font-size:1.08rem;}
+
+  .note{font-size:.82rem;color:#7a6e5a;margin-top:18px;max-width:60ch;line-height:1.6;border-top:1px solid var(--line);padding-top:12px;}
+
+  /* 迷思卡 */
+  .myth-list{display:flex;flex-direction:column;gap:15px;margin-top:6px;}
+  .myth{background:rgba(255,255,255,.62);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);padding:17px 19px;}
+  .myth .m-x{display:inline-block;background:var(--red);color:#fff;font-weight:800;font-size:.78rem;padding:3px 11px;border-radius:5px;margin-bottom:8px;}
+  .myth .m-q{font-size:clamp(1rem,3.8vw,1.15rem);font-weight:800;color:#473f33;margin-bottom:13px;}
+  .myth .m-o{display:inline-block;background:var(--teal-deep);color:#fff;font-weight:800;font-size:.78rem;padding:3px 11px;border-radius:5px;margin-bottom:8px;}
+  .myth .m-a{font-size:clamp(.94rem,3.5vw,1.07rem);color:#473f33;}
+  .myth .m-a-pre{display:none;}
+
+  /* 破冰卡 */
+  .ice-q{background:rgba(255,255,255,.62);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);
+    padding:20px;margin-top:6px;display:flex;gap:16px;align-items:flex-start;}
+  .ice-q .qn{font-size:clamp(1.8rem,8vw,2.6rem);flex:none;}
+  .ice-q .qb h3{margin-bottom:6px;}
+  .ice-q .qb p{font-size:clamp(.95rem,3.5vw,1.08rem);color:#5c5040;}
+  .ice-poll{display:flex;flex-direction:column;gap:12px;margin-top:8px;}
+  .ice-opt{background:rgba(255,255,255,.6);border:2px solid var(--ink);padding:14px 18px;
+    font-weight:700;font-size:clamp(1rem,3.8vw,1.15rem);box-shadow:4px 4px 0 var(--shadow);
+    cursor:pointer;display:flex;align-items:center;gap:13px;transition:transform .12s,background .2s;}
+  .ice-opt:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--shadow);}
+  .ice-opt.picked{background:var(--amber);}
+  .ice-opt .dot{width:24px;height:24px;border-radius:50%;border:2px solid var(--ink);flex:none;background:#fff;}
+  .ice-opt.picked .dot{background:var(--ink);}
+
+  /* Gemini步驟 */
+  .gem-hero{background:var(--teal-deep);color:#fff;border:3px solid var(--ink);box-shadow:6px 6px 0 var(--ink);
+    padding:22px;margin-top:6px;text-align:center;}
+  .gem-hero .e{font-size:clamp(2.4rem,10vw,3.4rem);display:block;margin-bottom:8px;}
+  .gem-hero h3{color:#fff;font-size:clamp(1.3rem,5vw,1.7rem);margin-bottom:8px;}
+  .gem-hero p{color:#e8dcc6;font-size:clamp(.96rem,3.6vw,1.1rem);}
+  .gem-steps{display:flex;flex-direction:column;gap:13px;margin-top:16px;}
+  .gem-step{display:flex;gap:15px;align-items:flex-start;background:rgba(255,255,255,.6);
+    border:2px solid var(--line);border-left:7px solid var(--teal);padding:14px 17px;box-shadow:4px 4px 0 var(--shadow);}
+  .gem-step .sn{width:30px;height:30px;border-radius:50%;background:var(--teal-deep);color:#fff;
+    font-weight:900;display:flex;align-items:center;justify-content:center;flex:none;font-size:1rem;}
+  .gem-step .sb b{font-size:clamp(1rem,3.7vw,1.14rem);}
+  .gem-step .sb span{display:block;color:#5c5040;font-size:.92rem;margin-top:2px;}
+  .gem-try{background:rgba(224,138,44,.14);border:2px dashed var(--amber-deep);border-radius:8px;
+    padding:16px 18px;margin-top:16px;}
+  .gem-try b{color:var(--amber-deep);}
+  .gem-try .ex{display:block;background:#fff;border:2px solid var(--ink);padding:10px 14px;margin-top:10px;
+    font-weight:700;border-radius:6px;font-size:clamp(.92rem,3.4vw,1.04rem);}
+
+  /* 失智專章 */
+  .dem-hero{background:#6b4a7a;color:#fff;border:3px solid var(--ink);box-shadow:6px 6px 0 var(--ink);
+    padding:20px 22px;margin-top:6px;}
+  .dem-hero .e{font-size:2rem;}
+  .dem-hero h3{color:#fff;margin:6px 0 8px;}
+  .dem-hero p{color:#ecdcf2;font-size:clamp(.96rem,3.6vw,1.1rem);}
+  .dem-stage{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+  .dem-stage span{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.5);color:#fff;
+    font-weight:700;font-size:.82rem;padding:4px 11px;border-radius:30px;}
+  .dem-tech{display:flex;flex-direction:column;gap:13px;margin-top:6px;}
+  .dem-card{background:rgba(255,255,255,.62);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);padding:17px 19px;}
+  .dem-card .dh{display:flex;align-items:center;gap:13px;margin-bottom:10px;}
+  .dem-card .dh .e{font-size:1.7rem;flex:none;}
+  .dem-card .dh b{font-size:clamp(1.05rem,4vw,1.24rem);}
+  .dem-card .dr{display:flex;gap:10px;align-items:flex-start;margin-top:7px;}
+  .dem-card .dr .k{flex:none;font-size:.72rem;font-weight:800;color:#fff;padding:3px 9px;border-radius:5px;min-width:50px;text-align:center;line-height:1.3;}
+  .dem-card .dr.help .k{background:var(--teal-deep);}
+  .dem-card .dr.note .k{background:var(--amber-deep);}
+  .dem-card .dr p{font-size:clamp(.92rem,3.4vw,1.04rem);color:#473f33;}
+
+  /* 失智三階段速查表 */
+  .stage-list{display:flex;flex-direction:column;gap:16px;margin-top:6px;}
+  .stage-card{border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink);overflow:hidden;background:rgba(255,255,255,.62);}
+  .stage-card .sh{padding:13px 17px;color:#fff;display:flex;align-items:center;gap:12px;border-bottom:2px solid var(--ink);}
+  .stage-card .sh .lv{font-size:1.7rem;font-weight:900;line-height:1;flex:none;}
+  .stage-card .sh .st b{font-size:clamp(1.05rem,4vw,1.25rem);display:block;}
+  .stage-card .sh .st span{font-size:.82rem;opacity:.92;}
+  .stage-card.s1 .sh{background:#7a9a6b;}
+  .stage-card.s2 .sh{background:#c08a3e;}
+  .stage-card.s3 .sh{background:#9a5a52;}
+  .stage-card .sb{padding:14px 17px;display:flex;flex-direction:column;gap:11px;}
+  .stage-card .seg{display:flex;gap:10px;align-items:flex-start;}
+  .stage-card .seg .k{flex:none;font-size:.72rem;font-weight:800;color:#fff;padding:3px 9px;border-radius:5px;min-width:54px;text-align:center;line-height:1.35;background:#6b5d48;}
+  .stage-card .seg .k.t{background:#3a6ea5;}
+  .stage-card .seg p{font-size:clamp(.91rem,3.4vw,1.03rem);color:#473f33;}
+
+  /* 特殊族群輔具 */
+  .grp-hero{border:3px solid var(--ink);box-shadow:6px 6px 0 var(--ink);padding:20px 22px;margin-top:6px;color:#fff;}
+  .grp-hero .e{font-size:2rem;}
+  .grp-hero h3{color:#fff;margin:6px 0 6px;}
+  .grp-hero p{font-size:clamp(.96rem,3.6vw,1.1rem);opacity:.95;}
+  .grp-block{margin-top:14px;}
+  .grp-block .bt{display:flex;align-items:center;gap:9px;font-weight:800;font-size:.78rem;letter-spacing:.06em;
+    color:#fff;padding:5px 12px;border-radius:5px;margin-bottom:9px;display:inline-flex;}
+  .grp-block.basic .bt{background:var(--teal-deep);}
+  .grp-block.tech .bt{background:#3a6ea5;}
+  .grp-items{display:flex;flex-direction:column;gap:9px;}
+  .grp-item{background:rgba(255,255,255,.6);border:2px solid var(--line);padding:12px 15px;box-shadow:3px 3px 0 var(--shadow);}
+  .grp-item b{font-size:clamp(.98rem,3.6vw,1.12rem);}
+  .grp-item span{display:block;color:#5c5040;font-size:.9rem;margin-top:2px;}
+  .grp-item .brand{display:inline-block;background:var(--paper2);border:1.5px solid var(--ink);
+    font-size:.76rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:7px;margin-right:5px;}
+  .grp-note{background:rgba(58,110,165,.1);border:2px dashed #3a6ea5;border-radius:8px;padding:14px 17px;margin-top:14px;}
+  .grp-note b{color:#2c557f;}
+  .grp-note p{font-size:clamp(.9rem,3.4vw,1.02rem);color:#473f33;}
+
+  /* 趨勢頁 */
+  .trend{display:flex;flex-direction:column;gap:13px;margin-top:6px;}
+  .trend-row{display:flex;gap:15px;align-items:flex-start;background:rgba(255,255,255,.6);
+    border:2px solid var(--ink);border-left:7px solid #3a6ea5;padding:15px 18px;box-shadow:4px 4px 0 var(--shadow);}
+  .trend-row .e{font-size:1.7rem;flex:none;}
+  .trend-row b{font-size:clamp(1rem,3.7vw,1.16rem);}
+  .trend-row span{display:block;color:#5c5040;font-size:.92rem;margin-top:3px;}
+
+  /* LLM vs Agent 比較 */
+  .vs-wrap{display:flex;flex-direction:column;gap:14px;margin-top:6px;}
+  .vs-card{border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);background:rgba(255,255,255,.62);overflow:hidden;}
+  .vs-card .vh{padding:13px 17px;color:#fff;display:flex;align-items:center;gap:12px;}
+  .vs-card.llm .vh{background:#3a6ea5;}
+  .vs-card.agent .vh{background:#7a4a8a;}
+  .vs-card .vh .e{font-size:1.7rem;flex:none;}
+  .vs-card .vh b{font-size:clamp(1.1rem,4.2vw,1.35rem);display:block;}
+  .vs-card .vh span{font-size:.82rem;opacity:.92;}
+  .vs-card .vb{padding:14px 17px;}
+  .vs-card .vb p{font-size:clamp(.95rem,3.5vw,1.08rem);color:#473f33;margin-bottom:8px;}
+  .vs-card .vb .ex2{background:var(--paper2);border:1.5px solid var(--ink);border-radius:6px;padding:9px 13px;font-size:.92rem;font-weight:600;}
+
+  /* 工具應用卡 */
+  .tool-card{background:rgba(255,255,255,.62);border:2px solid var(--ink);box-shadow:5px 5px 0 var(--ink);padding:16px 18px;}
+  .tool-card .th{display:flex;align-items:center;gap:11px;margin-bottom:9px;}
+  .tool-card .th .e{font-size:1.5rem;flex:none;}
+  .tool-card .th b{font-size:clamp(1.05rem,4vw,1.22rem);}
+  .tool-card .th .tg{font-size:.72rem;font-weight:700;color:#fff;background:#3a6ea5;padding:2px 9px;border-radius:20px;margin-left:auto;}
+  .tool-card p{font-size:clamp(.92rem,3.4vw,1.04rem);color:#473f33;}
+
+  /* ===== 結尾 重做 ===== */
+  .closing{background:var(--ink);color:var(--paper);text-align:center;align-items:center;justify-content:center;border-bottom:none;}
+  .closing::before{opacity:.14;}
+  .closing-frame{border:4px solid var(--teal);padding:clamp(38px,10vw,68px) clamp(28px,7vw,56px);max-width:620px;width:100%;position:relative;
+    background:radial-gradient(circle at 50% 100%,rgba(63,125,119,.18),transparent 60%);}
+  .closing-frame::after{content:"";position:absolute;inset:9px;border:1.5px solid rgba(63,125,119,.5);pointer-events:none;}
+  .closing .wand{font-size:clamp(2.4rem,11vw,4rem);display:block;margin-bottom:14px;}
+  .closing .quote{font-size:clamp(1.5rem,6.5vw,2.6rem);font-weight:900;line-height:1.45;}
+  .closing .quote em{color:var(--amber);font-style:normal;}
+  .closing .sign{margin-top:30px;color:#e0d3bb;font-weight:700;font-size:clamp(1rem,3.8vw,1.18rem);letter-spacing:.04em;}
+  .closing .sign small{display:block;color:#b6a98f;font-weight:600;font-size:.85rem;margin-top:4px;letter-spacing:.1em;}
+  .closing .back{margin-top:28px;display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--teal);
+    border:2px solid var(--teal);font-weight:800;padding:11px 24px;border-radius:40px;text-decoration:none;}
+  .closing .back:active{background:rgba(63,125,119,.15);}
+
+  .scroll-hint{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+    font-size:.74rem;letter-spacing:.18em;color:var(--amber);font-weight:700;animation:bob 1.8s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,7px)}}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  .reveal.d1{transition-delay:.06s}.reveal.d2{transition-delay:.14s}.reveal.d3{transition-delay:.22s}
+  .reveal.d4{transition-delay:.3s}.reveal.d5{transition-delay:.38s}
+  .progress{position:fixed;top:0;left:0;height:5px;background:var(--amber);width:0;z-index:99;box-shadow:0 0 0 1px var(--amber-deep);}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}.scroll-hint{animation:none;}}
+
+  /* ========== 響應式觀看體驗 ========== */
+
+  /* —— 手機 / 直式(預設 < 768px):滿版直式捲動,9:16 友善 —— */
+  @media (max-width:767px){
+    .slide{
+      min-height:100vh;min-height:100dvh;
+      padding:clamp(54px,13vw,76px) clamp(20px,6vw,40px) clamp(78px,18vw,92px);
+    }
+    /* 手機:card-inner 不做卡片視覺,讓內容如常滿版直式 */
+    .card-inner{display:contents;}
+    /* 桌面才出現的左右翻頁提示在手機隱藏 */
+    .deck-hint{display:none !important;}
+  }
+
+  /* —— 平板/電腦(≥ 768px):每張投影片滿版鋪滿畫面,無深色框 —— */
+  @media (min-width:768px){
+    html{background:var(--paper);}
+    body{background:var(--paper);}
+    .deck{
+      width:100%;
+      scroll-snap-type:y mandatory;
+    }
+    .slide{
+      box-sizing:border-box;
+      /* 每張投影片滿版:填滿整個視窗,用自己的底色,沒有黑框沒有邊距 */
+      width:100%;
+      height:100dvh;
+      min-height:100dvh;
+      max-width:none;
+      margin:0;
+      padding:0;
+      border:none;border-radius:0;box-shadow:none;
+      overflow:hidden;
+      scroll-snap-align:start;
+      scroll-snap-stop:always;
+      display:flex;flex-direction:column;justify-content:center;align-items:stretch;
+      gap:0;
+    }
+    /* card-inner:滿版內容容器,負責內距與置中,不做卡片視覺 */
+    .card-inner{
+      box-sizing:border-box;
+      width:100%;
+      height:100%;
+      max-width:1400px;
+      margin:0 auto;
+      background:transparent;
+      border-radius:0;
+      box-shadow:none;
+      overflow:hidden;
+      padding:clamp(40px,5vh,72px) clamp(56px,7vw,120px);
+      display:flex;flex-direction:column;justify-content:center;
+      gap:clamp(12px,1.6vw,20px);
+      position:relative;
+    }
+    /* 內容多的頁:可在該頁內捲動,不裁切 */
+    .slide:has(.grp-block){height:auto;min-height:100dvh;overflow:visible;}
+    .slide:has(.grp-block) .card-inner{height:auto;min-height:100dvh;overflow:visible;}
+    .slide.cover .card-inner,.slide.closing .card-inner{padding:0;gap:0;max-width:none;}
+
+    /* 桌面:內容多的容器改兩欄,一眼看完不需捲動 */
+    #s-life2 .life-list, #s-life3 .life-list, #s-life4 .life-list,
+    #s-dementia2 .dem-tech{
+      display:grid !important;
+      grid-template-columns:1fr 1fr;
+      gap:clamp(12px,1.4vw,18px) clamp(18px,2vw,28px);
+      align-content:center;
+    }
+    #s-flow .units{
+      display:grid !important;
+      grid-template-columns:1fr 1fr;
+      gap:clamp(12px,1.4vw,18px) clamp(18px,2vw,28px);
+    }
+    /* 兩欄頁的卡片內容收緊 */
+    #s-life2 .life .lb, #s-life3 .life .lb, #s-life4 .life .lb{padding:11px 15px;}
+    #s-life2 .life .lh, #s-life3 .life .lh, #s-life4 .life .lh{padding:9px 15px;}
+
+    /* 桌面:目錄頁兩欄排列,完整顯示標題與所有項目、填滿寬度 */
+    #toc .card-inner{justify-content:center;padding-top:clamp(20px,3vh,36px);padding-bottom:clamp(20px,3vh,36px);}
+    #toc .toc-grid{
+      display:grid !important;
+      grid-template-columns:1fr 1fr;
+      gap:clamp(6px,0.7vh,10px) clamp(20px,2.5vw,36px);
+      width:100%;max-width:none;
+      align-content:center;
+      min-height:0;
+    }
+    #toc .toc-item{
+      padding:clamp(7px,0.95vh,12px) clamp(14px,1.4vw,20px);
+      box-shadow:3px 3px 0 var(--shadow);
+    }
+    #toc .toc-item .tt{font-size:clamp(.9rem,1.1vw,1.06rem);}
+    #toc .toc-item .tn{font-size:clamp(1rem,1.3vw,1.35rem);}
+    #toc h2{margin-bottom:.25em;font-size:clamp(1.8rem,3vw,2.6rem);}
+    #toc .eyebrow{margin-bottom:10px;}
+    /* 桌面下字級依卡片寬度自適應,避免內容過長溢出 */
+    .slide h1{font-size:clamp(2.4rem,6vw,5rem);}
+    .slide h2{font-size:clamp(1.5rem,3.4vw,2.8rem);margin-bottom:.3em;}
+    .slide h3{font-size:clamp(1.05rem,2vw,1.5rem);}
+    .slide p,.slide .lead{font-size:clamp(.95rem,1.5vw,1.25rem);}
+    .pageno{top:18px;right:24px;}
+
+    /* 內容容器在卡片內自然置中,不堆頂 */
+    .slide > .info-grid,.slide > .units,.slide > .duo,.slide > .life-list,
+    .slide > .tech-list,.slide > .pillars,.slide > .stage-list,.slide > .dem-tech,
+    .slide > .grp-block,.slide > .trend,.slide > .myth-list,.slide > .vs-wrap,
+    .slide > .vendor,.slide > .subsidy,.slide > .warn,.slide > .spec{
+      max-height:100%;
+    }
+
+    /* 封面/結尾在桌面也維持滿版卡片(內部已是滿版設計) */
+    .slide.cover,.slide.closing{padding:0;gap:0;}
+
+    /* 浮動鈕在桌面放大一點、移到舞台外側角落 */
+    .nav-fab{right:20px;bottom:20px;}
+    .nav-fab a{width:48px;height:48px;font-size:1.3rem;}
+
+    /* 桌面操作提示 */
+    .deck-hint{
+      position:fixed;left:50%;bottom:14px;transform:translateX(-50%);
+      z-index:60;color:#d8c9ad;font-size:.78rem;font-weight:600;letter-spacing:.08em;
+      background:rgba(0,0,0,.4);padding:6px 16px;border-radius:30px;
+      border:1px solid rgba(216,201,173,.25);pointer-events:none;
+      opacity:0;animation:hintfade 5s ease forwards;
+    }
+    @keyframes hintfade{0%,70%{opacity:1}100%{opacity:0}}
+
+    /* 進度條在桌面更明顯 */
+    .progress{height:4px;}
+  }
+
+  /* —— 寬螢幕(≥ 1400px):卡片不要過大,維持舒適閱讀 —— */
+  @media (min-width:1400px){
+    .slide{
+      width:min(1280px, calc((100dvh - 56px) * 16 / 9));
+      height:min(720px, calc(1280px * 9 / 16));
+    }
+  }
+
+  /* ===== 2026 redesign: clinical, warm, presentation-ready ===== */
+  :root{
+    --ink:#17211d;
+    --paper:#fbfaf6;
+    --paper2:#edf4ef;
+    --amber:#d79a3f;
+    --amber-deep:#a7661f;
+    --teal:#277c78;
+    --teal-deep:#145d59;
+    --red:#b85048;
+    --blue:#315f8f;
+    --violet:#69538f;
+    --line:#d8e0d8;
+    --shadow:rgba(24,38,33,.13);
+  }
+  body{
+    background:#eef3ef;
+    color:var(--ink);
+  }
+  .slide{
+    background:
+      linear-gradient(135deg,rgba(20,93,89,.08),transparent 36%),
+      linear-gradient(315deg,rgba(215,154,63,.10),transparent 32%),
+      var(--paper);
+    border-bottom:1px solid var(--line);
+  }
+  .slide::before{
+    background-image:
+      linear-gradient(rgba(23,33,29,.04) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(23,33,29,.04) 1px,transparent 1px);
+    background-size:38px 38px;
+    opacity:.45;
+  }
+  .slide[style*="paper2"], .toc{
+    background:
+      linear-gradient(135deg,rgba(39,124,120,.12),transparent 38%),
+      linear-gradient(315deg,rgba(49,95,143,.08),transparent 34%),
+      var(--paper2) !important;
+  }
+  .eyebrow{
+    border-radius:999px;
+    box-shadow:none;
+    transform:none;
+    letter-spacing:.16em;
+    padding:7px 14px;
+    background:var(--teal-deep) !important;
+  }
+  .pageno{
+    border:1px solid rgba(20,93,89,.28);
+    background:rgba(255,255,255,.74);
+    color:var(--teal-deep);
+    border-radius:999px;
+    transform:none;
+    box-shadow:0 8px 22px rgba(23,33,29,.08);
+  }
+  h1,h2,h3{letter-spacing:0;}
+  h2{max-width:none;text-wrap:balance;}
+  .lead{color:#405149;}
+  .cover{
+    background:
+      linear-gradient(135deg,rgba(20,93,89,.96),rgba(20,93,89,.72) 42%,rgba(23,33,29,.92)),
+      var(--teal-deep);
+    color:#fff;
+  }
+  .cover-top{
+    background:transparent;
+    border-bottom:1px solid rgba(255,255,255,.18);
+  }
+  .cover-mid h1{
+    color:#fff;
+    text-shadow:none;
+  }
+  .cover-mid .badge{
+    background:rgba(255,255,255,.14);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.3);
+    box-shadow:none;
+    transform:none;
+    border-radius:999px;
+  }
+  .cover-mid .underline{
+    border:0;
+    height:6px;
+    border-radius:999px;
+    transform:none;
+    background:linear-gradient(90deg,#f4c46b,#88d2c9);
+  }
+  .cover-mid .sub{color:#e9f7f4;}
+  .cover-mid .sub em{color:#ffe0a8;background:transparent;}
+  .cover-bot{
+    background:rgba(14,23,20,.76);
+    border-top:1px solid rgba(255,255,255,.18);
+  }
+  .cover-bot .start-btn{
+    border:0;
+    box-shadow:none;
+    background:#f4c46b;
+  }
+  .toc-item,.info-row,.unit,.card,.life,.spec,.stage-card,.grp-item,.trend-row,.myth,.vs-card,.tool-card,.vendor .row{
+    border:1px solid var(--line);
+    border-radius:14px;
+    box-shadow:0 18px 44px var(--shadow);
+    background:rgba(255,255,255,.76);
+  }
+  .toc-item{border-left:5px solid var(--teal);padding:14px 18px;}
+  .toc-item .tn{color:var(--teal-deep);}
+  .card.t,.card.a{border-top:0;border-left:5px solid var(--teal);}
+  .card.a{border-left-color:var(--amber);}
+  .life{overflow:hidden;}
+  .life .lh{background:rgba(20,93,89,.08);border-bottom:1px solid var(--line);}
+  .life .seg .lbl{border-radius:999px;}
+  .subsidy,.warn,.grp-note,.gem-try,.pillar{
+    border-radius:14px;
+    box-shadow:0 14px 34px rgba(23,33,29,.07);
+  }
+  .nav-fab a,.nav-fab button{
+    border:0;
+    box-shadow:0 12px 30px rgba(23,33,29,.22);
+  }
+  .menu-panel{
+    background:rgba(251,250,246,.96);
+    border-left:1px solid var(--line);
+    backdrop-filter:blur(12px);
+  }
+  .menu-list button{
+    border:1px solid var(--line);
+    border-radius:12px;
+    box-shadow:none;
+  }
+  .video-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:14px;
+    margin-top:10px;
+  }
+  .video-card{
+    background:rgba(255,255,255,.82);
+    border:1px solid var(--line);
+    border-radius:14px;
+    box-shadow:0 18px 44px var(--shadow);
+    overflow:hidden;
+  }
+  .video-card iframe{
+    display:block;
+    width:100%;
+    aspect-ratio:16/9;
+    border:0;
+    background:#111;
+  }
+  .video-card .vb{
+    padding:13px 16px 15px;
+  }
+  .video-card b{
+    display:block;
+    font-size:clamp(1rem,3.4vw,1.12rem);
+    margin-bottom:4px;
+  }
+  .video-card span{
+    display:block;
+    color:#52645b;
+    font-size:.92rem;
+    line-height:1.55;
+  }
+  .source-list{
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+    margin-top:10px;
+    max-width:760px;
+  }
+  .source-list a{
+    color:var(--teal-deep);
+    font-weight:800;
+  }
+  .tech-choice{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:16px;
+    margin-top:12px;
+  }
+  .tech-panel{
+    background:rgba(255,255,255,.82);
+    border:1px solid var(--line);
+    border-radius:14px;
+    box-shadow:0 18px 44px var(--shadow);
+    padding:18px 20px;
+  }
+  .tech-panel .head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:12px;
+  }
+  .tech-panel .head .e{font-size:1.8rem;flex:none;}
+  .tech-panel .head b{font-size:clamp(1.05rem,3.6vw,1.24rem);}
+  .tech-panel ul{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+  }
+  .tech-panel li{
+    color:#46584f;
+    font-size:clamp(.92rem,3.3vw,1.02rem);
+    line-height:1.55;
+  }
+  .tech-panel li::before{
+    content:"";
+    display:inline-block;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--teal);
+    margin-right:8px;
+    transform:translateY(-1px);
+  }
+  .qr-layout{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:18px;
+    align-items:center;
+    margin-top:14px;
+  }
+  .qr-box{
+    justify-self:start;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:18px;
+    box-shadow:0 20px 48px var(--shadow);
+    padding:18px;
+    width:min(240px,80vw);
+  }
+  .qr-box img{
+    display:block;
+    width:100%;
+    height:auto;
+  }
+  .link-card{
+    background:rgba(255,255,255,.82);
+    border:1px solid var(--line);
+    border-radius:14px;
+    box-shadow:0 18px 44px var(--shadow);
+    padding:20px 22px;
+  }
+  .link-card a{
+    color:var(--teal-deep);
+    font-weight:900;
+    overflow-wrap:anywhere;
+  }
+  .intro-layout{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:18px;
+    align-items:center;
+    margin-top:12px;
+  }
+  .intro-photo,.links-preview{
+    width:100%;
+    border-radius:16px;
+    border:1px solid var(--line);
+    box-shadow:0 18px 44px var(--shadow);
+    background:#fff;
+  }
+  .intro-copy{
+    background:rgba(255,255,255,.82);
+    border:1px solid var(--line);
+    border-radius:16px;
+    box-shadow:0 18px 44px var(--shadow);
+    padding:20px 22px;
+    max-width:860px;
+  }
+  .intro-copy ul{
+    list-style:none;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:12px;
+  }
+  .intro-copy li{
+    color:#46584f;
+    line-height:1.55;
+    font-weight:650;
+  }
+  .intro-copy li.group-title{
+    grid-column:1/-1;
+    color:var(--teal-deep);
+    font-weight:900;
+    letter-spacing:.08em;
+    border-top:1px solid var(--line);
+    padding-top:10px;
+    margin-top:4px;
+  }
+  .video-points{
+    border-top:1px solid var(--line);
+    padding:0 16px 15px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .video-points ul{
+    margin:0;
+    padding:0;
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .video-points li{
+    color:#46584f;
+    font-size:.9rem;
+    line-height:1.45;
+  }
+  .time-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+  }
+  .time-link{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    border:1px solid rgba(20,93,89,.26);
+    background:rgba(20,93,89,.08);
+    color:var(--teal-deep);
+    border-radius:999px;
+    padding:4px 9px;
+    font-size:.82rem;
+    font-weight:850;
+    text-decoration:none;
+  }
+  .link-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
+    margin-top:16px;
+    max-width:860px;
+    width:100%;
+  }
+  .social-link{
+    display:block;
+    background:rgba(255,255,255,.86);
+    border:1px solid var(--line);
+    border-left:5px solid var(--teal);
+    border-radius:14px;
+    box-shadow:0 12px 30px var(--shadow);
+    padding:14px 16px;
+    color:var(--ink);
+    text-decoration:none;
+  }
+  .social-link b{display:block;font-size:1.04rem;}
+  .social-link span{display:block;color:#52645b;font-size:.9rem;overflow-wrap:anywhere;margin-top:3px;}
+  @media (min-width:768px){
+    .slide{
+      width:100%;
+      height:100dvh;
+    }
+    .card-inner{
+      max-width:1240px;
+      padding:clamp(42px,6vh,74px) clamp(58px,7vw,112px);
+    }
+    .slide:has(.video-grid){height:auto;min-height:100dvh;overflow:visible;}
+    .slide:has(.video-grid) .card-inner{height:auto;min-height:100dvh;overflow:visible;}
+    .video-grid{
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:18px;
+    }
+    #s-video2 .video-grid{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      max-width:940px;
+    }
+    .tech-choice{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:20px;
+    }
+    .qr-layout{
+      grid-template-columns:minmax(220px,280px) minmax(0,1fr);
+      max-width:860px;
+    }
+    .intro-layout{
+      grid-template-columns:minmax(280px,40%) minmax(0,1fr);
+      gap:28px;
+    }
+    .link-grid{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+    .slide h2{
+      white-space:normal;
+      font-size:clamp(1.65rem,2.9vw,2.75rem) !important;
+      max-width:100%;
+    }
+  }
+  @media (min-width:1400px){
+    .slide{
+      width:100%;
+      height:100dvh;
+    }
+  }
+
+  /* ===== anti-cropping layout pass ===== */
+  @media (min-width:768px){
+    .deck{
+      scroll-snap-type:y proximity;
+    }
+    .slide{
+      height:auto !important;
+      min-height:100dvh !important;
+      overflow:visible !important;
+      justify-content:flex-start !important;
+    }
+    .card-inner{
+      height:auto !important;
+      min-height:100dvh !important;
+      overflow:visible !important;
+      justify-content:flex-start !important;
+      padding-top:clamp(70px,8.5vh,104px) !important;
+      padding-bottom:clamp(92px,12vh,140px) !important;
+    }
+    .slide.cover{
+      height:100dvh !important;
+      min-height:100dvh !important;
+      overflow:hidden !important;
+    }
+    .slide.cover .card-inner{
+      height:100% !important;
+      min-height:100% !important;
+      overflow:hidden !important;
+      padding:0 !important;
+      justify-content:center !important;
+    }
+    #toc .card-inner{
+      justify-content:flex-start !important;
+      padding-top:clamp(64px,7vh,88px) !important;
+      padding-bottom:clamp(88px,10vh,120px) !important;
+    }
+    #toc .toc-grid{
+      align-content:start;
+    }
+    .slide:has(.stage-list) .card-inner,
+    .slide:has(.gem-steps) .card-inner,
+    .slide:has(.source-list) .card-inner,
+    .slide:has(.video-grid) .card-inner{
+      justify-content:flex-start !important;
+    }
+  }
+  @media (max-width:767px){
+    .slide{
+      height:auto !important;
+      min-height:100svh !important;
+      overflow:visible !important;
+      padding-top:clamp(64px,16vw,88px) !important;
+      padding-bottom:calc(clamp(104px,24vw,140px) + env(safe-area-inset-bottom)) !important;
+      justify-content:flex-start !important;
+    }
+    .slide.cover,
+    .slide.closing{
+      min-height:100svh !important;
+    }
+    h1,h2{
+      overflow-wrap:anywhere;
+    }
+    .pageno{
+      top:calc(12px + env(safe-area-inset-top));
+      right:14px;
+    }
+    .nav-fab{
+      bottom:calc(14px + env(safe-area-inset-bottom));
+    }
+    .smart-detail{
+      grid-template-columns:1fr;
+      gap:16px;
+    }
+    .five-list{
+      grid-template-columns:1fr;
+      gap:9px;
+    }
+    .principle-grid{
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+    .quiz-grid{
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+    .intro-copy ul{
+      grid-template-columns:1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- 浮動導覽:跳頁選單 / 回目錄 / 回頂 -->
+<div class="nav-fab">
+  <button class="menu" id="menuBtn" aria-label="開啟跳頁選單">☰</button>
+  <button class="toc-btn" id="tocBtn" aria-label="回到目錄">目錄</button>
+  <a class="top" href="#top" aria-label="回到首頁">↑</a>
+</div>
+
+<!-- 彈出式跳頁選單 -->
+<div class="menu-overlay" id="menuOverlay"></div>
+<aside class="menu-panel" id="menuPanel" aria-label="章節跳頁選單">
+  <div class="menu-head">
+    <b>章節跳頁</b>
+    <button class="x" id="menuClose" aria-label="關閉選單">✕</button>
+  </div>
+  <div class="menu-list" id="menuList"><!-- JS 自動產生 --></div>
+</aside>
+
+<!-- 桌面操作提示 -->
+<div class="deck-hint">滑鼠滾輪上下瀏覽 · 方向鍵 ← → 或左右滑快速換頁</div>
+
+<div class="deck">
+
+  <!-- 封面 -->
+  <section class="slide cover" id="top">
+    <div class="cover-top">
+      <div class="kicker">新竹市長照中心 · 積分課</div>
+      <span class="wand">🪄</span>
+    </div>
+    <div class="cover-mid">
+      <span class="badge">2.5 小時 · 照專 / A個管 / 居督</span>
+      <h1>生活魔法師</h1>
+      <div class="underline"></div>
+      <p class="sub">以人為本的輔具及<br>智慧科技輔具的認識</p>
+    </div>
+    <div class="cover-bot">
+      <div class="meta">6 / 24（三）　<b>講師</b> 鍾孟修 職能治療師</div>
+      <a class="start-btn" href="#s-course-map">進入課程 →</a>
+    </div>
+    <div class="scroll-hint">向下滑動 ↓</div>
+  </section>
+
+  <!-- 講師介紹 -->
+  <section class="slide" id="s-instructor">
+    <span class="pageno">講師介紹</span>
+    <span class="eyebrow reveal">ABOUT THE LECTURER</span>
+    <h2 class="reveal d1">大家好,我是<span class="accent-t">鍾孟修 職能治療師</span></h2>
+    <div class="intro-copy reveal d2">
+      <h3>職能治療 × 長照復能 × 認知體適能</h3>
+      <p style="margin-top:10px;color:#46584f;">長期投入長照復能、銀髮體適能、失智症活動設計與遊戲化教學。今天會用「生活任務」帶大家看輔具:不是只認識器材,而是理解它如何讓人重新做得到。</p>
+      <ul>
+        <li class="group-title">愛迪樂服務體系</li>
+        <li>愛迪樂有限公司(105/08)</li>
+        <li>愛迪樂居家職能治療所(107/01)</li>
+        <li>愛迪樂物理治療所(107/12)</li>
+        <li>愛迪樂新北長期照顧服務機構(108/01)</li>
+        <li>銀光復能咖啡館 C 單位巷弄長照站(108/11)</li>
+        <li>愛迪樂三重失智症據點(111/01)</li>
+        <li>愛迪樂中山聯合治療所(111/12)</li>
+        <li>新北市私立愛迪樂東湖國小社區長照機構(112/05)</li>
+        <li>五股日間照顧中心及身障日間照顧中心 籌備中</li>
+        <li class="group-title">專業角色與專長</li>
+        <li>關懷小丑協會 監事</li>
+        <li>長庚大學職能治療系系友會 監事</li>
+        <li>社團法人台灣生活復能健康促進協會 理事長</li>
+        <li>Homeseen 失智症遊戲包共同創辦人</li>
+        <li>職能治療師執行長、銀髮體適能教練</li>
+        <li>皮拉提斯教練 ABC 級、MAT 功能性評估國際認證</li>
+        <li>專長:長照復能、認知及體智、遊戲化教學、簡報遊戲化教學設計</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 科技開場體驗 -->
+  <section class="slide" style="background:var(--paper2);" id="s-tech-opener">
+    <span class="pageno">科技體驗</span>
+    <span class="eyebrow reveal">HANDS-ON FIRST</span>
+    <h2 class="reveal d1">先體驗科技,<span class="accent-t">再談輔具</span></h2>
+    <p class="lead reveal d2" style="margin-bottom:18px;">請大家先用手機或電腦試兩個工具:Typeless 語音輸入、Chrome 問問 Gemini。先感受「工具如何降低門檻」,再回頭理解通用設計與人因設計。</p>
+    <div class="tech-choice">
+      <div class="tech-panel reveal d2">
+        <div class="head"><span class="e">🎙️</span><b>Typeless 語音輸入</b></div>
+        <ul>
+          <li><b>體驗任務:</b>用語音說出「我今天最想解決的輔具問題是...」,讓工具轉成文字。</li>
+          <li><b>通用設計關聯:</b>把輸入方式從鍵盤擴大到語音,讓手部無力、打字慢、不熟鍵盤的人也能完成表達。</li>
+          <li><b>人因設計關聯:</b>依個人的口語速度、手部功能、閱讀能力與工作情境,選擇最省力的輸入方式。</li>
+        </ul>
+        <div class="chip-row" style="margin-top:14px;">
+          <a class="chip" href="https://www.typeless.com/downloads" target="_blank" rel="noopener">Typeless 下載</a>
+          <a class="chip" href="https://apps.apple.com/us/app/typeless-ai-voice-keyboard/id6749257650" target="_blank" rel="noopener">iPhone / iPad</a>
+          <a class="chip" href="https://play.google.com/store/apps/details?id=com.typeless.mobile" target="_blank" rel="noopener">Android</a>
+        </div>
+      </div>
+      <div class="tech-panel reveal d3">
+        <div class="head"><span class="e">🤖</span><b>Chrome 問問 Gemini</b></div>
+        <ul>
+          <li><b>體驗任務:</b>用 Chrome 開這份簡報或補助查詢頁,請 Gemini 摘要目前頁面、解釋看不懂的名詞。</li>
+          <li><b>通用設計關聯:</b>把艱澀資訊轉成白話、重點、步驟,降低理解門檻,讓更多人能讀懂同一份資料。</li>
+          <li><b>人因設計關聯:</b>依學員角色調整提問,例如「請用居督聽得懂的話解釋」或「幫我整理成個案討論重點」。</li>
+        </ul>
+        <div class="chip-row" style="margin-top:14px;">
+          <a class="chip" href="https://www.google.com/chrome/" target="_blank" rel="noopener">Chrome 下載</a>
+          <a class="chip" href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini 網頁版</a>
+          <a class="chip" href="https://gemini.google/overview/gemini-in-chrome/" target="_blank" rel="noopener">Gemini in Chrome</a>
+          <a class="chip" href="https://apps.apple.com/us/app/google-gemini/id6477489729" target="_blank" rel="noopener">Gemini iOS</a>
+          <a class="chip" href="https://play.google.com/store/apps/details?id=com.google.android.apps.bard" target="_blank" rel="noopener">Gemini Android</a>
+        </div>
+      </div>
+    </div>
+    <p class="note reveal d4">提醒:AI 可協助理解、摘要與整理,但補助、醫療與個案判斷仍要回到官方公告、輔具評估與專業人員。</p>
+  </section>
+
+  <!-- 查詢網站 QR -->
+  <section class="slide" id="s-query">
+    <span class="pageno">查詢工具</span>
+    <span class="eyebrow reveal">SCAN & TRY</span>
+    <h2 class="reveal d1">長照・身障・輔具補助,<span class="accent">現場查</span></h2>
+    <p class="lead reveal d2">這是講師製作的查詢網頁。課程中遇到補助、長照或身障輔具問題,可以先掃 QR code 查方向,再回到 1966 / 輔具中心確認個案核定。</p>
+    <div class="qr-layout reveal d3">
+      <div class="qr-box">
+        <img src="longtermcare_qr.svg" alt="長照身障輔具補助查詢 QR code">
+      </div>
+      <div class="link-card">
+        <h3>長照・身障・輔具補助查詢</h3>
+        <p style="margin:8px 0 14px;color:#46584f;">可用手機掃 QR code,也可直接點選下方連結開啟。</p>
+        <a href="https://mattsue1003.github.io/longtermcare/" target="_blank" rel="noopener">https://mattsue1003.github.io/longtermcare/</a>
+        <p class="note" style="margin-top:14px;">查詢工具可協助快速找方向;正式申請與核銷仍以地方政府、1966、輔具中心與身障輔具補助規定為準。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" style="background:var(--paper2);" id="s-course-map">
+    <span class="pageno">課程設計</span>
+    <span class="eyebrow reveal">150 MINUTES · 30-40 PEOPLE</span>
+    <h2 class="reveal d1">今天只抓<span class="accent-t">三件事</span></h2>
+    <p class="lead reveal d2" style="margin-bottom:18px;">對象是照專、A個管與居督,所以課程不走器材型錄,而是訓練現場判斷:看需求、看環境、看流程。</p>
+    <div class="units">
+      <div class="unit reveal d2"><div class="num">1</div><div class="body"><h3>0:10-0:55 通用設計與人因設計</h3><p>先建立「以人為本」語言,再套到食衣住行育樂、大小便、睡眠、外出、親密與性等生活情境。</p></div></div>
+      <div class="unit reveal d3"><div class="num">2</div><div class="body"><h3>0:55-1:40 長照3.0居家智慧科技輔具</h3><p>用感測、紀錄、傳輸、回饋四問拆解智慧輔具,並說清楚個人補助、租賃與申請流程。</p></div></div>
+      <div class="unit reveal d4"><div class="num">3</div><div class="body"><h3>1:40-2:20 復能型日照與科技導入</h3><p>把日照活動拉回「評估、目標、訓練、追蹤」,討論科技如何支持復能而不是變成展示品。</p></div></div>
+      <div class="unit reveal d5"><div class="num">Q</div><div class="body"><h3>2:20-2:30 Q&A 與整合回顧</h3><p>回到現場個案:需求是什麼、環境卡在哪裡、該轉介誰、下一步要做什麼。</p></div></div>
+    </div>
+    <p class="note reveal d5">授課節奏建議:前 10 分鐘完成講師介紹、Typeless/Gemini 科技體驗、補助查詢頁掃碼演練與目標對焦;中段每章用 1-2 支影片搭配重點秒數;最後保留現場個案問題與整合回顧。</p>
+  </section>
+
+  <!-- 查詢網站 QR -->
+  
+
+  <!-- 目錄 -->
+  <section class="slide toc" id="toc">
+    <span class="pageno">目錄</span>
+    <span class="eyebrow reveal">CONTENTS</span>
+    <h2 class="reveal d1">課程目錄</h2>
+    <div class="toc-grid">
+      <a class="toc-item reveal d1" href="#s-instructor"><span class="tn">👤</span><span class="tt">講師自我介紹</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d1" href="#s-tech-opener"><span class="tn">✨</span><span class="tt">開場體驗:Typeless × Gemini</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d1" href="#s-query"><span class="tn">QR</span><span class="tt">開場演練:補助查詢頁</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d1" href="#s-course-map"><span class="tn">0</span><span class="tt">2.5 小時課程節奏</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d2" href="#s-design"><span class="tn">1</span><span class="tt">通用設計 × 人因設計</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d2" href="#s-quiz-design"><span class="tn">?</span><span class="tt">猜猜看:通用還是人因?</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d2" href="#s-ud7"><span class="tn">7</span><span class="tt">Ronald Mace 通用設計七原則</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d2" href="#s-quiz-ud7"><span class="tn">?</span><span class="tt">猜猜看:七原則是哪一條?</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d2" href="#s-life"><span class="tn">1A</span><span class="tt">食衣住行育樂等生活應用</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d2" href="#s-hearing"><span class="tn">👂</span><span class="tt">感官輔具:聽力 × 視力</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d2" href="#s-quiz-life"><span class="tn">?</span><span class="tt">生活與感官輔具互動題</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d2" href="#s-adl-products"><span class="tn">🔗</span><span class="tt">一般生活輔具產品頁</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d2" href="#s-adl-video"><span class="tn">▶</span><span class="tt">生活輔具影片重點</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d2" href="#s-principle"><span class="tn">🎯</span><span class="tt">輔具挑選原則</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d2" href="#s-evidence"><span class="tn">1B</span><span class="tt">防跌實證與細部輔具挑選</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d3" href="#s-video"><span class="tn">▶</span><span class="tt">輔具使用影片示範</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d3" href="#s-tech"><span class="tn">2</span><span class="tt">長照 3.0 智慧科技輔具</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d3" href="#s-tech-design"><span class="tn">2B</span><span class="tt">科技輔具的通用 × 人因檢核</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d3" href="#s-tech-subsidy-check"><span class="tn">✓</span><span class="tt">產品連結怎麼判斷補助</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d3" href="#s-item1"><span class="tn">2A</span><span class="tt">居家智慧輔具五大面向</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d3" href="#s-smart-video"><span class="tn">▶</span><span class="tt">長照 3.0 智慧輔具影片</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d3" href="#s-quiz-smart"><span class="tn">?</span><span class="tt">智慧科技輔具情境題</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d3" href="#s-subsidy"><span class="tn">$</span><span class="tt">補助新制與申請流程</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d3" href="#s-tech-faq"><span class="tn">?</span><span class="tt">智慧科技輔具租賃 FAQ</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d4" href="#s-warn"><span class="tn">!</span><span class="tt">申請注意事項</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d4" href="#s-recover"><span class="tn">3</span><span class="tt">復能型日照與科技導入</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d4" href="#s-daycare-tech"><span class="tn">3A</span><span class="tt">日照導入科技輔具流程</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d4" href="#s-daycare-quiz"><span class="tn">?</span><span class="tt">復能型日照互動題</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d4" href="#s-daycare-evidence"><span class="tn">R</span><span class="tt">復能與日照研究重點</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d4" href="#s-daycare-cases"><span class="tn">★</span><span class="tt">台灣與國際典範案例</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d4" href="#s-daycare-video"><span class="tn">▶</span><span class="tt">復能日照與國際案例影片</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d4" href="#s-daycare-final"><span class="tn">✓</span><span class="tt">復能日照收尾討論</span><span class="ta">→</span></a>
+      <a class="toc-item reveal d4" href="#s-sources"><span class="tn">🔎</span><span class="tt">查核來源與使用提醒</span><span class="ta">→</span></a>
+    </div>
+  </section>
+
+  <!-- 破冰 1:歡迎 + 你today怎麼來的 -->
+  
+
+  <!-- 破冰 2:小投票 -->
+  
+
+  <!-- 科技應用:問問 Gemini -->
+  
+
+  <!-- Typeless 語音輸入體驗 -->
+  
+
+  <!-- 課程資訊 -->
+  
+
+  <!-- 通用vs人因 -->
+  <section class="slide" id="s-design">
+    <span class="pageno">第一段</span>
+    <span class="eyebrow reveal">CHAPTER 1</span>
+    <h2 class="reveal d1">兩種<span class="accent-t">「以人為本」</span>的設計</h2>
+    <div class="duo">
+      <div class="card t reveal d2"><h3>🌍 通用設計 Universal Design</h3>
+        <p>定義:在設計產品、環境、資訊與服務時,一開始就讓<b>最大範圍的人</b>能安全、直覺、有尊嚴地使用,不需要另外貼上「特殊使用者」標籤。</p>
+        <p style="margin-top:8px;">教學重點:它處理的是<b>環境門檻</b>。例如無門檻入口、大字標示、防滑地面、可容納輪椅的桌面高度。</p>
+        <div class="chip-row"><span class="chip">公平使用</span><span class="chip">彈性使用</span><span class="chip">簡單直覺</span><span class="chip">容許錯誤</span><span class="chip">低體力負擔</span><span class="chip">足夠尺寸空間</span></div></div>
+      <div class="card a reveal d3"><h3>🧍 人因設計 Ergonomics</h3>
+        <p>定義:依人的身體尺寸、肌力、關節角度、感覺、認知與操作習慣調整工具,讓人用<b>最省力、最安全、最少代償</b>的方式完成活動。</p>
+        <p style="margin-top:8px;">教學重點:它處理的是<b>個別適配</b>。例如手杖高度、輪椅座寬、餐具握把粗細、扶手裝在慣用手側。</p>
+        <div class="chip-row"><span class="chip">量身尺寸</span><span class="chip">省力姿勢</span><span class="chip">安全操作</span><span class="chip">符合習慣</span><span class="chip">降低照顧者傷害</span></div></div>
+    </div>
+    <p class="note reveal d4">一句話區分:通用設計問「這個環境是否對大多數人友善?」人因設計問「這個人用起來是否合身、順手、安全?」兩者都不是裝飾,而是降低失能與照顧負擔的設計方法。</p>
+  </section>
+
+  <!-- 互動題:通用或人因 -->
+  <section class="slide" style="background:var(--paper2);" id="s-quiz-design">
+    <span class="pageno">互動題 ①</span>
+    <span class="eyebrow reveal">GUESS</span>
+    <h2 class="reveal d1">猜猜看:<span class="accent-t">通用設計</span>還是<span class="accent">人因設計</span>?</h2>
+    <p class="lead reveal d2" style="margin-bottom:14px;">先請學員舉手作答,再揭曉答案。重點不是猜對,而是看出「環境門檻」與「個別適配」的差別。</p>
+    <div class="quiz-grid reveal d3">
+      <div class="quiz-card"><div class="q">浴室做無門檻、止滑地面、連續扶手,讓長輩、輪椅、照顧者都能安全通過。</div><span class="hint">想想:這是改環境,還是調整某個人的工具?</span><span class="ans">答案:通用設計</span></div>
+      <div class="quiz-card"><div class="q">依長輩身高與手長,把四腳拐調到手腕高度,並教他用慣用手拿。</div><span class="hint">想想:是不是依個人身體尺寸調整?</span><span class="ans">答案:人因設計</span></div>
+      <div class="quiz-card"><div class="q">餐廳菜單改成大字、高對比、搭配圖片,讓視力退化者與一般人都更容易點餐。</div><span class="hint">想想:是否讓更多人都更容易使用同一份資訊?</span><span class="ans">答案:通用設計</span></div>
+      <div class="quiz-card"><div class="q">替手抖的個案選加重湯匙、防滑碗墊,讓他可以自己吃飯。</div><span class="hint">想想:是否依這個人的功能限制選工具?</span><span class="ans">答案:人因設計</span></div>
+      <div class="quiz-card"><div class="q">日照活動流程用顏色、圖卡、步驟卡,讓失智長輩也能跟得上。</div><span class="hint">想想:是否降低資訊理解門檻?</span><span class="ans">答案:通用設計</span></div>
+      <div class="quiz-card"><div class="q">依照顧者腰背狀況與家中床邊空間,選擇站立式移位機或懸吊式移位機。</div><span class="hint">想想:是否在配合個案、照顧者與環境條件?</span><span class="ans">答案:人因設計</span></div>
+    </div>
+    <p class="note reveal d4">補充:真實世界常常兩者都有。課堂上可問第二題:如果要讓它更通用,還能改哪裡?</p>
+  </section>
+
+  <!-- Ronald Mace 通用設計七原則 -->
+  <section class="slide" style="background:var(--paper2);" id="s-ud7">
+    <span class="pageno">七原則</span>
+    <span class="eyebrow reveal">RONALD MACE · UNIVERSAL DESIGN</span>
+    <h2 class="reveal d1">通用設計七原則,<span class="accent-t">直接套進生活</span></h2>
+    <p class="lead reveal d2" style="margin-bottom:14px;">Ronald Mace 與 NC State 通用設計團隊提出七原則,可用來檢查產品、環境、資訊與服務是否讓更多人安全、直覺、有尊嚴地使用。</p>
+    <div class="principle-grid reveal d3">
+      <div class="principle"><b>1. 公平使用 Equitable Use</b><span><em>示範:</em>入口無門檻、所有人走同一條路;餐具不貼「病人用」標籤,造型像一般餐具。</span></div>
+      <div class="principle"><b>2. 彈性使用 Flexibility in Use</b><span><em>示範:</em>左右手都能操作的扶手/水龍頭;餐桌高度可調,輪椅、一般椅都能使用。</span></div>
+      <div class="principle"><b>3. 簡單直覺 Simple & Intuitive</b><span><em>示範:</em>遙控器只保留常用大按鍵;日照活動用顏色、圖示與步驟卡降低認知負荷。</span></div>
+      <div class="principle"><b>4. 可感知資訊 Perceptible Information</b><span><em>示範:</em>大字、高對比、聲光震動多重提醒;藥盒用顏色、圖像與語音提示。</span></div>
+      <div class="principle"><b>5. 容許錯誤 Tolerance for Error</b><span><em>示範:</em>防燙水龍頭、防滑地墊、床邊感應燈;電動代步車限速與煞車提醒。</span></div>
+      <div class="principle"><b>6. 低體力負擔 Low Physical Effort</b><span><em>示範:</em>槓桿式門把、長柄工具、滑軌抽屜;照顧者用移位機避免抱抬。</span></div>
+      <div class="principle"><b>7. 足夠尺寸與空間 Size & Space</b><span><em>示範:</em>輪椅可迴轉的浴廁、床邊預留移位機空間、走道可讓助行器通過。</span></div>
+      <div class="principle"><b>課堂帶法</b><span><em>問學員:</em>這個設計是降低環境門檻,還是個別適配?若兩者都有,先改環境,再配輔具。</span></div>
+    </div>
+    <p class="note reveal d4">七原則不是要背名詞,而是當成現場檢核表:能不能不用解釋就懂?能不能出錯也不危險?能不能讓不同能力的人都參與?</p>
+  </section>
+
+  <!-- 互動題:七原則 -->
+  <section class="slide" id="s-quiz-ud7">
+    <span class="pageno">互動題 ②</span>
+    <span class="eyebrow reveal">7 PRINCIPLES QUIZ</span>
+    <h2 class="reveal d1">猜猜看:符合<span class="accent-t">七原則</span>中的哪一條?</h2>
+    <p class="lead reveal d2" style="margin-bottom:14px;">可分組搶答。請學員先說原則名稱,再說為什麼。</p>
+    <div class="quiz-grid reveal d3">
+      <div class="quiz-card"><div class="q">門把從圓形旋鈕改成槓桿式門把,手指無力也能用手肘或前臂開門。</div><span class="hint">關鍵字:不用花太多力氣。</span><span class="ans">答案:低體力負擔</span></div>
+      <div class="quiz-card"><div class="q">電梯按鈕同時有大字、點字、語音樓層提示與亮燈回饋。</div><span class="hint">關鍵字:不同感官都能接收資訊。</span><span class="ans">答案:可感知資訊</span></div>
+      <div class="quiz-card"><div class="q">電動代步車初始速度預設最低,轉彎時自動降速,避免新手一開始暴衝。</div><span class="hint">關鍵字:犯錯時不會造成太大危險。</span><span class="ans">答案:容許錯誤</span></div>
+      <div class="quiz-card"><div class="q">桌子高度可調,一般椅、輪椅、站立活動都可以使用同一張桌子。</div><span class="hint">關鍵字:同一設計可配合不同使用方式。</span><span class="ans">答案:彈性使用</span></div>
+      <div class="quiz-card"><div class="q">所有人都從同一個無障礙入口進入,不用讓輪椅使用者繞到後門。</div><span class="hint">關鍵字:不分族群,同等尊嚴。</span><span class="ans">答案:公平使用</span></div>
+      <div class="quiz-card"><div class="q">藥盒用早中晚圖示與顏色分格,不需要看長篇說明也知道怎麼拿。</div><span class="hint">關鍵字:不用學太久,一看就懂。</span><span class="ans">答案:簡單直覺</span></div>
+      <div class="quiz-card"><div class="q">浴廁預留輪椅迴轉半徑,馬桶旁也留照顧者協助移位的位置。</div><span class="hint">關鍵字:尺寸、空間、姿勢與接近方式。</span><span class="ans">答案:足夠尺寸與空間</span></div>
+      <div class="quiz-card"><div class="q">智慧床墊警示同時推播到手機與照顧站看板,夜班人員不用只靠一支手機。</div><span class="hint">關鍵字:資訊能被不同情境的人接收到。</span><span class="ans">答案:可感知資訊</span></div>
+    </div>
+  </section>
+
+  <!-- 聽力輔具 -->
+  <section class="slide" id="s-hearing">
+    <span class="pageno">感官輔具 ①</span>
+    <span class="eyebrow reveal">HEARING SUPPORT</span>
+    <h2 class="reveal d1">聽不清楚,<span class="accent-t">不只是音量問題</span></h2>
+    <div class="smart-detail reveal d2">
+      <div class="spec">
+        <div class="head"><span class="e">👂</span><div><h3>聽力輔具:助聽器、輔聽系統、字幕與震動提醒</h3><span class="tag">感官 × 科技 × 溝通參與</span></div></div>
+        <dl>
+          <dt>需求</dt><dd>聽不到、聽不清楚、多人說話聽不懂、電話/門鈴/警報漏聽,都會影響安全與社交。</dd>
+          <dt>通用設計</dt><dd>環境先降噪、說話面向對方、字幕/文字同步、聲光震動並用,讓聽損者與一般人都能取得資訊。</dd>
+          <dt>人因設計</dt><dd>依聽損型態、手部精細動作、認知與配戴耐受度選助聽器、耳模、音量/程式設定與保養方式。</dd>
+          <dt>科技結合</dt><dd>藍牙助聽器、手機字幕、遠端麥克風、電視輔聽、門鈴/火警閃光震動提醒,把聲音轉成可看、可震、可記錄的訊息。</dd>
+          <dt>教學提醒</dt><dd>助聽器不是眼鏡,戴上不等於立刻聽懂;需要驗配、適應、聽能訓練與家屬溝通方式調整。</dd>
+        </dl>
+      </div>
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/aSHX2HDvulw" title="聽覺輔具介紹 助聽器" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>聽覺輔具介紹:助聽器</b><span>適合用來說明助聽器的定位:改善聆聽困難,但不能完全恢復聽力。</span></div>
+        <div class="video-points"><ul><li>講解重點:助聽器要經聽力評估、驗配與追蹤,不是買一台放大聲音就好。</li><li>課堂可延伸:會議、日照活動、居家警示都要提供視覺或震動備援。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/aSHX2HDvulw?t=0" target="_blank" rel="noopener">0:00 助聽器用途</a><a class="time-link" href="https://youtu.be/aSHX2HDvulw?t=60" target="_blank" rel="noopener">1:00 聽力困難與使用情境</a><a class="time-link" href="https://youtu.be/aSHX2HDvulw?t=150" target="_blank" rel="noopener">2:30 驗配與注意事項</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 視力輔具 -->
+  <section class="slide" style="background:var(--paper2);" id="s-vision">
+    <span class="pageno">感官輔具 ②</span>
+    <span class="eyebrow reveal">VISION SUPPORT</span>
+    <h2 class="reveal d1">看不清楚,<span class="accent-t">就把資訊換一種方式給他</span></h2>
+    <div class="smart-detail reveal d2">
+      <div class="spec">
+        <div class="head"><span class="e">👁️</span><div><h3>視力輔具:擴視、語音報讀、對比與定位</h3><span class="tag">低視能 × 資訊可及 × 安全動線</span></div></div>
+        <dl>
+          <dt>需求</dt><dd>看不清字、看不到階差、辨識藥袋/帳單/門牌困難,會影響用藥、財務、外出與跌倒風險。</dd>
+          <dt>通用設計</dt><dd>大字、高對比、足夠照明、清楚動線、觸覺標示與語音資訊,讓視力退化者不必單靠眼睛硬撐。</dd>
+          <dt>人因設計</dt><dd>依視野、視 acuity、對比敏感度、手部操作與閱讀距離選放大鏡、擴視機、濾光鏡、語音報讀或手機輔助。</dd>
+          <dt>科技結合</dt><dd>OCR 文字辨識語音朗讀、電子擴視機、手機放大/旁白、AI 影像描述、智慧藥盒與定位提醒。</dd>
+          <dt>教學提醒</dt><dd>放大不是唯一答案;光線、對比、閱讀姿勢、疲勞與環境整理常常比倍率更重要。</dd>
+        </dl>
+      </div>
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/Fty2TPaZhQc" title="桌上型擴視機與文字辨識語音朗讀" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>擴視機 + OCR 語音朗讀</b><span>示範把看不清楚的文字放大,也能透過文字辨識轉成語音。</span></div>
+        <div class="video-points"><ul><li>講解重點:擴視機處理視覺資訊,OCR 語音朗讀則把視覺轉成聽覺。</li><li>課堂可延伸:藥袋、帳單、行事曆與活動通知都應同時考慮大字、對比與語音。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/Fty2TPaZhQc?t=0" target="_blank" rel="noopener">0:00 擴視機外觀與用途</a><a class="time-link" href="https://youtu.be/Fty2TPaZhQc?t=55" target="_blank" rel="noopener">0:55 放大閱讀</a><a class="time-link" href="https://youtu.be/Fty2TPaZhQc?t=120" target="_blank" rel="noopener">2:00 OCR 文字辨識朗讀</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 生活應用 開場 ===== -->
+  <section class="slide" style="background:var(--paper2);" id="s-life">
+    <span class="pageno">生活應用</span>
+    <span class="eyebrow reveal">IN DAILY LIFE</span>
+    <h2 class="reveal d1">設計,<span class="accent-t">藏在生活每個動作裡</span></h2>
+    <p class="lead life-intro reveal d2">以下從長輩一天的生活面向來看:先用通用設計降低環境門檻,再用人因設計依個人功能搭配輔具。</p>
+    <div class="life-map reveal d3">
+      <div class="lm"><span class="e">🍚</span><div><b>食</b><span>自己吃、吃得安全、有尊嚴</span></div></div>
+      <div class="lm"><span class="e">👕</span><div><b>衣</b><span>穿脫省力,保留選擇感</span></div></div>
+      <div class="lm"><span class="e">🏠</span><div><b>住</b><span>把動線、光線、扶手先做好</span></div></div>
+      <div class="lm"><span class="e">🚶</span><div><b>行</b><span>走得穩、轉得過、煞得住</span></div></div>
+      <div class="lm"><span class="e">🚽</span><div><b>大小便</b><span>安全如廁,減少跌倒與羞恥感</span></div></div>
+      <div class="lm"><span class="e">🛏️</span><div><b>睡眠</b><span>翻身、離床、夜間照明與壓力照顧</span></div></div>
+      <div class="lm"><span class="e">🚌</span><div><b>外出</b><span>從家門到社區,都要能接得上</span></div></div>
+      <div class="lm"><span class="e">🎲</span><div><b>育樂</b><span>活動不是消磨時間,是角色與參與</span></div></div>
+      <div class="lm"><span class="e">🤝</span><div><b>親密與性</b><span>隱私、身體自主與成人尊嚴</span></div></div>
+    </div>
+    <div class="design-legend reveal d4">
+      <span><span class="tag" style="background:var(--teal-deep);">通用設計</span>先降低環境門檻</span>
+      <span><span class="tag" style="background:var(--amber-deep);">人因設計</span>再依個人功能適配輔具</span>
+    </div>
+  </section>
+
+  <!-- 生活應用 1:進食、穿脫衣、居家環境、行動 -->
+  <section class="slide" id="s-life2">
+    <span class="pageno">生活應用 ①</span>
+    <span class="eyebrow reveal">EAT · DRESS · HOME · MOVE</span>
+    <div class="life-list">
+      <div class="life reveal d1">
+        <div class="lh"><span class="e">🍚</span><b>進食</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">通用設計</span><p>餐桌下方留膝部空間、光線充足、餐具顏色與桌面有對比,菜單用大字與圖示;讓輪椅使用者、視力退化者、手部無力者都能參與用餐。</p></div>
+          <div class="seg e"><span class="lbl">人因設計</span><p>依握力、手抖、單手操作與吞嚥狀況選加粗/加重餐具、防灑吸盤碗、餐盤框、彎角湯匙、防嗆杯。教學時強調:輔具是讓他自己吃,不是讓照顧者餵更快。</p></div>
+        </div>
+      </div>
+      <div class="life reveal d2">
+        <div class="lh"><span class="e">👕</span><b>穿脫衣</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">通用設計</span><p>衣物採前開、寬鬆領口、彈性腰頭、清楚正反標示,減少高舉手臂、彎腰與細小扣件操作。</p></div>
+          <div class="seg e"><span class="lbl">人因設計</span><p>依肩關節活動度、手指精細動作與平衡能力選魔鬼氈、加大拉鍊環、穿衣棒、穿襪器、長柄鞋拔。偏癱教學可用「患側先穿、健側先脫」,保護肩膀並增加成功率。</p></div>
+        </div>
+      </div>
+      <div class="life reveal d3">
+        <div class="lh"><span class="e">🏠</span><b>居家環境</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">通用設計</span><p>無門檻、寬走道、止滑地面、夜間感應燈、大面開關與清楚動線,讓拐杖、助行器、輪椅、照顧者都能安全通過。</p></div>
+          <div class="seg e"><span class="lbl">人因設計</span><p>依身高、慣用手、轉身半徑與日常路徑調整扶手高度、床邊留位、家具擺放與防撞。教學時可問:他每天最常走哪三條路?那裡才是改善重點。</p></div>
+        </div>
+      </div>
+      <div class="life reveal d4">
+        <div class="lh"><span class="e">🚶</span><b>行動</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">通用設計</span><p>斜坡道、連續扶手、平整防滑地面、低底盤公車與清楚指標,讓拐杖、輪椅、推車與陪行者都能走同一條安全路徑。</p></div>
+          <div class="seg e"><span class="lbl">人因設計</span><p>依肌力、平衡、握力、認知與居家空間選手杖、四腳拐、助行器、輪椅或代步車;高度、煞車、座寬與座墊都要量身,並現場教安全步態。</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 生活應用 2:學習、娛樂、沐浴、盥洗 -->
+  <section class="slide" style="background:var(--paper2);" id="s-life3">
+    <span class="pageno">生活應用 ②</span>
+    <span class="eyebrow reveal">LEARN · PLAY · BATH · WASH</span>
+    <div class="life-list">
+      <div class="life reveal d1">
+        <div class="lh"><span class="e">📖</span><b>學習</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">通用設計</span><p>教材用大字、高對比、圖文並陳、字幕與可調語速,流程固定且一步一指令,讓聽力、視力、認知速度不同的人都能跟上。</p></div>
+          <div class="seg e"><span class="lbl">人因設計</span><p>依視力、聽力、記憶與操作能力選放大鏡、閱讀架、助聽/字幕、平板簡化桌面、語音輸入或提醒 App。教學目標不是學很多,而是讓他能重複成功。</p></div>
+        </div>
+      </div>
+      <div class="life reveal d2">
+        <div class="lh"><span class="e">🎲</span><b>娛樂</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">通用設計</span><p>大牌面麻將、大字撲克、好握棋子、簡化規則與足夠桌面空間,讓不同能力者能一起參與,避免把長輩排除在活動外。</p></div>
+          <div class="seg e"><span class="lbl">人因設計</span><p>依興趣、坐姿耐力與手功能調整活動:粗筆桿、牌架、固定板、輕量麥克風、腳踏訓練器。把娛樂變成有動機的復能,比單純訓練更能持續。</p></div>
+        </div>
+      </div>
+      <div class="life reveal d3">
+        <div class="lh"><span class="e">🚿</span><b>沐浴</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">通用設計</span><p>無門檻淋浴、止滑地坪、恆溫龍頭、乾濕分離、足夠迴轉空間與明亮照明,降低每個人洗澡跌倒與燙傷風險。</p></div>
+          <div class="seg e"><span class="lbl">人因設計</span><p>依站立耐力、移位能力與皮膚狀況選洗澡椅、帶輪洗澡椅、長柄海綿、扶手位置與加長蓮蓬頭。教學時要示範:先坐穩、再洗,地面乾再起身。</p></div>
+        </div>
+      </div>
+      <div class="life reveal d4">
+        <div class="lh"><span class="e">🪥</span><b>盥洗</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">通用設計</span><p>洗手台下方留空、單桿式或感應水龍頭、可坐姿使用的鏡子、置物高度在可及範圍,讓坐姿或站姿不穩者也能盥洗。</p></div>
+          <div class="seg e"><span class="lbl">人因設計</span><p>依握力、肩肘活動度與單手操作能力選加粗牙刷柄、電動牙刷、加長梳、固定式指甲剪、自動擠牙膏器。小輔具常最便宜,但最能保住自主感。</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 生活應用 3:大小便、睡眠、外出 -->
+  <section class="slide" id="s-life4">
+    <span class="pageno">生活應用 ③</span>
+    <span class="eyebrow reveal">TOILET · SLEEP · OUTING · INTIMACY</span>
+    <div class="life-list">
+      <div class="life reveal d1">
+        <div class="lh"><span class="e">🚽</span><b>大小便</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">通用設計</span><p>無障礙廁所、兩側扶手、足夠迴轉空間、夜間照明與清楚路徑,讓輪椅、助行器、陪同者都能進出,也維護如廁隱私。</p></div>
+          <div class="seg e"><span class="lbl">人因設計</span><p>依站起能力、轉位方式與夜尿頻率選馬桶增高器、馬桶扶手、便盆椅、尿壺、移位板。失禁用品要依活動量與皮膚狀況選,並搭配定時如廁,不是直接放棄訓練。</p></div>
+        </div>
+      </div>
+      <div class="life reveal d2">
+        <div class="lh"><span class="e">😴</span><b>睡眠</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">通用設計</span><p>床邊照明、床邊可及開關/呼叫鈴、地面無雜物、床高接近膝窩高度,讓起床、坐起、穿鞋都更安全。</p></div>
+          <div class="seg e"><span class="lbl">人因設計</span><p>依翻身能力、壓瘡風險、呼吸與照顧者腰背負荷選電動照顧床、床邊扶手、移位滑墊、減壓氣墊床。氣墊床不是越軟越好,壓力、包覆與翻身計畫都要調整。</p></div>
+        </div>
+      </div>
+      <div class="life reveal d3">
+        <div class="lh"><span class="e">🚌</span><b>外出</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">通用設計</span><p>低地板公車、無障礙計程車、騎樓整平、連續坡道、可休息座椅與大字指標,讓長輩不必為了出門先克服一堆障礙。</p></div>
+          <div class="seg e"><span class="lbl">人因設計</span><p>依體力、路面、距離、轉乘方式與照顧者能力選輕量輪椅、助行車、電動代步車、移位板、便攜坡板。外出輔具還要考慮能不能上車、收納與充電。</p></div>
+        </div>
+      </div>
+      <div class="life reveal d4">
+        <div class="lh"><span class="e">💗</span><b>親密與性</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">通用設計</span><p>親密與性是成人生活與尊嚴的一部分。空間需有隱私、門鎖/敲門規則、尊重身體自主的機構文化,避免把需求一律視為「問題行為」。</p></div>
+          <div class="seg e"><span class="lbl">人因設計</span><p>依疼痛、關節活動度、耐力與認知狀況提供支撐枕、體位輔助墊、移位協助與安全衛教。若涉及失智或同意能力,照顧者需以保護、同意、尊嚴三者平衡處理。</p></div>
+        </div>
+      </div>
+    </div>
+    <p class="note reveal d4">原則:<b>通用設計</b>先把環境與產品做到「人人可用」;<b>人因設計</b>再依每位長輩的身體功能與習慣「量身微調」。兩者搭配,才是真正以人為本。</p>
+  </section>
+
+  <!-- 一般生活輔具產品頁 -->
+  <section class="slide" style="background:var(--paper2);" id="s-adl-products">
+    <span class="pageno">一般輔具產品頁 ①</span>
+    <span class="eyebrow reveal">ADL PRODUCTS</span>
+    <h2 class="reveal d1">食、衣、住、行:<span class="accent-t">先看功能,再看產品</span></h2>
+    <p class="lead reveal d2" style="margin-bottom:14px;">這些連結適合課堂現場點開,讓學員從產品特徵回推「它解決哪個生活動作」。多數屬一般輔具、傳統補助或自費產品認識,不等於長照 3.0 智慧科技租賃。</p>
+    <div class="principle-grid reveal d3">
+      <div class="principle">
+        <b>食:加粗餐具、輔助筷、防滑碗</b>
+        <span>特色:把「握不住、舀不起、容易灑、容易嗆」拆開處理。通用設計看桌面、光線與對比;人因設計看握力、手抖、單手操作與吞嚥。</span>
+        <div class="product-links">
+          <div><a href="https://newrepat.sfaa.gov.tw/home/question/detail/4bc1e2b4905e44790190774c15630f85" target="_blank" rel="noopener">輔具資源入口網｜飲食輔具有哪些?</a><span>可用來介紹加粗刀叉湯匙、輔助筷、切口杯等常見品項。</span></div>
+          <div><a href="https://www.ez66.com.tw/pages/independent-living-aids-guide" target="_blank" rel="noopener">EZ66｜進食與穿衣輔具選購指南</a><span>可搭配講加粗握柄、可彎曲餐具與輔助筷的使用情境。</span></div>
+        </div>
+      </div>
+      <div class="principle">
+        <b>衣:穿襪器、穿衣棒、拉鍊/鈕扣輔具</b>
+        <span>特色:減少彎腰、抬腳、高舉肩膀與細小手指操作。教學時可示範「患側先穿、健側先脫」,把產品和動作策略一起講。</span>
+        <div class="product-links">
+          <div><a href="https://newrepat.sfaa.gov.tw/home/pavs/product/detail/2c90e4c76e7cc273016e7cc3baf614c0" target="_blank" rel="noopener">輔具資源入口網｜輔助穿襪器</a><span>產品頁可看穿襪器的材質、U 型凹槽與防滑設計。</span></div>
+          <div><a href="https://www.youtube.com/watch?v=3oL6HM9mR7Y" target="_blank" rel="noopener">影片｜日常生活輔助器具:穿襪器</a><span>可直接示範襪子套入、坐姿拉繩與減少彎腰的操作重點。</span></div>
+        </div>
+      </div>
+      <div class="principle">
+        <b>住/浴廁:洗澡椅、便盆椅、馬桶增高器</b>
+        <span>特色:先坐穩再洗、轉位路徑清楚、手可抓穩。通用設計看浴廁防滑、照明與門檻;人因設計看站立耐力、移位方式與皮膚狀況。</span>
+        <div class="product-links">
+          <div><a href="https://dsmi.com.tw/index.php?limit=75&path=131_173&route=product%2Fcategory" target="_blank" rel="noopener">鼎祥醫療｜便盆椅、洗澡椅、馬桶增高器</a><span>適合比較扶手、椅腳防滑、輪子煞車、背靠與移位空間。</span></div>
+          <div><a href="https://www.hengshen-tw.com/index.html" target="_blank" rel="noopener">恆伸醫療｜洗澡椅與便盆椅產品</a><span>可用來講承重、扶手、輪煞、骨盆帶與洗澡/如廁二合一情境。</span></div>
+        </div>
+      </div>
+      <div class="principle">
+        <b>行:手杖、四腳拐、助行器、輪椅</b>
+        <span>特色:「有輔具」不等於「挑對輔具」。要看肌力、平衡、握力、步態、門寬與外出路線,再調高度、座寬、煞車與步態訓練。</span>
+        <div class="product-links">
+          <div><a href="https://www.ez66.com.tw/pages/mobility-aids-selection-guide" target="_blank" rel="noopener">EZ66｜行動輔具選購指南</a><span>可比較手杖、助行器、輪椅等適用情境與限制。</span></div>
+          <div><a href="https://about.pshc.com.tw/?p=5447" target="_blank" rel="noopener">必翔｜四腳拐杖行走步態教學</a><span>適合搭配講高度、重量、穩定性與步態順序。</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="s-adl-products2">
+    <span class="pageno">一般輔具產品頁 ②</span>
+    <span class="eyebrow reveal">TOILET · SLEEP · OUTING</span>
+    <h2 class="reveal d1">大小便、睡眠、外出:<span class="accent">把風險講清楚</span></h2>
+    <div class="principle-grid reveal d2">
+      <div class="principle">
+        <b>大小便:便盆椅、馬桶扶手、移位板</b>
+        <span>特色:縮短夜間如廁距離、降低站起與轉位風險。不是直接放棄如廁訓練,而是把時間、路徑、隱私與皮膚照護一起設計。</span>
+        <div class="product-links">
+          <div><a href="https://dsmi.com.tw/index.php?limit=75&path=131_173&route=product%2Fcategory" target="_blank" rel="noopener">產品頁｜便盆椅與馬桶增高器</a><span>可觀察扶手是否可拆、座面高度、腳輪煞車與清潔方式。</span></div>
+          <div><a href="https://youtu.be/Rj7gtSKL4i4?t=0" target="_blank" rel="noopener">影片｜輪椅到馬桶轉位</a><span>重點:輪椅煞車、腳踏板、站位、扶手與不要拉手臂硬轉。</span></div>
+        </div>
+      </div>
+      <div class="principle">
+        <b>睡眠:氣墊床、床邊扶手、移位滑墊</b>
+        <span>特色:處理壓力、翻身、坐起與夜間離床風險。氣墊床不是越軟越好,仍要搭配翻身計畫、皮膚檢查與營養。</span>
+        <div class="product-links">
+          <div><a href="https://youtu.be/y53vQMsDQzk?t=0" target="_blank" rel="noopener">影片｜氣墊床正確使用方式</a><span>可講壓力設定、管線安全、清潔維護與床單不要拉太緊。</span></div>
+          <div><a href="https://newrepat.sfaa.gov.tw/home/pavs/product/search?keyword=%E6%B0%A3%E5%A2%8A%E5%BA%8A" target="_blank" rel="noopener">輔具資源入口網｜搜尋氣墊床</a><span>可示範如何看產品規格,再回到輔具評估與地方核定。</span></div>
+        </div>
+      </div>
+      <div class="principle">
+        <b>外出:輕量輪椅、助行車、便攜坡板</b>
+        <span>特色:外出不是只看輔具本體,還要看能否上車、收納、充電、通過門口與社區路面。通用設計要把路線也納入。</span>
+        <div class="product-links">
+          <div><a href="https://jinjia.com.tw/show.php?f=001n-1.jpg" target="_blank" rel="noopener">均佳生物科技｜長照輪椅產品頁</a><span>可講座寬、折疊、輪煞、腳踏板與轉位安全。</span></div>
+          <div><a href="https://www.ez66.com.tw/pages/mobility-aids-selection-guide" target="_blank" rel="noopener">EZ66｜行動輔具選購指南</a><span>可用來比較短距離居家、社區外出與照顧者推行需求。</span></div>
+        </div>
+      </div>
+      <div class="principle">
+        <b>補助提醒:一般輔具與智慧科技分開問</b>
+        <span>這些一般生活輔具常見於傳統長照輔具、身障補助或自費購買/租借。是否可補助,仍需照管專員、輔具評估、地方政府與簽約廠商確認。</span>
+        <div class="product-links">
+          <div><a href="https://1966.gov.tw/LTC/np-6453-207.html" target="_blank" rel="noopener">1966｜輔具及居家無障礙改善服務</a><span>課堂上可提醒:個案權益最後回到 1966、地方政府與輔具中心。</span></div>
+          <div><a href="https://newrepat.sfaa.gov.tw/home/prepaid-help-vendor" target="_blank" rel="noopener">政府輔具補助簽約廠商查詢</a><span>可示範如何查特約廠商,但仍不能取代評估與核定。</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="note reveal d3">講師帶法:請學員點一個產品頁,先說「它解決哪個動作困難?」再說「它偏通用設計、人因設計,還是兩者都要?」</p>
+  </section>
+
+  <!-- 互動題:生活與感官輔具 -->
+  <section class="slide" style="background:var(--paper2);" id="s-quiz-life">
+    <span class="pageno">互動題 ③</span>
+    <span class="eyebrow reveal">ADL · SENSORY QUIZ</span>
+    <h2 class="reveal d1">生活輔具題:<span class="accent-t">先猜</span>,再翻牌</h2>
+    <p class="lead reveal d2" style="margin-bottom:14px;">請學員先判斷:這比較偏通用設計、人因設計,還是兩者都要?翻牌後再補充科技輔具可以怎麼接上。</p>
+    <div class="quiz-grid reveal d3">
+      <div class="quiz-card"><div class="q">餐盤換成高對比顏色,同時提供加粗握柄湯匙給手抖長輩。</div><span class="hint">提示:一個是資訊/環境,一個是手部操作。</span><span class="ans">答案:兩者都有。高對比餐盤是通用設計;加粗或加重湯匙是依手功能做的人因適配。</span></div>
+      <div class="quiz-card"><div class="q">偏癱長輩穿衣卡住,把衣服改成前開式、魔鬼氈,並教患側先穿。</div><span class="hint">提示:衣服設計與穿衣策略都重要。</span><span class="ans">答案:偏人因設計。依肩關節活動、單手操作與動作順序調整;若款式一般化、不貼特殊標籤,也更接近通用設計。</span></div>
+      <div class="quiz-card"><div class="q">晚上常跌倒,先加床邊感應燈、清掉地毯與延長線,再評估是否需要床邊扶手。</div><span class="hint">提示:先處理大家都會受益的風險。</span><span class="ans">答案:先通用、再人因。照明與動線整理降低所有人的風險;床邊扶手再依起身方式、床高與慣用手個別配置。</span></div>
+      <div class="quiz-card"><div class="q">日照活動使用大字撲克牌、牌架與固定板,讓視力退化、單手操作者都能參與。</div><span class="hint">提示:活動不是打發時間,也是參與設計。</span><span class="ans">答案:兩者都有。大字牌面是通用設計;牌架、固定板依握力與單手操作配置,是人因設計。</span></div>
+      <div class="quiz-card"><div class="q">聽損長輩開會聽不到,現場使用字幕、麥克風與面對面說話,另轉介助聽器驗配。</div><span class="hint">提示:資訊要能被不同感官接收。</span><span class="ans">答案:兩者都有。字幕、麥克風與視覺提示是通用設計;助聽器驗配、耳模與音量程式是人因設計。</span></div>
+      <div class="quiz-card"><div class="q">低視能長輩看不清藥袋,改大字高對比標籤,並教手機放大、OCR 朗讀。</div><span class="hint">提示:不是只把字放大而已。</span><span class="ans">答案:通用設計加科技輔具。大字高對比讓更多人可讀;手機放大與 OCR 朗讀把視覺資訊轉為可聽、可放大的資訊。</span></div>
+      <div class="quiz-card"><div class="q">如廁常急、轉位危險,把廁所路徑照明補足,並依功能選便盆椅或馬桶增高器。</div><span class="hint">提示:路徑、時間、轉位都要一起看。</span><span class="ans">答案:兩者都有。照明與清楚路徑是通用設計;便盆椅、馬桶增高器與扶手高度是人因適配。</span></div>
+      <div class="quiz-card"><div class="q">外出只買電動代步車,但沒有練上下車、充電、煞車與社區路線。</div><span class="hint">提示:輔具不是交貨就結束。</span><span class="ans">答案:不完整。人因設計要包含速度、煞車、座椅與操作訓練;通用設計要看社區路面、坡道與交通接續。</span></div>
+    </div>
+    <p class="note reveal d4">帶法:每題先請學員站在照專、A 個管或居督角色說「我會先問哪三個問題?」再翻牌看建議答案。</p>
+  </section>
+
+  <!-- 生活輔具示範影片 -->
+  <section class="slide" style="background:var(--paper2);" id="s-adl-video">
+    <span class="pageno">生活輔具示範</span>
+    <span class="eyebrow reveal">ADL · DEMO</span>
+    <h2 class="reveal d1">食衣住行育樂,<span class="accent-t">用影片教更清楚</span></h2>
+    <p class="lead reveal d2" style="margin-bottom:18px;">這組影片可接在生活面向後播放。請學員看「輔具解決哪個功能限制」,不要只記品名。</p>
+    <div class="video-grid">
+      <div class="video-card reveal d2">
+        <iframe src="https://www.youtube.com/embed/0JhyH3ksunc" title="飲食輔具介紹影片" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>進食輔具</b><span>示範加粗握把、防嗆杯、防灑吸盤碗、餐盤框等。可搭配講單手進食、手抖與吞嚥安全。</span></div>
+        <div class="video-points"><ul><li>看進食輔具如何對應握力不足、單手進食、手抖與吞嚥風險。</li><li>教學時把品項翻成需求:握不住、舀不起、容易灑、容易嗆。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/0JhyH3ksunc?t=0" target="_blank" rel="noopener">影片開頭:飲食輔具總覽</a><a class="time-link" href="https://youtu.be/0JhyH3ksunc?t=133" target="_blank" rel="noopener">2:13 握把/杯架與喝水輔助</a><a class="time-link" href="https://youtu.be/0JhyH3ksunc?t=193" target="_blank" rel="noopener">3:13 餐盤框</a><a class="time-link" href="https://youtu.be/0JhyH3ksunc?t=241" target="_blank" rel="noopener">4:01 防灑吸盤碗</a><a class="time-link" href="https://youtu.be/0JhyH3ksunc?t=293" target="_blank" rel="noopener">4:53 彎曲湯匙叉子</a></div></div>
+      </div>
+      <div class="video-card reveal d3">
+        <iframe src="https://www.youtube.com/embed/3oL6HM9mR7Y" title="穿襪器輔具示範" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>穿脫衣與穿襪</b><span>示範穿襪器如何減少彎腰、抬腳與髖關節壓力。適合講解術後、腰痛、下肢無力者。</span></div>
+        <div class="video-points"><ul><li>穿襪器的核心不是方便而已,而是減少彎腰、髖關節屈曲與跌倒風險。</li><li>適合腰痛、髖關節術後、下肢無力、坐姿平衡差者,但需有基本手部拉繩能力。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/3oL6HM9mR7Y?t=0" target="_blank" rel="noopener">0:00 輔具目的</a><a class="time-link" href="https://youtu.be/3oL6HM9mR7Y?t=35" target="_blank" rel="noopener">0:35 襪子套入方式</a><a class="time-link" href="https://youtu.be/3oL6HM9mR7Y?t=80" target="_blank" rel="noopener">1:20 坐姿拉繩完成穿襪</a></div></div>
+      </div>
+      <div class="video-card reveal d4">
+        <iframe src="https://www.youtube.com/embed/QWH9rxSeo1I" title="浴室與廁所輔具設計" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>沐浴與如廁環境</b><span>可用來說明止滑、扶手、洗澡椅、無障礙浴廁與通用設計如何降低跌倒風險。</span></div>
+        <div class="video-points"><ul><li>浴廁教學要同時講通用設計與個別輔具:止滑、扶手、坐著洗、動線和照明。</li><li>提醒學員:浴室輔具不是買椅子就好,要看門檻、排水、牆面能否固定扶手。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/QWH9rxSeo1I?t=0" target="_blank" rel="noopener">0:00 無障礙浴廁概念</a><a class="time-link" href="https://youtu.be/QWH9rxSeo1I?t=80" target="_blank" rel="noopener">1:20 扶手、防滑與動線</a><a class="time-link" href="https://youtu.be/QWH9rxSeo1I?t=180" target="_blank" rel="noopener">3:00 洗澡椅與浴廁輔具</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="s-adl-video2">
+    <span class="pageno">生活輔具示範</span>
+    <span class="eyebrow reveal">TOILET · SLEEP · OUTING</span>
+    <h2 class="reveal d1">大小便、睡眠、外出,<span class="accent">看安全細節</span></h2>
+    <div class="video-grid">
+      <div class="video-card reveal d2">
+        <iframe src="https://www.youtube.com/embed/y53vQMsDQzk" title="氣墊床正確使用方式" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>氣墊床與睡眠照護</b><span>示範氣墊床使用與清潔維護。可提醒壓瘡預防還要搭配翻身、皮膚檢查與營養。</span></div>
+        <div class="video-points"><ul><li>氣墊床是壓力管理工具,不是取代翻身、皮膚檢查和營養照護。</li><li>教學時強調壓力設定、清潔維護、管線安全與床單不要拉太緊。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/y53vQMsDQzk?t=0" target="_blank" rel="noopener">0:00 氣墊床使用目的</a><a class="time-link" href="https://youtu.be/y53vQMsDQzk?t=60" target="_blank" rel="noopener">1:00 壓力與充氣設定</a><a class="time-link" href="https://youtu.be/y53vQMsDQzk?t=140" target="_blank" rel="noopener">2:20 清潔維護與注意事項</a></div></div>
+      </div>
+      <div class="video-card reveal d3">
+        <iframe src="https://www.youtube.com/embed/Rj7gtSKL4i4" title="輪椅到馬桶轉位" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>大小便與轉位</b><span>示範輪椅到馬桶轉位。重點是煞車、腳踏板、扶手、站位與不要硬拉手臂。</span></div>
+        <div class="video-points"><ul><li>輪椅到馬桶轉位要先處理環境:煞車、腳踏板、扶手、馬桶高度與照顧者站位。</li><li>提醒:不要拉手臂硬轉,要讓個案重心向前、腳站穩、用可抓握的支撐點。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/Rj7gtSKL4i4?t=0" target="_blank" rel="noopener">0:00 轉位情境</a><a class="time-link" href="https://youtu.be/Rj7gtSKL4i4?t=45" target="_blank" rel="noopener">0:45 煞車與腳踏板</a><a class="time-link" href="https://youtu.be/Rj7gtSKL4i4?t=90" target="_blank" rel="noopener">1:30 站位與轉身</a></div></div>
+      </div>
+      <div class="video-card reveal d4">
+        <iframe src="https://www.youtube.com/embed/RI9ZcKwolLA" title="一般輪椅的使用" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>外出與輪椅安全</b><span>示範一般輪椅使用。可接著討論座寬、座墊、推行者把手高度、上車與收納。</span></div>
+        <div class="video-points"><ul><li>輪椅教學先看安全零件:煞車、腳踏板、扶手、後輪與座墊。</li><li>外出時還要評估上車、收納、路面、推行者身高和長時間坐姿壓力。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/RI9ZcKwolLA?t=0" target="_blank" rel="noopener">0:00 輪椅基本結構</a><a class="time-link" href="https://youtu.be/RI9ZcKwolLA?t=60" target="_blank" rel="noopener">1:00 煞車與腳踏板</a><a class="time-link" href="https://youtu.be/RI9ZcKwolLA?t=120" target="_blank" rel="noopener">2:00 移位/推行安全</a></div></div>
+      </div>
+    </div>
+    <div class="grp-note reveal d4" style="margin-top:18px;"><b>教學問法:</b><p>每支影片看完問學員:這個輔具幫的是哪個動作?需要什麼身體能力?家裡哪個環境條件會讓它不好用?</p></div>
+  </section>
+
+  <!-- 失智專章 1:設計原則 -->
+  
+
+  <!-- 失智專章 2:科技輔具應用 -->
+  
+
+  <!-- 失智專章 3:補助與注意 -->
+  
+
+  <!-- 失智三階段輔具速查表 -->
+  
+
+  <!-- 特殊族群總覽 -->
+  
+
+  <!-- 聽障 -->
+  
+
+  <!-- 視障 -->
+  
+
+  <!-- 自閉症 -->
+  
+
+  <!-- 截肢 -->
+  
+
+  <!-- 一般×科技 搭配趨勢 -->
+  
+
+  <!-- 主題輔具總覽 -->
+  
+
+  <!-- 情緒安撫 -->
+  
+
+  <!-- 提醒類 -->
+  
+
+  <!-- 家屬遠端關懷 -->
+  
+
+  <!-- 輔具挑選原則 -->
+  <section class="slide" id="s-principle">
+    <span class="pageno">挑選原則</span>
+    <span class="eyebrow reveal">CORE PRINCIPLE</span>
+    <h2 class="reveal d1">選輔具,<span class="accent">看「功能」不看「病名」</span></h2>
+    <div class="card a reveal d2" style="margin-bottom:16px;">
+      <h3>❌ 別這樣想:照病名配輔具</h3>
+      <p>「中風就配四腳拐」「失智就裝定位」——同樣是中風,有人能自己走、有人全癱;病名一樣,<b>功能天差地遠</b>。照病名配,常常配錯。</p>
+    </div>
+    <div class="card t reveal d3">
+      <h3>✅ 要這樣想:照「能做到什麼」配</h3>
+      <p>看他的<b>實際功能</b>:能不能站、握力多少、平衡如何、認知清不清楚、家裡空間多大。功能決定輔具,病名只是參考。</p>
+    </div>
+    <p class="note reveal d3">例:同樣「下肢無力」,握力好、空間夠的人適合助行器;握力差、認知退化的人,助行器反而危險,可能要用輪椅。關鍵是<b>人的功能</b>,不是診斷書上的病名。</p>
+  </section>
+
+  <!-- 輔具挑選原則:其他重點 -->
+  <section class="slide" style="background:var(--paper2);" id="s-principle2">
+    <span class="pageno">挑選原則</span>
+    <span class="eyebrow reveal">5 MORE KEYS</span>
+    <h2 class="reveal d1">挑對輔具,<span class="accent-t">還要看這 5 點</span></h2>
+    <div style="display:flex;flex-direction:column;gap:12px;max-width:620px;margin-top:6px;">
+      <div class="info-row reveal d2" style="border-left-color:var(--teal);"><span class="ic">📏</span><div><b>合身合用 Fit</b><span style="font-weight:600;color:#5c5040;">高度、座寬、握把都要量身;不合的輔具不只難用,還會造成新的傷害(壓瘡、肩痛)。</span></div></div>
+      <div class="info-row reveal d2" style="border-left-color:var(--teal);"><span class="ic">🌱</span><div><b>促進而非取代 Enable</b><span style="font-weight:600;color:#5c5040;">輔具是幫他「做得到」,不是幫他「不用做」。保留長輩還能做的部分,才不會越扶越退化。</span></div></div>
+      <div class="info-row reveal d3" style="border-left-color:var(--teal);"><span class="ic">🏠</span><div><b>配合環境 Context</b><span style="font-weight:600;color:#5c5040;">家裡門寬、有沒有電梯、地面材質,都影響選擇。輔具要能真的在他的生活空間裡用。</span></div></div>
+      <div class="info-row reveal d4" style="border-left-color:var(--teal);"><span class="ic">❤️</span><div><b>意願與尊嚴 Dignity</b><span style="font-weight:600;color:#5c5040;">再好的輔具,長輩不願意用就是零。外型、面子、自主感都要顧,接受度才是成敗關鍵。</span></div></div>
+      <div class="info-row reveal d5" style="border-left-color:var(--teal);"><span class="ic">🔄</span><div><b>隨體況調整 Review</b><span style="font-weight:600;color:#5c5040;">功能會變,輔具也要跟著換。定期複評,別讓三年前的輔具綁住現在的他。</span></div></div>
+    </div>
+  </section>
+
+  <!-- 研究實證 -->
+  <section class="slide" style="background:var(--paper2);" id="s-evidence">
+    <span class="pageno">研究實證</span>
+    <span class="eyebrow reveal">THE EVIDENCE</span>
+    <h2 class="reveal d1">數字會說話:<span class="accent-r">為什麼要防跌?</span></h2>
+    <div style="display:flex;flex-direction:column;gap:14px;max-width:620px;margin-top:6px;">
+      <div class="info-row reveal d2" style="border-left-color:var(--red);">
+        <span class="ic">📊</span><div><b>每 6 位長者就有 1 位跌倒</b>
+        <span style="font-weight:600;color:#5c5040;">國健署調查,65 歲以上長者一年內跌倒比例約 15.5%(每 6 人有 1 人)。</span></div></div>
+      <div class="info-row reveal d3" style="border-left-color:var(--red);">
+        <span class="ic">🏠</span><div><b>室內跌傷前三名:臥室、客廳、浴室</b>
+        <span style="font-weight:600;color:#5c5040;">國健署 106 年調查:室內跌傷依序為臥室 35.6%、客廳 30.8%、浴室 17%。最熟悉的家,正是居家無障礙改善的施力點。</span></div></div>
+      <div class="info-row reveal d4" style="border-left-color:var(--teal);">
+        <span class="ic">🦯</span><div><b>正確使用輔具能降低跌倒風險</b>
+        <span style="font-weight:600;color:#5c5040;">助行器可承受較高體重支撐、手杖約可承受體重 20–30%,選對、用對是關鍵。</span></div></div>
+      <div class="info-row reveal d5" style="border-left-color:var(--teal);">
+        <span class="ic">💪</span><div><b>環境 × 運動 × 用藥安全,三管齊下</b>
+        <span style="font-weight:600;color:#5c5040;">國健署強調:防跌不能只靠單一招,規律運動、環境改善、用藥檢視缺一不可。</span></div></div>
+    </div>
+    <p class="note reveal d5">資料來源:衛福部國民健康署「國民健康訪問調查」與防跌衛教、臺北榮總護理部健康e點通、康健雜誌輔具專題。跌倒成因多重,輔具僅為其一,仍須搭配肌力訓練、視力與用藥評估。</p>
+  </section>
+
+  <!-- 細部輔具應用 -->
+  <section class="slide" id="s-detail">
+    <span class="pageno">細部應用</span>
+    <span class="eyebrow reveal">CHOOSE RIGHT</span>
+    <h2 class="reveal d1">同一類輔具,<span class="accent">怎麼挑才對?</span></h2>
+    <p class="lead reveal d2" style="margin-bottom:18px;">「有輔具」不等於「對的輔具」。以行動輔具為例:</p>
+    <div class="life-list">
+      <div class="life reveal d2">
+        <div class="lh"><span class="e">🦯</span><b>手杖 / 拐杖</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">適用</span><p>輕度不穩、單側無力,僅需少量支撐(約承受體重 20–30%)。</p></div>
+          <div class="seg e"><span class="lbl">挑選</span><p>非越輕越好——中風或平衡差者用<b>稍有重量</b>的反而穩;把手要合手,單拐建議加腕帶防滑落。</p></div>
+        </div>
+      </div>
+      <div class="life reveal d3">
+        <div class="lh"><span class="e">🚶</span><b>助行器</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">適用</span><p>需要較大支撐、雙手可施力者;比手杖更穩,但需較大空間。</p></div>
+          <div class="seg e"><span class="lbl">挑選</span><p>四腳固定式最穩但要抬;帶輪型省力但需會控煞車。依長輩臂力與認知選,高度調到手腕自然下垂處。</p></div>
+        </div>
+      </div>
+      <div class="life reveal d4">
+        <div class="lh"><span class="e">♿</span><b>輪椅 / 代步車</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">適用</span><p>長距離移動或下肢無法久站者;代步車適合戶外、上肢仍靈活者。</p></div>
+          <div class="seg e"><span class="lbl">挑選</span><p>座寬座深要量身,太寬坐姿歪斜易壓瘡;能自推者選後輪大款,長期久坐務必配減壓座墊。</p></div>
+        </div>
+      </div>
+    </div>
+    <p class="note reveal d4">提醒:量身與高度設定建議由輔具評估人員協助,自行購買常見「買了不合用」而閒置。登山杖等美觀替代品也可提升長輩使用意願,減少心理抗拒。</p>
+  </section>
+
+  <!-- 輔具使用影片示範 -->
+  <section class="slide" style="background:var(--paper2);" id="s-video">
+    <span class="pageno">影片示範</span>
+    <span class="eyebrow reveal">WATCH & LEARN</span>
+    <h2 class="reveal d1">講完原則,<span class="accent-t">一定要看實作</span></h2>
+    <p class="lead reveal d2" style="margin-bottom:18px;">輔具安全常常差在一個小動作。以下影片可當課堂示範或課後複習,建議播放時同步提醒「先煞車、先站穩、先評估」。</p>
+    <div class="video-grid">
+      <div class="video-card reveal d2">
+        <iframe src="https://www.youtube.com/embed/UkTusqvDFy4" title="助行器轉位及使用方法" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>助行器轉位及使用</b><span>示範起身、站穩與助行器使用順序。適合接在「助行器怎麼挑」之後播放。</span></div>
+        <div class="video-points"><ul><li>助行器重點是起身、站穩、助行器先行、步伐跟上,不是越快越好。</li><li>認知退化或煞車不會用者,帶輪助行器反而可能增加風險。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/UkTusqvDFy4?t=0" target="_blank" rel="noopener">0:00 起身與助行器位置</a><a class="time-link" href="https://youtu.be/UkTusqvDFy4?t=45" target="_blank" rel="noopener">0:45 站穩再走</a><a class="time-link" href="https://youtu.be/UkTusqvDFy4?t=80" target="_blank" rel="noopener">1:20 行走節奏與轉位</a></div></div>
+      </div>
+      <div class="video-card reveal d3">
+        <iframe src="https://www.youtube.com/embed/RI9ZcKwolLA" title="一般輪椅的使用" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>一般輪椅使用</b><span>看煞車、腳踏板、移位前準備。重點提醒:輪椅轉位前一定要固定煞車。</span></div>
+        <div class="video-points"><ul><li>輪椅教學先看安全零件:煞車、腳踏板、扶手、後輪與座墊。</li><li>外出時還要評估上車、收納、路面、推行者身高和長時間坐姿壓力。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/RI9ZcKwolLA?t=0" target="_blank" rel="noopener">0:00 輪椅基本結構</a><a class="time-link" href="https://youtu.be/RI9ZcKwolLA?t=60" target="_blank" rel="noopener">1:00 煞車與腳踏板</a><a class="time-link" href="https://youtu.be/RI9ZcKwolLA?t=120" target="_blank" rel="noopener">2:00 移位/推行安全</a></div></div>
+      </div>
+      <div class="video-card reveal d4">
+        <iframe src="https://www.youtube.com/embed/Rj7gtSKL4i4" title="輪椅到馬桶轉位" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>輪椅到馬桶轉位</b><span>連結如廁與跌倒預防。可搭配講解扶手、空間迴轉與照顧者站位。</span></div>
+        <div class="video-points"><ul><li>輪椅到馬桶轉位要先處理環境:煞車、腳踏板、扶手、馬桶高度與照顧者站位。</li><li>提醒:不要拉手臂硬轉,要讓個案重心向前、腳站穩、用可抓握的支撐點。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/Rj7gtSKL4i4?t=0" target="_blank" rel="noopener">0:00 轉位情境</a><a class="time-link" href="https://youtu.be/Rj7gtSKL4i4?t=45" target="_blank" rel="noopener">0:45 煞車與腳踏板</a><a class="time-link" href="https://youtu.be/Rj7gtSKL4i4?t=90" target="_blank" rel="noopener">1:30 站位與轉身</a></div></div>
+      </div>
+    </div>
+    <p class="note reveal d4">影片來源以輔具中心、醫療院所衛教與治療師示範為主。實際操作仍須依個案功能、環境與治療師/輔具評估人員建議調整。</p>
+  </section>
+
+  <section class="slide" id="s-video2">
+    <span class="pageno">影片示範</span>
+    <span class="eyebrow reveal">TRANSFER · MOBILITY</span>
+    <h2 class="reveal d1">移位與特殊輔具,<span class="accent">用看的一次懂</span></h2>
+    <div class="video-grid">
+      <div class="video-card reveal d2">
+        <iframe src="https://www.youtube.com/embed/JjJKrcFxMxg" title="站起移位法" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>站起移位法</b><span>示範照顧者如何引導站起。可強調不要用拉扯手臂的方式硬拉長輩。</span></div>
+        <div class="video-points"><ul><li>站起移位要引導重心向前,讓個案用腿出力,照顧者不是用腰硬拉。</li><li>可搭配移位腰帶、扶手與合適椅高,降低照顧者腰背傷害。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/JjJKrcFxMxg?t=0" target="_blank" rel="noopener">0:00 站起移位概念</a><a class="time-link" href="https://youtu.be/JjJKrcFxMxg?t=40" target="_blank" rel="noopener">0:40 向前引導重心</a><a class="time-link" href="https://youtu.be/JjJKrcFxMxg?t=80" target="_blank" rel="noopener">1:20 避免拉扯手臂</a></div></div>
+      </div>
+      <div class="video-card reveal d3">
+        <iframe src="https://www.youtube.com/embed/zwegTuaDTXE" title="失智症居家輔具" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>失智症居家輔具</b><span>呼應失智專章,把定位、提醒、居家環境安全與日常輔具放在同一個生活脈絡看。</span></div>
+        <div class="video-points"><ul><li>失智輔具要從生活脈絡看:吃、穿、住、行、定位、提醒與安全防護。</li><li>提醒:階段會重疊,選輔具要看當下功能與照顧風險,不是只看診斷。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/zwegTuaDTXE?t=0" target="_blank" rel="noopener">0:00 失智居家輔具概念</a><a class="time-link" href="https://youtu.be/zwegTuaDTXE?t=80" target="_blank" rel="noopener">1:20 食衣日常輔具</a><a class="time-link" href="https://youtu.be/zwegTuaDTXE?t=180" target="_blank" rel="noopener">3:00 居家安全與行動</a></div></div>
+      </div>
+    </div>
+    <div class="grp-note reveal d4" style="margin-top:18px;"><b>課堂用法:</b><p>影片不要只「播完」。每段播完問三句:適合誰?不適合誰?回到家裡哪個地方最可能卡住?這樣學員才會把示範轉成評估能力。</p></div>
+  </section>
+
+  <!-- 常見迷思 -->
+  <section class="slide" style="background:var(--paper2);" id="s-myth">
+    <span class="pageno">破除迷思</span>
+    <span class="eyebrow reveal" style="background:var(--red);">MYTH vs FACT</span>
+    <h2 class="reveal d1">這些<span class="accent-r">迷思</span>,你中了嗎?</h2>
+    <div class="myth-list">
+      <div class="myth reveal d2">
+        <div class="m-x">迷思 ✕</div><p class="m-q">「用輔具代表退化、很丟臉,能不用就不用。」</p>
+        <div class="m-o">事實 ✓</div><p class="m-a">輔具是延長獨立、預防跌倒的工具,越早用越能保住現有功能;硬撐反而更快失能。</p>
+      </div>
+      <div class="myth reveal d3">
+        <div class="m-x">迷思 ✕</div><p class="m-q">「全部幫長輩做好做滿,才是孝順、才是好照顧。」</p>
+        <div class="m-a-pre"></div><div class="m-o">事實 ✓</div><p class="m-a">過度代勞會加速能力退化。自立支援的核心是「做不到的才幫」,把能做的留給他自己做。</p>
+      </div>
+      <div class="myth reveal d4">
+        <div class="m-x">迷思 ✕</div><p class="m-q">「智慧科技輔具越貴、功能越多就越好。」</p>
+        <div class="m-o">事實 ✓</div><p class="m-a">適配才是重點。功能用不到形同浪費,操作太複雜長輩不會用反而閒置,先看實際需求。</p>
+      </div>
+      <div class="myth reveal d5">
+        <div class="m-x">迷思 ✕</div><p class="m-q">「裝了監測科技,就不用人去看了。」</p>
+        <div class="m-o">事實 ✓</div><p class="m-a">科技是輔助、不是取代。它幫忙「示警」,真正的照顧與陪伴仍需要人;也別忽略隱私與誤報。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第二段:科技輔具四要件 -->
+  <section class="slide" style="background:var(--paper2);" id="s-tech">
+    <span class="pageno">第二段</span>
+    <span class="eyebrow reveal">CHAPTER 2</span>
+    <h2 class="reveal d1">什麼才算<span class="accent">「智慧」</span>科技輔具?</h2>
+    <p class="lead reveal d2" style="margin-bottom:22px;">不是插電就叫智慧。教學現場可用「四問」快速判斷它是不是真的能減輕照顧負擔:</p>
+    <div style="display:flex;flex-direction:column;gap:12px;max-width:640px;">
+      <div class="info-row reveal d2" style="border-left-color:var(--teal);"><span class="ic">📡</span><div><b>感測 SENSING</b><span>偵測長輩的動作、生理或環境變化</span></div></div>
+      <div class="info-row reveal d3" style="border-left-color:var(--teal);"><span class="ic">💾</span><div><b>數據紀錄 RECORDING</b><span>把偵測到的資訊持續記錄下來</span></div></div>
+      <div class="info-row reveal d4" style="border-left-color:var(--teal);"><span class="ic">📶</span><div><b>傳輸 TRANSMISSION</b><span>將資料即時傳給照顧者或系統</span></div></div>
+      <div class="info-row reveal d5" style="border-left-color:var(--teal);"><span class="ic">🔁</span><div><b>回饋分析 FEEDBACK</b><span>分析後給出警示或建議,形成照顧依據</span></div></div>
+    </div>
+    <div class="five-list reveal d5">
+      <div class="five">移位<span>床、輪椅、馬桶間轉移</span></div>
+      <div class="five">移動<span>室內外行動與移行</span></div>
+      <div class="five">沐浴排泄<span>清潔、如廁與失禁照護</span></div>
+      <div class="five">居家照顧床<span>床上姿勢、翻身與照護</span></div>
+      <div class="five">安全看視<span>離床、跌倒與異常提醒</span></div>
+    </div>
+    <p class="note reveal d5">資料來源:衛福部長照司與長照 3.0 相關公告。實際是否列入給付、租賃與核銷,仍以衛福部、地方政府與輔具中心公告及評估結果為準。</p>
+  </section>
+
+  <!-- 科技輔具的通用與人因檢核 -->
+  <section class="slide" id="s-tech-design">
+    <span class="pageno">科技檢核</span>
+    <span class="eyebrow reveal">UNIVERSAL × ERGONOMICS</span>
+    <h2 class="reveal d1">智慧科技輔具,<span class="accent">也要回到人</span></h2>
+    <p class="lead reveal d2" style="margin-bottom:18px;">科技不是越多越好。照專、A個管與居督可以用這四問,把產品功能翻成個案能不能真的用。</p>
+    <div class="principle-grid reveal d3">
+      <div class="principle"><b>通用設計:資訊看得懂嗎?</b><span><em>例:</em>警示不要只有手機推播,也要有聲音、燈號、震動或照顧站看板。</span></div>
+      <div class="principle"><b>通用設計:出錯會不會危險?</b><span><em>例:</em>移位機扣錯、電動車煞車忘記、床欄未固定時,是否有防呆或提醒?</span></div>
+      <div class="principle"><b>人因設計:這個人會操作嗎?</b><span><em>例:</em>長輩的視力、聽力、手指力量、認知與接受度,是否能配合設備?</span></div>
+      <div class="principle"><b>人因設計:照顧者用得下去嗎?</b><span><em>例:</em>夜班人力、家屬手機能力、充電/清潔/排障流程,是否會變成新負擔?</span></div>
+      <div class="principle"><b>環境適配:家裡放得下嗎?</b><span><em>例:</em>門寬、床邊空間、浴廁蒸氣、Wi-Fi、插座與收納位置都會影響成敗。</span></div>
+      <div class="principle"><b>流程適配:誰收到警示後要做什麼?</b><span><em>例:</em>離床偵測若沒有回應流程,只會變成一直叫的通知。</span></div>
+    </div>
+    <p class="note reveal d4">一句話:通用設計讓科技「更多人可理解、可接近、可容錯」;人因設計讓科技「符合這個人的身體、能力、環境與照顧流程」。</p>
+  </section>
+
+  <!-- 智慧科技產品補助查核 -->
+  <section class="slide" style="background:var(--paper2);" id="s-tech-subsidy-check">
+    <span class="pageno">補助查核</span>
+    <span class="eyebrow reveal">NEW RENTAL OR OLD SUBSIDY?</span>
+    <h2 class="reveal d1">產品連結,<span class="accent-t">不等於已可補助</span></h2>
+    <p class="lead reveal d2" style="margin-bottom:16px;">115/7/1 起新增的是「智慧科技輔具租賃」,不是看到科技產品就能購買核銷。課堂上建議用三層判斷,避免家屬或學員誤解。</p>
+    <div class="principle-grid reveal d3">
+      <div class="principle">
+        <b>第 1 層:類別是否符合五大面向?</b>
+        <span>移位、移動、沐浴排泄、居家照顧床、安全看視。先判斷產品功能是否落在其中一類,這只是「方向符合」。</span>
+      </div>
+      <div class="principle">
+        <b>第 2 層:是否是租賃品項?</b>
+        <span>新制重點是租賃,不是一般購買。若產品頁只寫 ED07、輪椅 A 款、身障補助或購買補助,多半是既有傳統補助路徑。</span>
+      </div>
+      <div class="principle">
+        <b>第 3 層:地方是否有特約與核定?</b>
+        <span>同一品牌在 A 縣市可租,不代表 B 縣市也可租。仍須看地方政府、特約租賃單位、輔具評估報告與核定結果。</span>
+      </div>
+      <div class="principle">
+        <b>第 4 層:個案是否真的適合?</b>
+        <span>CMS 資格有效只是入口。還要看個案能力、家中空間、網路電力、照顧者會不會用,以及警示後誰負責回應。</span>
+      </div>
+    </div>
+    <div class="subsidy reveal d4" style="max-width:900px;margin-top:18px;">
+      <div class="big" style="font-size:clamp(1.35rem,4vw,2rem);">講給學員的一句話</div>
+      <ul>
+        <li>品牌官網可以用來認識產品特色,但不能當成補助核定證明。</li>
+        <li>要判斷是否走「長照 3.0 智慧科技租賃」,請回到 1966、地方長照中心、輔具中心與特約租賃清單。</li>
+        <li>傳統輔具購買/租賃、身障補助與智慧科技租賃,制度、額度與核定邏輯要分開確認。</li>
+      </ul>
+    </div>
+    <p class="note reveal d5">目前五大類產品連結在本簡報定位為「教學案例與查核練習」,不是推薦、背書或保證可補助清單。</p>
+  </section>
+
+  <!-- 品項① -->
+  
+  <!-- 品項① 移位 -->
+  <section class="slide" id="s-item1">
+    <span class="pageno">五大面向 ①</span>
+    <span class="eyebrow reveal">TRANSFER</span>
+    <h2 class="reveal d1">移位類:<span class="accent-t">電動移位機 / 智慧移位輔具</span></h2>
+    <div class="smart-detail reveal d2">
+      <div class="spec">
+        <div class="head"><span class="e">🏗️</span><div><h3>從床到輪椅、馬桶、地墊的安全轉移</h3><span class="tag">長照3.0 五大面向之一</span></div></div>
+        <dl>
+          <dt>幫助</dt><dd>協助中重度失能者轉移,降低照顧者抱抬造成的腰背傷害。</dd>
+          <dt>通用×人因</dt><dd>通用:用明確扣點、顏色標示與防呆降低錯誤;人因:依體重、身形、肌張力、恐懼感與照顧者身高調整吊帶與操作高度。</dd>
+          <dt>技術</dt><dd>電動懸吊、站立式移位、軌道式移位、吊帶/吊兜與部分載重紀錄。</dd>
+          <dt>使用方式</dt><dd>先量空間與轉位路徑,選對吊帶尺寸;吊帶下緣對準尾椎,腿部吊帶依廠商教學交叉/固定,升降時一手護住軀幹穩定重心,移動慢速;蓄電池機型不用時回充電座。</dd>
+          <dt>優點</dt><dd><span class="good">符合零抬舉原則,讓轉位更穩定;租賃可隨體況換機型。</span></dd>
+          <dt>風險</dt><dd><span class="bad">吊帶尺寸、扣點、煞車與空間不足會影響安全;一定要教育訓練。</span></dd>
+          <dt>適用</dt><dd>無法自行起身、照顧者腰傷風險高、需床椅/床廁/地墊移位者。</dd>
+        </dl>
+        <div class="product-links">
+          <b>產品/廠商參考（教學案例,非補助保證）</b>
+          <div><a href="https://fullcare-tech.tw/product_detail.php?board_sid=00228" target="_blank" rel="noopener">全能照護科技｜懸吊式電動移位機</a><span>特色:坐姿到躺姿皆可使用,前腳架可開合,可搭配秤重模組;頁面標示符合長照 ED07 移位機與身障電動型移位機。</span><div class="subsidy-status"><span class="new">概念符合:移位</span><span class="old">頁面偏既有 ED07/身障路徑</span><span class="check">新制租賃須地方確認</span></div></div>
+          <div><a href="https://www.gumt.com.tw/products/display/guldmann" target="_blank" rel="noopener">天群健康｜Guldmann 懸吊式電動移位/天軌系統</a><span>特色:懸吊式電動移位,可結合動態體重支撐訓練;適合移位、復健訓練與照顧者減負討論。</span><div class="subsidy-status"><span class="new">概念符合:移位</span><span class="check">需查特約租賃品項</span></div></div>
+          <div class="subsidy-note">補助查核版:電動/懸吊移位機可落在「移位」面向,但頁面若標示 ED07 或身障電動型移位機,代表目前看得到的是既有長照/身障補助路徑;115/7/1 智慧科技租賃仍需地方特約租賃與核定。</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/0AQ_oQ7egnU" title="電動懸吊式移位機應用" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>電動懸吊式移位機應用</b><span>用一支影片看床上、輪椅/便盆椅、地墊與回床等常見移位情境。</span></div>
+        <div class="video-points"><ul><li>講解重點:吊帶放置、扣點檢查、照顧者站位與個案安全感。</li><li>提醒學員:移位機不是買回家就會安全,操作訓練比設備本身更重要。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/0AQ_oQ7egnU?t=0" target="_blank" rel="noopener">0:00 床上移轉位</a><a class="time-link" href="https://youtu.be/0AQ_oQ7egnU?t=100" target="_blank" rel="noopener">1:40 至輪椅/便盆椅</a><a class="time-link" href="https://youtu.be/0AQ_oQ7egnU?t=158" target="_blank" rel="noopener">2:38 移位到地墊</a><a class="time-link" href="https://youtu.be/0AQ_oQ7egnU?t=234" target="_blank" rel="noopener">3:54 回到床上</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 品項② 移動 -->
+  <section class="slide" style="background:var(--paper2);" id="s-item2">
+    <span class="pageno">五大面向 ②</span>
+    <span class="eyebrow reveal">MOBILITY</span>
+    <h2 class="reveal d1">移動類:<span class="accent-t">電動輪椅 / 電動代步車</span></h2>
+    <div class="smart-detail reveal d2">
+      <div class="spec">
+        <div class="head"><span class="e">🦼</span><div><h3>讓行動範圍從房間延伸到社區</h3><span class="tag">長照3.0 五大面向之一</span></div></div>
+        <dl>
+          <dt>幫助</dt><dd>協助步行耐力不足、長距離行動困難者維持外出、就醫與社會參與。</dd>
+          <dt>通用×人因</dt><dd>通用:路線、斜坡、電梯與標示要讓移動工具可通行;人因:依視力、反應、手部控制、認知與外出目的選輪椅或代步車。</dd>
+          <dt>技術</dt><dd>電動輪椅、電動代步車、煞車/速度控制、電池管理、部分車款有定位或行駛紀錄。</dd>
+          <dt>使用方式</dt><dd>初次使用先調最低速,練啟動、停止、轉彎、倒車與上下坡;上下車前關閉電源並確認煞車鎖定,避免誤觸搖桿暴衝;外出前確認充電、路線、電梯與門寬。</dd>
+          <dt>優點</dt><dd><span class="good">可減少家屬推行負擔,提升自主移動與外出意願。</span></dd>
+          <dt>風險</dt><dd><span class="bad">需要認知、視覺、反應與交通安全判斷;不會煞車或路面不平會增加事故。</span></dd>
+          <dt>適用</dt><dd>室內外移動需求高、上肢可操作控制器、具基本安全判斷者。</dd>
+        </dl>
+        <div class="product-links">
+          <b>產品/廠商參考（教學案例,非補助保證）</b>
+          <div><a href="https://www.karma.com.tw/" target="_blank" rel="noopener">Karma 康揚輔具｜電動輪椅/電動代步車</a><span>特色:台灣輪椅品牌,提供手動與電動輪椅、代步車;適合討論座寬、迴轉半徑、煞車、操控與外出情境。</span><div class="subsidy-status"><span class="new">概念符合:移動</span><span class="old">常見為購買/既有補助參考</span><span class="check">新制租賃須地方確認</span></div></div>
+          <div><a href="https://www.meritshealth.com.tw/" target="_blank" rel="noopener">Merits 美利馳｜電動輪椅/電動代步車</a><span>特色:行動輔具製造商,產品線含電動輪椅與代步車;可用來講速度檔、電池、路面與收納。</span><div class="subsidy-status"><span class="new">概念符合:移動</span><span class="check">需查特約租賃品項</span></div></div>
+          <div><a href="https://www.karma.com.tw/2017/09/wheelchair-blog-electric-subsidy/" target="_blank" rel="noopener">康揚｜電動輪椅補助說明</a><span>特色:整理電動輪椅補助差異;提醒購買與租賃、身障與長照路徑不同。</span><div class="subsidy-status"><span class="old">補助說明偏傳統制度</span><span class="check">不可直接視為新制租賃</span></div></div>
+          <div class="subsidy-note">補助查核版:電動輪椅/代步車可落在「移動」面向;現有產品/補助說明多屬購買型或身障/長照舊制參考,新制須確認是否為租賃智慧科技品項。</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/QbSC8nLABYQ" title="電動代步車使用及補助須知" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>電動代步車使用及補助須知</b><span>適合搭配移動類說明,討論操作能力、充電、外出路線與安全責任。</span></div>
+        <div class="video-points"><ul><li>講解重點:不是能坐就能用,要看操作、煞車、轉彎、路權與收納。</li><li>個管/居督可追問:家門口斜坡、電梯、騎樓、巷道和就醫動線是否能銜接?</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/QbSC8nLABYQ?t=0" target="_blank" rel="noopener">0:00 使用目的與對象</a><a class="time-link" href="https://youtu.be/QbSC8nLABYQ?t=60" target="_blank" rel="noopener">1:00 基本操作</a><a class="time-link" href="https://youtu.be/QbSC8nLABYQ?t=150" target="_blank" rel="noopener">2:30 安全與補助提醒</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 品項③ 沐浴排泄 -->
+  <section class="slide" id="s-item3">
+    <span class="pageno">五大面向 ③</span>
+    <span class="eyebrow reveal">BATHING · TOILETING</span>
+    <h2 class="reveal d1">沐浴排泄類:<span class="accent-t">智慧排泄 / 沐浴如廁輔具</span></h2>
+    <div class="smart-detail reveal d2">
+      <div class="spec">
+        <div class="head"><span class="e">🚽</span><div><h3>把最私密的照顧做得更安全、更有尊嚴</h3><span class="tag">長照3.0 五大面向之一</span></div></div>
+        <dl>
+          <dt>幫助</dt><dd>協助失禁、臥床、如廁轉位困難者完成清潔與排泄照顧,減少夜間跌倒與皮膚問題。</dd>
+          <dt>通用×人因</dt><dd>通用:浴廁需防滑、扶手、照明與隱私;人因:依皮膚狀況、羞恥感、表達能力、轉位能力與照顧者清潔流程選設備。</dd>
+          <dt>技術</dt><dd>排泄感測、自動清洗/烘乾、尿濕通報、沐浴便盆椅、升降沐浴如廁椅。</dd>
+          <dt>使用方式</dt><dd>尿濕/排泄感測器依廠商標示固定,避免直接接觸皮膚造成壓痕;主機、感測器與手機 APP 要先完成配對並測試訊號。自動洗頭/沐浴設備使用前確認防水圍兜與軟墊密合。</dd>
+          <dt>優點</dt><dd><span class="good">維持隱私與尊嚴,減少異味、皮膚浸潤與照顧者清潔負擔。</span></dd>
+          <dt>風險</dt><dd><span class="bad">需注意管線、清潔耗材、皮膚觀察與感染控制;不是裝置取代翻身與會陰照護。</span></dd>
+          <dt>適用</dt><dd>臥床失禁、夜間如廁高跌倒風險、照顧者清潔負擔高的個案。</dd>
+        </dl>
+        <div class="product-links">
+          <b>產品/廠商參考（教學案例,非補助保證）</b>
+          <div><a href="https://www.hst.org.tw/tw/partner/news_content/439/165" target="_blank" rel="noopener">Fusion 智匯網｜尿布尿濕偵測</a><span>特色:尿布溫濕度偵測,以藍牙/AIoT平台回傳,降低頻繁查看尿布與延遲更換造成的照顧負擔。</span><div class="subsidy-status"><span class="new">概念符合:沐浴排泄</span><span class="check">租賃與耗材需查核</span></div></div>
+          <div><a href="https://ibumping.com/" target="_blank" rel="noopener">iCare 電子尿布｜大小便自動護理機</a><span>特色:偵測排泄後自動處理、清潔與乾燥,適合討論臥床失禁、尊嚴照護與皮膚風險。</span><div class="subsidy-status"><span class="new">概念符合:沐浴排泄</span><span class="check">需查特約租賃品項</span></div></div>
+          <div><a href="https://startup.sme.gov.tw/spp/caseSample/detail/448" target="_blank" rel="noopener">大心生物科技｜智慧長照衛生輔具照護系統</a><span>特色:感測排泄後負壓抽離、溫水清洗與暖風烘乾,並可記錄資料供後續分析。</span><div class="subsidy-status"><span class="new">概念符合:沐浴排泄</span><span class="check">新制租賃資格未能由案例頁判定</span></div></div>
+          <div class="subsidy-note">補助查核版:尿濕偵測、自動排泄照護較接近「沐浴排泄」智慧科技方向;耗材、清潔、租賃服務與地方特約名單是核定關鍵。</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/8KBywusuby0" title="智慧照護排泄物處理裝置" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>臥床版智慧排泄照護示範</b><span>可用來說明排泄感測、自動清潔與照護負擔降低,也要討論尊嚴和皮膚照護。</span></div>
+        <div class="video-points"><ul><li>講解重點:科技可以減少清潔負擔,但仍需觀察皮膚、管線與個案舒適度。</li><li>可引導討論:夜間如廁跌倒與臥床失禁,照顧目標完全不同,輔具也不同。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/8KBywusuby0?t=0" target="_blank" rel="noopener">0:00 智慧排泄照護情境</a><a class="time-link" href="https://youtu.be/8KBywusuby0?t=45" target="_blank" rel="noopener">0:45 裝置功能與清潔</a><a class="time-link" href="https://youtu.be/8KBywusuby0?t=100" target="_blank" rel="noopener">1:40 導入長照現場</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 品項④ 居家照顧床 -->
+  <section class="slide" style="background:var(--paper2);" id="s-item4">
+    <span class="pageno">五大面向 ④</span>
+    <span class="eyebrow reveal">CARE BED</span>
+    <h2 class="reveal d1">居家照顧床類:<span class="accent-t">電動照顧床 / 智慧照護床</span></h2>
+    <div class="smart-detail reveal d2">
+      <div class="spec">
+        <div class="head"><span class="e">🛏️</span><div><h3>讓床不只是躺,而是照顧與復能的平台</h3><span class="tag">長照3.0 五大面向之一</span></div></div>
+        <dl>
+          <dt>幫助</dt><dd>協助起身坐臥、翻身、照護姿勢、壓力管理與床邊照顧。</dd>
+          <dt>通用×人因</dt><dd>通用:床邊空間、夜燈、床欄與操作標示要清楚;人因:依身高、壓瘡風險、吞嚥姿勢、移位方式與照顧者腰背負荷調整床高與角度。</dd>
+          <dt>技術</dt><dd>二/三馬達電動床、高低升降、背膝連動、床欄、床墊壓力管理、離床/睡眠感測。</dd>
+          <dt>使用方式</dt><dd>床高先配合照顧者操作與移位高度;若有定時翻身,先由小角度開始並觀察皮膚、疼痛與睡眠反應。啟動升降/翻身前確認床欄、輪煞、電線、床底與周邊無雜物,避免夾傷或卡住。</dd>
+          <dt>優點</dt><dd><span class="good">減少照顧者彎腰,提高餵食、翻身、換尿布與移位安全。</span></dd>
+          <dt>風險</dt><dd><span class="bad">床欄夾傷、電線絆倒、煞車未固定與床墊不合都會造成風險。</span></dd>
+          <dt>適用</dt><dd>長期臥床、起身困難、壓瘡風險高、需要床上照顧與移位準備者。</dd>
+        </dl>
+        <div class="product-links">
+          <b>產品/廠商參考（教學案例,非補助保證）</b>
+          <div><a href="https://newrepat.sfaa.gov.tw/home/pavs/product/detail/4bc1e2b497a5e5ae0197d43ab6b137c2" target="_blank" rel="noopener">輔具資源入口網｜i-Care 智慧全自動翻身輔助床架</a><span>特色:AI智能/自動翻身輔助床架,可選配氣墊床與電子尿布,頁面標示提供安裝與教育訓練。</span><div class="subsidy-status"><span class="new">概念符合:居家照顧床</span><span class="check">入口網產品頁不等於地方核定</span></div></div>
+          <div><a href="https://www.leeway.com.tw/portfolio/%E6%99%BA%E6%85%A7%E9%9B%BB%E5%8B%95%E5%BA%8A/" target="_blank" rel="noopener">立偉電子｜智慧電動床</a><span>特色:結合睡眠紀錄、離床照明、離床通知、異常通知與語音/家電控制情境。</span><div class="subsidy-status"><span class="new">概念符合:居家照顧床</span><span class="check">需查特約租賃品項</span></div></div>
+          <div><a href="https://www.wme.com.tw/" target="_blank" rel="noopener">貼心醫療｜電動照顧床/居家照顧床</a><span>特色:三馬達電動床、床面升降與床頭尾升降;頁面標示符合居家用照顧床與附加功能補助項目。</span><div class="subsidy-status"><span class="old">偏傳統照顧床路徑</span><span class="check">智慧租賃須另查</span></div></div>
+          <div class="subsidy-note">補助查核版:一般電動床多屬傳統照顧床路徑;具自動翻身、離床/睡眠感測、資料回饋者才較接近新制智慧科技租賃方向,仍需特約租賃與核定。</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/ITYpyRAlgr8" title="居家照顧床使用說明" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>居家照顧床使用說明</b><span>用基本電動床示範床體結構、床欄、三馬達功能與注意事項。</span></div>
+        <div class="video-points"><ul><li>講解重點:床高、背膝角度與床欄不是舒適而已,也影響移位與照顧者腰背。</li><li>提醒:智慧床若有離床/睡眠感測,仍要回到照顧流程與警示處理。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/ITYpyRAlgr8?t=0" target="_blank" rel="noopener">0:00 開場</a><a class="time-link" href="https://youtu.be/ITYpyRAlgr8?t=20" target="_blank" rel="noopener">0:20 適用對象</a><a class="time-link" href="https://youtu.be/ITYpyRAlgr8?t=28" target="_blank" rel="noopener">0:28 結構介紹</a><a class="time-link" href="https://youtu.be/ITYpyRAlgr8?t=70" target="_blank" rel="noopener">1:10 三馬達功能</a><a class="time-link" href="https://youtu.be/ITYpyRAlgr8?t=85" target="_blank" rel="noopener">1:25 注意事項</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 品項⑤ 安全看視 -->
+  <section class="slide" id="s-item5">
+    <span class="pageno">五大面向 ⑤</span>
+    <span class="eyebrow reveal">SAFETY MONITORING</span>
+    <h2 class="reveal d1">安全看視類:<span class="accent-t">離床偵測 / 跌倒偵測</span></h2>
+    <div class="smart-detail reveal d2">
+      <div class="spec">
+        <div class="head"><span class="e">📡</span><div><h3>讓照顧者在關鍵時刻知道「該去看」</h3><span class="tag">長照3.0 五大面向之一</span></div></div>
+        <dl>
+          <dt>幫助</dt><dd>偵測離床、跌倒、浴廁停留過久或夜間異常,即時通知照顧者。</dd>
+          <dt>通用×人因</dt><dd>通用:警示要能被不同照顧者理解與接收;人因:依長輩作息、遊走模式、隱私感受與家屬回應能力設定警示條件。</dd>
+          <dt>技術</dt><dd>毫米波雷達、床墊壓力感測、3D深度鏡頭、熱感應、門磁與定位。</dd>
+          <dt>使用方式</dt><dd>床墊/感測墊依廠商規定鋪在床墊與床單間或指定位置,不可折疊;依體重、作息設定離床延遲時間,避免翻身誤報。髒污以濕布擦拭、消毒後陰乾,並定期測試通知流程。</dd>
+          <dt>優點</dt><dd><span class="good">非接觸方案較不干擾長輩;毫米波不錄影,在黑暗或浴廁環境較有隱私優勢。</span></dd>
+          <dt>風險</dt><dd><span class="bad">誤報、漏報、網路斷線與警示疲乏都要管理;科技不能取代巡視。</span></dd>
+          <dt>適用</dt><dd>夜間易跌、失智遊走、獨居、浴廁風險高或照顧者需要遠端提醒的家庭。</dd>
+        </dl>
+        <div class="product-links">
+          <b>產品/廠商參考（教學案例,非補助保證）</b>
+          <div><a href="https://humetrics.ai/" target="_blank" rel="noopener">Humetrics iCue｜智慧照護幫手</a><span>特色:原床墊下方非接觸感測,提供心率、呼吸、體動、翻身與離床行為等即時監測與警示。</span><div class="subsidy-status"><span class="new">概念符合:安全看視</span><span class="check">需查特約租賃品項</span></div></div>
+          <div><a href="https://newrepat.sfaa.gov.tw/home/pavs/product/detail/4bc1e2b48267a39c0182861bfc4f7fe7" target="_blank" rel="noopener">輔具資源入口網｜iCue 智慧照護幫手</a><span>特色:入口網產品頁標示非接觸連續監測、即時監測與警示,可作為安全看視類案例。</span><div class="subsidy-status"><span class="new">概念符合:安全看視</span><span class="check">入口網產品頁不等於地方核定</span></div></div>
+          <div><a href="https://www.fusionnet.io/post/2021bestchoiceaward" target="_blank" rel="noopener">Fusion 智匯網｜雷達跌倒偵測系統</a><span>特色:毫米波雷達跌倒偵測,主打非影像式、AIoT與雲端整合,可討論隱私與誤報管理。</span><div class="subsidy-status"><span class="new">概念符合:安全看視</span><span class="check">新制資格需地方確認</span></div></div>
+          <div class="subsidy-note">補助查核版:離床/跌倒/生命徵象感測最符合「安全看視」面向;但產品頁或入口網產品介紹不等於地方已核定可租,仍需特約租賃清單。</div>
+        </div>
+      </div>
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/iDM6mqWSnPk" title="毫米波熱感應跌倒偵測" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>毫米波/熱感應跌倒偵測展示</b><span>用展示影片說明非接觸式偵測、跌倒提醒、隱私與誤報管理。</span></div>
+        <div class="video-points"><ul><li>講解重點:安全看視不是監視,而是異常提醒;隱私、安裝位置與回應流程要一起設計。</li><li>提醒學員:收到警示後誰去看、多久去看、誤報怎麼排除,才是導入成功關鍵。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/iDM6mqWSnPk?t=0" target="_blank" rel="noopener">0:00 展示情境</a><a class="time-link" href="https://youtu.be/iDM6mqWSnPk?t=35" target="_blank" rel="noopener">0:35 感測技術亮點</a><a class="time-link" href="https://youtu.be/iDM6mqWSnPk?t=80" target="_blank" rel="noopener">1:20 跌倒/異常提醒</a></div></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 長照3.0智慧輔具影片 -->
+  <section class="slide" style="background:var(--paper2);" id="s-smart-video">
+    <span class="pageno">智慧輔具影片</span>
+    <span class="eyebrow reveal">SMART AT · WATCH</span>
+    <h2 class="reveal d1">長照 3.0 智慧輔具,<span class="accent-t">用影片看重點</span></h2>
+    <p class="lead reveal d2" style="margin-bottom:18px;">這組影片適合在介紹五大類後播放,幫學員把「政策方向、租賃概念、現場科技」連起來。</p>
+    <div class="video-grid">
+      <div class="video-card reveal d2">
+        <iframe src="https://www.youtube.com/embed/2UHEnYb52Sw" title="Long-Term Care 3.0 Five Key Points at a Glance" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>長照 3.0 五大重點</b><span>適合快速建立政策脈絡,其中包含租賃智慧輔具與長照 3.0 整體方向。</span></div>
+        <div class="video-points"><ul><li>長照3.0不是只有補助金額,還包含醫照整合、PAC、安寧善終與智慧輔具。</li><li>智慧輔具重點是租賃與可隨體況調整,不是一次買斷後放到壞。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/2UHEnYb52Sw?t=0" target="_blank" rel="noopener">0:00 長照3.0精華</a><a class="time-link" href="https://youtu.be/2UHEnYb52Sw?t=38" target="_blank" rel="noopener">0:38 醫照整合</a><a class="time-link" href="https://youtu.be/2UHEnYb52Sw?t=82" target="_blank" rel="noopener">1:22 租賃智慧輔具</a><a class="time-link" href="https://youtu.be/2UHEnYb52Sw?t=216" target="_blank" rel="noopener">3:36 安寧善終 ACP</a><a class="time-link" href="https://youtu.be/2UHEnYb52Sw?t=312" target="_blank" rel="noopener">5:12 PAC 擴大</a><a class="time-link" href="https://youtu.be/2UHEnYb52Sw?t=387" target="_blank" rel="noopener">6:27 擴大服務對象</a></div></div>
+      </div>
+      <div class="video-card reveal d3">
+        <iframe src="https://www.youtube.com/embed/7tPKAR83ZwA" title="長照新制智慧輔具租賃補助" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>智慧輔具租賃新制說明</b><span>聚焦 115/7/1 起每 3 年最高 6 萬、以租賃方式導入智慧科技輔具的概念。</span></div>
+        <div class="video-points"><ul><li>可用來說明115/7/1後智慧輔具租賃概念與每3年最高6萬元方向。</li><li>提醒學員:影片是政策趨勢說明,個案仍要照管評估與輔具中心核定。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/7tPKAR83ZwA?t=0" target="_blank" rel="noopener">0:00 新制與補助額度</a><a class="time-link" href="https://youtu.be/7tPKAR83ZwA?t=60" target="_blank" rel="noopener">1:00 智慧輔具租賃概念</a><a class="time-link" href="https://youtu.be/7tPKAR83ZwA?t=150" target="_blank" rel="noopener">2:30 申請與核定提醒</a></div></div>
+      </div>
+      <div class="video-card reveal d4">
+        <iframe src="https://www.youtube.com/embed/6VUd9tmUmPE" title="AI新世代超高齡的長照解方" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>智慧照護現場應用</b><span>可觀察 AI 偵測、生命徵象、照護紀錄與家屬連結如何減輕照顧負擔。</span></div>
+        <div class="video-points"><ul><li>智慧照護不是取代人,而是把異常偵測、紀錄與家屬溝通變即時。</li><li>可討論機構導入科技後,第一線人員仍需會操作、判讀與排除誤報。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/6VUd9tmUmPE?t=0" target="_blank" rel="noopener">0:00 AI長照趨勢</a><a class="time-link" href="https://youtu.be/6VUd9tmUmPE?t=80" target="_blank" rel="noopener">1:20 生理/安全偵測</a><a class="time-link" href="https://youtu.be/6VUd9tmUmPE?t=180" target="_blank" rel="noopener">3:00 照護紀錄與家屬連結</a></div></div>
+      </div>
+    </div>
+    <p class="note reveal d4">提醒:影片作為政策與趨勢補充,不等於個案可直接申請該設備。實際給付項目與租賃方式仍以地方政府與輔具中心核定為準。</p>
+  </section>
+
+  <!-- 互動題:智慧科技輔具 -->
+  <section class="slide" id="s-quiz-smart">
+    <span class="pageno">互動題 ④</span>
+    <span class="eyebrow reveal">SMART TECH QUIZ</span>
+    <h2 class="reveal d1">智慧科技輔具,<span class="accent">現場判斷題</span></h2>
+    <p class="lead reveal d2" style="margin-bottom:14px;">請學員先回答「你會怎麼處理?」再翻牌。重點是把產品功能轉成照顧流程與風險管理。</p>
+    <div class="quiz-grid reveal d3">
+      <div class="quiz-card"><div class="q">離床偵測一直誤報,家屬說乾脆關掉。第一步應該做什麼?</div><span class="hint">提示:先確認位置、參數、作息與誰收到警示。</span><span class="ans">建議答案:先調整感測位置、離床延遲時間、體重/敏感度與警示流程;確認是翻身誤報、坐起誤報,還是真有夜間起床風險。</span></div>
+      <div class="quiz-card"><div class="q">電動移位機買了,照顧者還是用抱的,最可能少了哪一段?</div><span class="hint">提示:設備交付不等於會用。</span><span class="ans">建議答案:少了吊帶尺寸選擇、扣點檢查、實際床邊演練與恐懼處理。移位類一定要把教育訓練列進服務計畫。</span></div>
+      <div class="quiz-card"><div class="q">智慧床墊只推播到一支手機,夜班人員沒看到警示。這是產品問題還是流程問題?</div><span class="hint">提示:想想通用設計的可感知資訊。</span><span class="ans">建議答案:多半是流程與資訊設計問題。警示應有手機、照顧站看板、聲光或交班規範,讓不同班別都能接收到。</span></div>
+      <div class="quiz-card"><div class="q">第一次使用電動輪椅或代步車,長輩說「我會開車,不用練」。你會提醒什麼?</div><span class="hint">提示:居家窄空間與上下車是高風險。</span><span class="ans">建議答案:先最低速、空曠處練直行轉彎與煞車;上下車先關電源/確認煞車,再練家門、電梯、坡道與充電流程。</span></div>
+      <div class="quiz-card"><div class="q">智慧排泄照護設備導入前,除了價格,最該問哪三件事?</div><span class="hint">提示:皮膚、耗材、尊嚴與照顧流程。</span><span class="ans">建議答案:問皮膚與管線風險、耗材與清潔維護、長輩舒適/隱私感受,以及警示後誰回應、多久回應。</span></div>
+      <div class="quiz-card"><div class="q">家屬指定最貴的科技輔具,說功能越多越好。你如何回應?</div><span class="hint">提示:回到功能與生活目標。</span><span class="ans">建議答案:先回到個案目標、環境、照顧者能力與可維修性。智慧輔具不是越貴越好,而是越適配、越會用、越能融入流程越好。</span></div>
+      <div class="quiz-card"><div class="q">安全看視設備要裝在浴廁,但長輩很在意隱私。可以怎麼設計?</div><span class="hint">提示:不一定要用影像。</span><span class="ans">建議答案:優先考慮非影像式毫米波、熱感或門磁/停留時間偵測;先取得同意,清楚說明偵測範圍、資料用途與警示處理。</span></div>
+      <div class="quiz-card"><div class="q">科技輔具導入三週後完全閒置,你會追哪四個問題?</div><span class="hint">提示:人、機、環境、流程。</span><span class="ans">建議答案:追使用者是否接受、照顧者是否會操作、環境是否支援、警示與紀錄是否有人看。必要時回報個管/照專重評或退租更換。</span></div>
+    </div>
+    <p class="note reveal d4">帶法:請每組選一題,用「通用設計檢核 + 人因適配 + 補助/維修流程」三句話回答。</p>
+  </section>
+
+  <!-- 補助新制 -->
+  <section class="slide" style="background:var(--paper2);" id="s-subsidy">
+    <span class="pageno">補助新制</span>
+    <span class="eyebrow reveal" style="background:var(--amber-deep);">115/7/1 起</span>
+    <h2 class="reveal d1">補助怎麼算?<span class="accent">二擇一</span></h2>
+    <div class="subsidy reveal d2">
+      <div>傳統輔具組 <span class="big">3年 / 4萬</span></div>
+      <div style="margin-top:14px;">智慧科技組 <span class="big" style="color:var(--teal-deep);">3年 / 6萬</span></div>
+      <ul>
+        <li>傳統組為輔具購置/租賃與居家無障礙改善,每 3 年最高 4 萬元。</li>
+        <li>智慧科技組每 3 年最高 6 萬元,用於租賃五大面向智慧科技輔具;官方說明包含居家無障礙改善 2 萬元額度。</li>
+        <li>智慧科技輔具採<b>全租賃</b>,參考日本制度,可依體況變化更換適切設備。</li>
+        <li>民眾依需求<b>擇一組使用</b>;細部核定、週期與轉換規則請以 1966、地方政府與輔具中心實際審認為準。</li>
+      </ul>
+    </div>
+    <p class="note reveal d3">資料來源:衛福部《長期照顧服務申請及給付辦法》修正公告、衛福部長照專區與長照 3.0 計畫。適用長照需要等級第 2 級以上者,須先撥 1966 由照管專員評估,再轉介輔具評估。<b>補助額度、項目、部分負擔與核銷仍以地方政府核定為準。</b></p>
+  </section>
+
+  <!-- 流程 -->
+  <section class="slide" id="s-flow">
+    <span class="pageno">申請流程</span>
+    <span class="eyebrow reveal">HOW TO APPLY</span>
+    <h2 class="reveal d1">五步驟,跑完補助</h2>
+    <div class="units">
+      <div class="unit reveal d2"><div class="num">1</div><div class="body"><h3>撥 1966 申請</h3><p>長照服務專線,提出失能評估申請。</p></div></div>
+      <div class="unit reveal d2"><div class="num">2</div><div class="body"><h3>CMS 失能等級評估</h3><p>照管專員到宅做 ADL/IADL、認知、環境評估,核定 2–8 級。</p></div></div>
+      <div class="unit reveal d3"><div class="num">3</div><div class="body"><h3>輔具評估報告書</h3><p>由輔具中心/甲類人員評估所需項目(務必先評估再購置)。</p></div></div>
+      <div class="unit reveal d4"><div class="num">4</div><div class="body"><h3>核定後施作 / 租賃</h3><p>經核定才購置或施工,須於 6 個月內完成。</p></div></div>
+      <div class="unit reveal d5"><div class="num">5</div><div class="body"><h3>定期複評</h3><p>個管每 6 個月、照專每年複評,依體況調整。</p></div></div>
+    </div>
+  </section>
+
+  <!-- 智慧科技輔具租賃 FAQ -->
+  <section class="slide" style="background:var(--paper2);" id="s-tech-faq">
+    <span class="pageno">租賃 FAQ</span>
+    <span class="eyebrow reveal">COMMON QUESTIONS</span>
+    <h2 class="reveal d1">智慧科技輔具租賃,<span class="accent-r">常見問題</span></h2>
+    <div class="trend">
+      <div class="trend-row reveal d2"><span class="e">Q1</span><div><b>已經有長照 2.0 服務,要重新申請資格嗎?</b><span>長照資格若仍有效,通常不是重新從零開始;但智慧科技輔具仍需由照專/個管轉介,再做輔具評估與核定,不可先租再補。</span></div></div>
+      <div class="trend-row reveal d3"><span class="e">Q2</span><div><b>壞掉、電池老化、系統更新怎麼辦?</b><span>租賃制重點是由特約租賃單位提供檢查、維修與更換流程;實際責任、到府時效與是否收費,要看租賃契約、地方規定與是否屬人為損壞。</span></div></div>
+      <div class="trend-row reveal d4"><span class="e">Q3</span><div><b>租來的輔具衛生安全嗎?</b><span>衛福部已公告長照輔具清潔及消毒指引,租賃輔具回收後應有清潔、消毒、乾燥、功能檢測、包裝與儲存流程;接觸皮膚的耗材仍需確認是否全新或需自費。</span></div></div>
+      <div class="trend-row reveal d5"><span class="e">Q4</span><div><b>長輩排斥、常誤報,可以換嗎?</b><span>可以回報個管師/照專與租賃單位重新評估,調整參數、換位置、教育訓練或更換品項。退租、轉組、已用額度如何計算,以各縣市核定規則為準。</span></div></div>
+      <div class="trend-row reveal d5"><span class="e">Q5</span><div><b>一般戶要先全額自付再核銷嗎?</b><span>長照輔具及居家無障礙改善常見部分負擔為一般戶 30%、中低收入戶 10%、低收入戶 0%;特約代給付可減少一次性支出。智慧科技租賃的實際月租、部分負擔與請款方式仍以核定與契約為準。</span></div></div>
+    </div>
+    <p class="note reveal d5">授課提醒:FAQ 可以講方向,不要替地方政府核定。最安全的口徑是「先評估、再核定、找特約、依契約與縣市規定辦理」。</p>
+  </section>
+
+  <!-- 住宿型機構補助 -->
+  
+
+  <!-- 住宿機構導入科技 -->
+  
+
+  <!-- 注意事項 -->
+  <section class="slide" style="background:var(--paper2);" id="s-warn">
+    <span class="pageno">注意事項</span>
+    <span class="eyebrow reveal" style="background:var(--red);">PITFALLS</span>
+    <h2 class="reveal d1">這些<span class="accent-r">最容易踩雷</span></h2>
+    <div class="warn reveal d2">
+      <ul>
+        <li><span class="n">①</span><div><b>先買就拿不到補助。</b>務必「先評估、後核定、再購置」,自行先買多半無法補。</div></li>
+        <li><span class="n">②</span><div><b>認明特約廠商。</b>非特約店家購買可能不予補助,先向輔具中心確認名單。</div></li>
+        <li><span class="n">③</span><div><b>最低使用年限。</b>購置項目有年限(如馬桶增高器3年),未滿不得重複申請同項目。</div></li>
+        <li><span class="n">④</span><div><b>身障與長照不重複。</b>同項目領過身障補助、未達年限者不得再領。</div></li>
+        <li><span class="n">⑤</span><div><b>智慧≠越貴越好。</b>以長輩實際需求與操作能力為準,避免誤報與閒置。</div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 廠商 -->
+  
+
+  <!-- 復能型日照 -->
+  <section class="slide" style="background:var(--paper2);" id="s-recover">
+    <span class="pageno">第三段</span>
+    <span class="eyebrow reveal">CHAPTER 3</span>
+    <h2 class="reveal d1">復能型日照的<span class="accent-t">特色</span></h2>
+    <p class="lead reveal d2" style="margin-bottom:22px;">不是「幫他做」,而是「陪他重新做得到」——這就是復能的核心。</p>
+    <div class="pillars">
+      <div class="pillar reveal d2"><b>自立支援</b><br>以長輩能力為主角,鼓勵自己完成日常,而非全程代勞。</div>
+      <div class="pillar reveal d3"><b>目標導向訓練</b><br>從「想自己走去廁所」這類願望,設計有意義的復能活動。</div>
+      <div class="pillar reveal d4"><b>科技輔助評估</b><br>用感測與數據記錄進步,讓復能成果看得見、有依據,並符合科技補助方向。</div>
+    </div>
+    <p class="note reveal d4">衛福部日照中心導入科技輔具計畫曾整理標竿案例:體適能檢測、肢體運動健身輔具、跨專業復能服務與智慧復能科技。重點不是買設備,而是把設備放進「評估、目標、訓練、追蹤」流程。</p>
+  </section>
+
+  <!-- 日照導入科技流程 -->
+  <section class="slide" id="s-daycare-tech">
+    <span class="pageno">日照科技</span>
+    <span class="eyebrow reveal">DAY CARE TECH</span>
+    <h2 class="reveal d1">日照導入科技輔具,<span class="accent">重點是流程</span></h2>
+    <p class="lead reveal d2" style="margin-bottom:18px;">照專、A個管與居督可以用這張檢核:設備要服務目標,不是為了看起來很新而買。</p>
+    <div class="trend">
+      <div class="trend-row reveal d2"><span class="e">1</span><div><b>評估 baseline</b><span>先看 ADL/IADL、步態與平衡、認知、情緒、跌倒史、家屬期待,決定要改善哪個生活任務。</span></div></div>
+      <div class="trend-row reveal d3"><span class="e">2</span><div><b>目標 goal</b><span>把「多運動」改成可追蹤目標,例如 8 週內起立坐下次數增加、能安全走到廁所、能完成一段認知體智能活動。</span></div></div>
+      <div class="trend-row reveal d4"><span class="e">3</span><div><b>訓練 training</b><span>選擇互動復能設備、肢體運動輔具、認知訓練工具、感測紀錄或安全看視,搭配人員引導與分級活動。</span></div></div>
+      <div class="trend-row reveal d5"><span class="e">4</span><div><b>追蹤 feedback</b><span>用數據與觀察紀錄回饋給長輩、家屬與團隊,看進步、調整難度,也避免設備閒置。</span></div></div>
+    </div>
+    <div class="grp-note reveal d5" style="margin-top:16px;"><b>講師提示:</b><p>日照科技導入最常失敗的原因,不是設備不好,而是沒有目標、沒有教育訓練、沒有人負責追蹤。請把科技放進個案服務流程,而不是另外變成一個表演活動。</p></div>
+  </section>
+
+  <!-- 互動題:復能型日照 -->
+  <section class="slide" style="background:var(--paper2);" id="s-daycare-quiz">
+    <span class="pageno">互動題 ⑤</span>
+    <span class="eyebrow reveal">REABLEMENT QUIZ</span>
+    <h2 class="reveal d1">這樣算<span class="accent-t">復能型日照</span>嗎?</h2>
+    <p class="lead reveal d2" style="margin-bottom:14px;">請學員先用「是 / 還不夠 / 需要調整」回答,再翻牌看建議。重點是把活動變成目標導向的復能流程。</p>
+    <div class="quiz-grid reveal d3">
+      <div class="quiz-card"><div class="q">中心買了互動復能設備,放在角落讓長輩自由使用,有用就好。</div><span class="hint">提示:有設備,但有沒有目標與追蹤?</span><span class="ans">答案:還不夠。設備要接上評估、個別目標、分級難度、工作人員引導與紀錄回饋,才算真正導入復能流程。</span></div>
+      <div class="quiz-card"><div class="q">以「8 週內能從椅子起身、走到廁所並安全坐下」作為訓練目標。</div><span class="hint">提示:是否和生活任務有關?</span><span class="ans">答案:是。目標具體、可觀察、和日常生活直接相關,比單純說「下肢肌力變好」更符合復能精神。</span></div>
+      <div class="quiz-card"><div class="q">長輩做完腳踏訓練器,員工只記錄總時間,沒有回饋給長輩和家屬。</div><span class="hint">提示:資料有沒有變成照顧決策?</span><span class="ans">答案:需要調整。紀錄應轉成長輩聽得懂的回饋,並和家屬、治療師、照顧團隊討論難度調整。</span></div>
+      <div class="quiz-card"><div class="q">失智長輩玩認知互動遊戲,每次依表現調整難度,並連結到買菜、點餐、找路等生活任務。</div><span class="hint">提示:認知訓練是否回到生活角色?</span><span class="ans">答案:是。活動有分級、有回饋,也回到生活情境與社會參與,比較不會變成單純消磨時間。</span></div>
+      <div class="quiz-card"><div class="q">照顧員怕長輩跌倒,所以吃飯、穿衣、移動都幫忙做到最快。</div><span class="hint">提示:安全與自立支援怎麼平衡?</span><span class="ans">答案:需要調整。安全不是全部代勞;應拆解任務,保留長輩能做的部分,用環境、輔具與站位降低風險。</span></div>
+      <div class="quiz-card"><div class="q">家屬說日照就是要讓長輩開心,不要訓練。你會怎麼說?</div><span class="hint">提示:復能不等於硬訓練。</span><span class="ans">建議答案:復能不是把日照變健身房,而是用有趣活動維持功能、角色與自信;開心和訓練可以是同一件事。</span></div>
+    </div>
+  </section>
+
+  <!-- 復能與日照研究證據 -->
+  <section class="slide" id="s-daycare-evidence">
+    <span class="pageno">研究與 FAQ</span>
+    <span class="eyebrow reveal">EVIDENCE · FAQ</span>
+    <h2 class="reveal d1">復能日照,<span class="accent">有研究支持的做法</span></h2>
+    <div class="principle-grid reveal d2">
+      <div class="principle"><b>復能的共同核心</b><span>以人為中心、目標導向、跨專業團隊、反覆評估,並把訓練放回日常活動、環境調整、輔具與社會支持中。</span></div>
+      <div class="principle"><b>ADL 改善的關鍵元素</b><span>系統性回顧指出,較有希望的元素包含跨專業團隊、標準化評估與目標設定、ADL 訓練、功能性運動、教育與問題管理。</span></div>
+      <div class="principle"><b>日照中心的價值</b><span>國外日照研究整理顯示,日照可支持心理健康、社交生活、身體功能與生活品質;也提供照顧者喘息與信心支持。</span></div>
+      <div class="principle"><b>科技的角色</b><span>科技不是主角,而是讓評估更清楚、訓練更有趣、紀錄更可追蹤、警示更及時。沒有目標與人員引導,設備容易閒置。</span></div>
+    </div>
+    <div class="trend faq-reveal" style="margin-top:16px;">
+      <div class="trend-row reveal d3"><span class="e">Q1</span><div><b>日照活動很多,就等於復能嗎?</b><span>不一定。復能要能說清楚「這個活動對哪個生活目標有幫助、難度怎麼調、如何追蹤」。娛樂可以是媒介,但不能只停在熱鬧。</span></div></div>
+      <div class="trend-row reveal d4"><span class="e">Q2</span><div><b>沒有治療師每天在場,還能做復能嗎?</b><span>可以,但需要治療師或專業人員設計目標、訓練照顧團隊、建立紀錄表與回報機制。日常執行多半靠照顧員與活動人員把策略落地。</span></div></div>
+      <div class="trend-row reveal d5"><span class="e">Q3</span><div><b>失智長輩也能復能嗎?</b><span>可以,但目標要更具體、步驟更少、提示更穩定。重點常是維持能力、減少行為困擾、增加參與與安全感,不一定是追求大幅進步。</span></div></div>
+      <div class="trend-row reveal d5"><span class="e">Q4</span><div><b>科技導入第一步是採購嗎?</b><span>不是。第一步是盤點中心想改善的問題:跌倒、久坐、活動參與低、紀錄不完整或照顧負荷高。先有目標,再選設備。</span></div></div>
+    </div>
+    <p class="note reveal d5">講師口徑:研究支持的是「以人為中心、跨專業、目標導向、日常活動化」的復能流程;不是任何單一設備或單一活動一定有效。</p>
+  </section>
+
+  <!-- 復能日照典範案例 -->
+  <section class="slide" style="background:var(--paper2);" id="s-daycare-cases">
+    <span class="pageno">典範案例</span>
+    <span class="eyebrow reveal">MODEL CASES</span>
+    <h2 class="reveal d1">台灣與國際案例:<span class="accent-t">看特色,不只看設備</span></h2>
+    <div class="life-list">
+      <div class="life reveal d2">
+        <div class="lh"><span class="e">🇹🇼</span><b>台灣:衛福部日照科技輔具標竿與復能案例</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">左營總醫院</span><p>導入體適能檢測系統,依需求找解方並建立完整導入流程;特色是把檢測、選配、執行與追蹤串成流程。</p></div>
+          <div class="seg u"><span class="lbl">景新身障日照</span><p>導入肢體運動健身輔具並推動科技輔具使用;特色是讓身障與高齡服務可用共同語言談功能、活動與參與。</p></div>
+          <div class="seg e"><span class="lbl">暖時光</span><p>與職能治療所合作,導入智慧復能科技並強調「協助長輩復能」;特色是跨專業合作與日常活動導向。</p></div>
+          <div class="seg e"><span class="lbl">鄰聚日照</span><p>以鄰里相聚、樂活共生為核心,結合跨專業復能、心理支持與社會參與;特色是把中心放回社區與關係網絡。</p></div>
+        </div>
+      </div>
+      <div class="life reveal d3">
+        <div class="lh"><span class="e">🌏</span><b>國際:日本、英國/北歐與澳洲的可學之處</b></div>
+        <div class="lb">
+          <div class="seg u"><span class="lbl">日本</span><p>長照場域常把自立支援、日常訓練、社區參與與照顧文化結合;可學的是「少代勞、多參與」,不是只學設備。</p></div>
+          <div class="seg u"><span class="lbl">英國/北歐</span><p>Reablement 常是短期、目標導向、跨專業的服務,強調 doing with 而不是 doing for;可學的是標準化評估與生活目標設定。</p></div>
+          <div class="seg e"><span class="lbl">澳洲</span><p>重視 wellness and reablement,把日照、居家服務、輔具與社區資源連在一起;可學的是把能力維持視為日常服務品質。</p></div>
+        </div>
+      </div>
+    </div>
+    <p class="note reveal d4">提醒:這些案例是課堂討論參考,不是排名或採購推薦。真正要帶回現場的是流程:評估 → 目標 → 活動/科技 → 記錄 → 回饋 → 調整。</p>
+  </section>
+
+  <!-- 復能日照與國際案例影片 -->
+  <section class="slide" id="s-daycare-video">
+    <span class="pageno">復能日照影片</span>
+    <span class="eyebrow reveal">REABLEMENT · CASES</span>
+    <h2 class="reveal d1">復能型日照,<span class="accent">看國內外怎麼做</span></h2>
+    <p class="lead reveal d2" style="margin-bottom:18px;">這組影片可用來引導討論:好日照不是活動排滿,而是讓長輩在生活中恢復角色、能力與選擇。</p>
+    <div class="video-grid">
+      <div class="video-card reveal d2">
+        <iframe src="https://www.youtube.com/embed/e-eROy-u6P8" title="從照顧轉向復能 長照3.0" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>從照顧轉向復能</b><span>可作為台灣長照 3.0 與復能觀念的討論起點:不是只提供服務,而是延緩失能。</span></div>
+        <div class="video-points"><ul><li>復能是從照顧轉向能力維持與恢復,把目標放回生活任務。</li><li>可引導學員討論:日照活動如何從娛樂變成有評估、有目標、有追蹤的訓練。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/e-eROy-u6P8?t=0" target="_blank" rel="noopener">0:00 復能觀念起點</a><a class="time-link" href="https://youtu.be/e-eROy-u6P8?t=120" target="_blank" rel="noopener">2:00 長照3.0難題</a><a class="time-link" href="https://youtu.be/e-eROy-u6P8?t=240" target="_blank" rel="noopener">4:00 實務推動討論</a></div></div>
+      </div>
+      <div class="video-card reveal d3">
+        <iframe src="https://www.youtube.com/embed/MwYVaDsi7NA" title="日本長照自立支援" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>日本自立支援案例</b><span>觀察日本如何從過度照顧轉向零約束、自主生活與尊嚴照顧。</span></div>
+        <div class="video-points"><ul><li>日本自立支援案例適合談零約束、少代勞、保留選擇與生活角色。</li><li>看重點不是日本設備多高級,而是照顧文化如何讓長輩多做一點。</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/MwYVaDsi7NA?t=0" target="_blank" rel="noopener">0:00 日本自立支援概念</a><a class="time-link" href="https://youtu.be/MwYVaDsi7NA?t=120" target="_blank" rel="noopener">2:00 零約束/少代勞</a><a class="time-link" href="https://youtu.be/MwYVaDsi7NA?t=300" target="_blank" rel="noopener">5:00 尊嚴與生活角色</a></div></div>
+      </div>
+      <div class="video-card reveal d4">
+        <iframe src="https://www.youtube.com/embed/EjZ_FVL9Ft4" title="瑞典自立支援長照" loading="lazy" allowfullscreen></iframe>
+        <div class="vb"><b>瑞典自立支援</b><span>補充歐美觀點:長照核心不是代勞,而是賦能、環境支持與維持社會參與。</span></div>
+        <div class="video-points"><ul><li>瑞典案例可補充歐美觀點:長照核心是賦能與環境支持。</li><li>教學時可比較:同樣是安全,是限制長輩,還是調整環境讓他能安全自主?</li></ul><div class="time-row"><a class="time-link" href="https://youtu.be/EjZ_FVL9Ft4?t=0" target="_blank" rel="noopener">0:00 瑞典自立支援</a><a class="time-link" href="https://youtu.be/EjZ_FVL9Ft4?t=90" target="_blank" rel="noopener">1:30 不代勞的照顧</a><a class="time-link" href="https://youtu.be/EjZ_FVL9Ft4?t=210" target="_blank" rel="noopener">3:30 環境支持與社會參與</a></div></div>
+      </div>
+    </div>
+    <div class="grp-note reveal d4" style="margin-top:18px;"><b>觀看重點:</b><p>看影片時請抓三件事:人員怎麼少幫一點?環境或科技怎麼讓長輩多做一點?日照如何把活動變成有目標的復能訓練?</p></div>
+  </section>
+
+  <!-- 復能日照收尾互動 -->
+  <section class="slide" style="background:var(--paper2);" id="s-daycare-final">
+    <span class="pageno">收尾互動</span>
+    <span class="eyebrow reveal">WRAP-UP QUESTIONS</span>
+    <h2 class="reveal d1">最後 10 分鐘:<span class="accent-t">把概念帶回個案</span></h2>
+    <p class="lead reveal d2" style="margin-bottom:14px;">這一頁可作為分組討論或 Q&A 前的收斂。每題先讓學員答,再翻牌看講師可補充的方向。</p>
+    <div class="quiz-grid reveal d3">
+      <div class="quiz-card"><div class="q">請選一位日照長輩,把「希望他多運動」改成一句可追蹤的復能目標。</div><span class="hint">提示:誰、多久、做到什麼生活任務。</span><span class="ans">示範:8 週內,在一人監督下能從椅子起身並用助行器走到廁所,全程不需抱扶。</span></div>
+      <div class="quiz-card"><div class="q">中心已有腳踏訓練器,如何從「展示品」變成「復能流程」?</div><span class="hint">提示:先測、分級、紀錄、回饋。</span><span class="ans">建議:建立基準、設定個別目標、安排每週頻率與難度、紀錄疲勞/疼痛/表現,再回饋給長輩、家屬與團隊。</span></div>
+      <div class="quiz-card"><div class="q">科技導入失敗,可能缺哪一環:評估、目標、訓練、追蹤?</div><span class="hint">提示:不要只怪設備。</span><span class="ans">建議:用四環節盤點。常見缺口是沒有教育訓練、沒有人看數據、警示沒有處理流程,或目標和長輩生活無關。</span></div>
+      <div class="quiz-card"><div class="q">家屬希望中心「多照顧、少訓練」,你如何說明自立支援?</div><span class="hint">提示:不是少照顧,而是照顧得更精準。</span><span class="ans">建議:自立支援不是放任,而是保留長輩還能做的能力。能做的留給他做,做不到的用人、環境與輔具補上。</span></div>
+      <div class="quiz-card"><div class="q">安全看視警示太多,人員開始不理它。如何避免警示疲乏?</div><span class="hint">提示:調參數、分級、指定責任。</span><span class="ans">建議:設定警示優先級、調整延遲與敏感度、指定回應者與回應時間,定期檢討誤報原因。</span></div>
+      <div class="quiz-card"><div class="q">一個活動如何同時滿足功能、心理與社會參與?</div><span class="hint">提示:例如做餐點、園藝、桌遊、外出採買。</span><span class="ans">示範:做點心可訓練站立耐力、手功能與認知排序;同時提供成就感、角色感與同儕互動。</span></div>
+    </div>
+    <p class="note reveal d4">收尾句:通用設計讓更多人進得來,人因設計讓這個人用得順,智慧科技讓照顧更即時可追蹤,復能日照則把這些都放回有意義的生活。</p>
+  </section>
+
+  <!-- AI 應用觀點 1:三個面向 -->
+  
+
+  <!-- AI 應用觀點 2:原則與界線 -->
+  
+
+  <!-- LLM vs Agent 是什麼 -->
+  
+
+  <!-- 用設計框架看 LLM/Agent -->
+  
+
+  <!-- 三大工具怎麼用減負擔 -->
+  
+
+  <!-- 查核來源 -->
+  <section class="slide" style="background:var(--paper2);" id="s-sources">
+    <span class="pageno">查核來源</span>
+    <span class="eyebrow reveal">FACT CHECK</span>
+    <h2 class="reveal d1">內容已依<span class="accent-t">官方與衛教資料</span>校正</h2>
+    <p class="lead reveal d2" style="margin-bottom:18px;">補助金額、申請流程與長照 3.0 時程會變動;課堂上可講方向,個案權益請回到 1966、地方政府與輔具中心核定。</p>
+    <div class="source-list reveal d3">
+      <div class="info-row" style="border-left-color:var(--teal);"><span class="ic">🏛️</span><div><b>長照 3.0 與智慧科技輔具</b><span>衛福部修正公告:115/7/1 起新增智慧科技輔具租賃,每 3 年 6 萬,五大面向含移位、移動、沐浴排泄、居家照顧床、安全看視。</span><a href="https://www.mohw.gov.tw/cp-18-82814-1.html" target="_blank" rel="noopener">衛福部公告</a></div></div>
+      <div class="info-row" style="border-left-color:var(--teal);"><span class="ic">🌍</span><div><b>通用設計與人因設計</b><span>通用設計參考 Ronald Mace 七原則:公平使用、彈性使用、簡單直覺、可感知資訊、容許錯誤、低體力負擔、足夠尺寸空間。人因設計則聚焦人體尺寸、姿勢、肌力、操作與安全適配。</span><a href="https://universaldesign.ie/about-universal-design/the-7-principles" target="_blank" rel="noopener">通用設計七原則</a></div></div>
+      <div class="info-row" style="border-left-color:var(--teal);"><span class="ic">📞</span><div><b>輔具及居家無障礙改善流程</b><span>1966 長照專區:由照管專員評估後轉介輔具資源中心或相關醫事機構,完成輔具評估報告書後再購置、租賃或改善。</span><a href="https://1966.gov.tw/LTC/np-6453-207.html" target="_blank" rel="noopener">1966 輔具項目</a></div></div>
+      <div class="info-row" style="border-left-color:var(--teal);"><span class="ic">🍽️</span><div><b>一般生活輔具產品與衛教</b><span>食衣住行等產品連結用於教學示範,協助學員理解加粗餐具、穿襪器、洗澡椅、便盆椅、助行器與輪椅等功能特色;是否補助仍需個案評估與地方核定。</span><a href="https://newrepat.sfaa.gov.tw/home/question/detail/4bc1e2b4905e44790190774c15630f85" target="_blank" rel="noopener">飲食輔具 FAQ</a></div></div>
+      <div class="info-row" style="border-left-color:var(--teal);"><span class="ic">🔗</span><div><b>產品與廠商連結使用提醒</b><span>五大類頁面列出的產品連結僅作教學案例,不代表本課程推薦、背書或保證可補助。是否可用長照3.0智慧科技租賃,須以地方政府特約租賃品項、輔具評估報告與核定結果為準。</span><a href="https://newrepat.sfaa.gov.tw/home/prepaid-help-vendor" target="_blank" rel="noopener">政府輔具補助簽約廠商查詢</a></div></div>
+      <div class="info-row" style="border-left-color:var(--teal);"><span class="ic">🧼</span><div><b>租賃輔具清潔、消毒與維修</b><span>衛福部公告長照輔具清潔及消毒指引手冊,作為租賃輔具清潔、消毒、檢查、維修、包裝及儲存流程依循。</span><a href="https://1966.gov.tw/LTC/cp-6440-83626-207.html" target="_blank" rel="noopener">清消指引公告</a></div></div>
+      <div class="info-row" style="border-left-color:var(--amber);"><span class="ic">%</span><div><b>部分負擔比例</b><span>長照輔具及居家無障礙改善常見部分負擔:一般戶 30%、中低收入戶 10%、低收入戶 0%;實際仍依地方政府核定與給付項目。</span><a href="https://newrepat.sfaa.gov.tw/home/gov-repat-service/wlfrIntro4" target="_blank" rel="noopener">輔具補助簡介</a></div></div>
+      <div class="info-row" style="border-left-color:var(--amber);"><span class="ic">🏡</span><div><b>復能型日照與科技導入</b><span>日照導入科技輔具應回到評估、目標、訓練、追蹤與團隊教育訓練;科技是支持復能流程,不是取代人員陪伴與專業判斷。</span><a href="https://1966.gov.tw/LTC/cp-6440-84384-207.html" target="_blank" rel="noopener">日照科技標竿案例</a></div></div>
+      <div class="info-row" style="border-left-color:var(--amber);"><span class="ic">📚</span><div><b>復能服務研究回顧</b><span>系統性回顧指出,復能服務較有希望的元素包含跨專業團隊、標準化評估與目標設定、ADL 訓練、功能性運動、教育與功能問題管理。</span><a href="https://link.springer.com/article/10.1007/s10433-022-00693-3" target="_blank" rel="noopener">European Journal of Ageing: Reablement review</a></div></div>
+      <div class="info-row" style="border-left-color:var(--amber);"><span class="ic">🏘️</span><div><b>日照中心研究證據</b><span>日照中心研究整理顯示,日照可支持社交參與、心理健康、身體功能、生活品質與照顧者喘息;但成效取決於服務設計與個別目標。</span><a href="https://arc-sl.nihr.ac.uk/sites/default/files/uploads/download/3-Research%20evidence%20on%20day%20centres%20May2024.pdf" target="_blank" rel="noopener">NIHR ARC South London: day centres evidence</a></div></div>
+      <div class="info-row" style="border-left-color:var(--red);"><span class="ic">📊</span><div><b>防跌與輔具使用</b><span>國健署防跌衛教、臺北榮總健康e點通與輔具衛教資料:防跌需環境、運動、用藥、視力與輔具正確使用一起做。</span></div></div>
+    </div>
+    <p class="note reveal d4">建議授課前再快速確認當年度地方公告,尤其是特約廠商、部分負擔、身障/長照不得重複請領及智慧科技組實際核定規則。</p>
+  </section>
+
+  <!-- 結尾 -->
+  <section class="slide closing" id="s-end">
+    <div class="card-inner">
+      <span class="pageno">追蹤資訊</span>
+      <span class="eyebrow reveal">STAY CONNECTED</span>
+      <h2 class="reveal d1">感謝您的聆聽,<span class="accent">歡迎加入追蹤</span></h2>
+      <p class="lead reveal d2" style="color:#e0d3bb;">課後想看復能、體智能、失智症遊戲化教學與輔具補助資訊,可以從這裡找到我。</p>
+      <div class="link-grid reveal d3">
+        <a class="social-link" href="https://www.facebook.com/chungmenghsiu" target="_blank" rel="noopener">
+          <b>個人 Facebook</b><span>https://www.facebook.com/chungmenghsiu</span>
+        </a>
+        <a class="social-link" href="https://www.facebook.com/profile.php?id=100063748491881" target="_blank" rel="noopener">
+          <b>鍾孟修 Matt - 職能治療師</b><span>https://www.facebook.com/profile.php?id=100063748491881</span>
+        </a>
+        <a class="social-link" href="https://line.me/ti/g2/HTz-kWvRyDZhYRKHEDjXISFfEyb3xxPlGT16hA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener">
+          <b>LINE 社群</b><span>職能治療、輔具、復能與體智能交流</span>
+        </a>
+        <a class="social-link" href="https://mattsue1003.github.io/longtermcare/" target="_blank" rel="noopener">
+          <b>長照・身障・輔具補助查詢</b><span>https://mattsue1003.github.io/longtermcare/</span>
+        </a>
+      </div>
+      <a class="back" href="#toc" style="margin-top:18px;">↑ 回到目錄</a>
+    </div>
+  </section>
+
+</div>
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  document.querySelectorAll('.quiz-card').forEach((card)=>{
+    const ans=card.querySelector('.ans');
+    if(!ans || card.querySelector('.reveal-answer')) return;
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='reveal-answer';
+    btn.textContent='翻牌看答案';
+    btn.setAttribute('aria-expanded','false');
+    btn.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const open=card.classList.toggle('revealed');
+      btn.textContent=open?'收起答案':'翻牌看答案';
+      btn.setAttribute('aria-expanded',String(open));
+    });
+    card.addEventListener('click',(e)=>{
+      if(e.target.closest('a,button')) return;
+      btn.click();
+    });
+    ans.before(btn);
+  });
+
+  document.querySelectorAll('#s-tech-faq .trend-row, .faq-reveal .trend-row').forEach((row)=>{
+    const ans=row.querySelector('div > span');
+    if(!ans || row.querySelector('.qa-toggle')) return;
+    ans.classList.add('qa-answer');
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='qa-toggle';
+    btn.textContent='點我看建議回答';
+    btn.setAttribute('aria-expanded','false');
+    btn.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const open=row.classList.toggle('revealed');
+      btn.textContent=open?'收起回答':'點我看建議回答';
+      btn.setAttribute('aria-expanded',String(open));
+    });
+    ans.before(btn);
+  });
+
+  function pick(el){
+    document.querySelectorAll('#s-ice2 .ice-opt').forEach(o=>o.classList.remove('picked'));
+    el.classList.add('picked');
+    const ans=document.getElementById('poll-ans');
+    ans.style.opacity='1';ans.style.fontWeight='700';ans.style.color='#b8472f';
+    ans.innerHTML='💡 答案:<b>臥室</b>最多,其次客廳、浴室!(國健署調查)——最熟悉的家,反而最容易跌。';
+  }
+  const bar=document.getElementById('progress');
+  addEventListener('scroll',()=>{const h=document.documentElement;bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';},{passive:true});
+
+  // 翻頁:找出目前最接近視窗中央的slide,跳上/下一頁
+  const slides=[...document.querySelectorAll('.slide')];
+  function currentIndex(){
+    const mid=scrollY+innerHeight/2;
+    let best=0,bd=Infinity;
+    slides.forEach((s,i)=>{const c=s.offsetTop+s.offsetHeight/2;const d=Math.abs(c-mid);if(d<bd){bd=d;best=i;}});
+    return best;
+  }
+  function go(dir){
+    const i=currentIndex();
+    const t=Math.max(0,Math.min(slides.length-1,i+dir));
+    slides[t].scrollIntoView({behavior:'smooth'});
+  }
+  // 電腦鍵盤:← → ↑ ↓ PageUp/Down 翻頁;空白鍵下一頁
+  addEventListener('keydown',(e)=>{
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();go(1);}
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(-1);}
+    else if(e.key==='Home'){slides[0].scrollIntoView({behavior:'smooth'});}
+    else if(e.key==='End'){slides[slides.length-1].scrollIntoView({behavior:'smooth'});}
+  });
+  // 滾輪 / 上下滑:自由捲動(原生,不攔截);換頁交給方向鍵與左右滑
+  let wlock=false;
+  const isDesktop=()=>matchMedia('(min-width:768px)').matches;
+  addEventListener('wheel',(e)=>{
+    // 只攔截明顯的「橫向」滾輪(觸控板兩指左右)當換頁;垂直滾輪一律放行給原生捲動
+    if(Math.abs(e.deltaX)>Math.abs(e.deltaY)&&Math.abs(e.deltaX)>40){
+      e.preventDefault();
+      if(wlock)return;wlock=true;
+      go(e.deltaX>0?1:-1);
+      setTimeout(()=>wlock=false,650);
+    }
+  },{passive:false});
+
+  // 觸控:左右滑換頁;上下滑維持原生捲動
+  let tsx=0,tsy=0,tst=0;
+  addEventListener('touchstart',(e)=>{if(e.touches.length===1){tsx=e.touches[0].clientX;tsy=e.touches[0].clientY;tst=Date.now();}},{passive:true});
+  addEventListener('touchend',(e)=>{
+    const dx=e.changedTouches[0].clientX-tsx, dy=e.changedTouches[0].clientY-tsy;
+    // 明顯橫向、且夠快的滑動才算換頁,避免誤觸
+    if(Math.abs(dx)>70 && Math.abs(dx)>Math.abs(dy)*1.8 && (Date.now()-tst)<600){
+      go(dx<0?1:-1);
+    }
+  },{passive:true});
+
+  /* ===== 彈出式跳頁選單 ===== */
+  // 章節清單:用目錄頁的項目自動建立(id + 名稱 + 圖示)
+  const tocLinks=[...document.querySelectorAll('#toc .toc-item')];
+  const menuItems=[
+    {id:'top', icon:'🏠', label:'封面', section:true},
+  ].concat(tocLinks.map(a=>{
+    const id=a.getAttribute('href').replace('#','');
+    const icon=a.querySelector('.tn')?.textContent.trim()||'•';
+    const label=a.querySelector('.tt')?.textContent.trim()||id;
+    return {id, icon, label};
+  })).concat([
+    {id:'s-end', icon:'🪄', label:'結語'},
+  ]);
+
+  const menuList=document.getElementById('menuList');
+  const menuPanel=document.getElementById('menuPanel');
+  const menuOverlay=document.getElementById('menuOverlay');
+
+  function openMenu(){menuPanel.classList.add('open');menuOverlay.classList.add('open');}
+  function closeMenu(){menuPanel.classList.remove('open');menuOverlay.classList.remove('open');}
+
+  // 建立選單項目
+  menuItems.forEach(it=>{
+    if(!document.getElementById(it.id)) return; // 該頁存在才列
+    const btn=document.createElement('button');
+    if(it.section) btn.classList.add('is-section');
+    btn.innerHTML='<span class="mn">'+it.icon+'</span><span>'+it.label+'</span>';
+    btn.addEventListener('click',()=>{
+      document.getElementById(it.id).scrollIntoView({behavior:'smooth'});
+      closeMenu();
+    });
+    menuList.appendChild(btn);
+  });
+
+  document.getElementById('menuBtn').addEventListener('click',openMenu);
+  document.getElementById('menuClose').addEventListener('click',closeMenu);
+  menuOverlay.addEventListener('click',closeMenu);
+  // 回目錄按鈕:直接跳到目錄頁
+  document.getElementById('tocBtn').addEventListener('click',()=>{
+    document.getElementById('toc').scrollIntoView({behavior:'smooth'});
+  });
+  // Esc 關閉選單
+  addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeMenu(); });
+
+  /* ===== 桌面:把每張 slide 內容包進卡片框 .card-inner ===== */
+  // 只包一次;手機與桌面共用(card-inner 在手機用 display:contents 不影響佈局)
+  document.querySelectorAll('.deck > .slide').forEach(s=>{
+    if(s.querySelector(':scope > .card-inner')) return;
+    const inner=document.createElement('div');
+    inner.className='card-inner';
+    while(s.firstChild){ inner.appendChild(s.firstChild); }
+    s.appendChild(inner);
+  });
+</script>
+</body>
+</html>
