@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
-<title>生活魔法師入口｜輔具查詢與課程簡報</title>
+<title>生活魔法師｜輔具補助查詢與課程資源</title>
 <style>
 :root{
   color-scheme:light only;
@@ -150,6 +150,33 @@ h1{
   font-size:.82rem;
   margin-top:2px;
 }
+.quick-links{
+  display:grid;
+  gap:10px;
+  margin-top:16px;
+}
+.quick-link{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  background:#fff;
+  border:2px solid var(--line);
+  border-radius:12px;
+  padding:12px 14px;
+  text-decoration:none;
+  color:var(--ink);
+  font-weight:900;
+}
+.quick-link span{
+  color:var(--muted);
+  font-size:.88rem;
+  font-weight:700;
+}
+.quick-link b{
+  font-size:1.15rem;
+  color:var(--teal);
+}
 .cards{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
@@ -288,65 +315,67 @@ h1{
   <main class="wrap">
     <div class="topbar">
       <div class="brand"><span class="brand-mark" aria-hidden="true"></span><span>生活魔法師入口</span></div>
-      <div class="top-note">本頁只做分流選單<br>不上傳、不覆蓋你的 GitHub</div>
+      <div class="top-note">輔具補助查詢<br>課程講義與互動簡報</div>
     </div>
 
     <section class="hero" aria-labelledby="page-title">
       <div>
-        <span class="kicker">COURSE TOOLBOX</span>
-        <h1 id="page-title">先選入口,<br><span class="accent">再進入個別網頁</span></h1>
-        <p>這個入口頁把「輔具補助查詢系統」和「生活魔法師課程簡報」分開。學員點進來後先選要使用哪個網站,再切換到對應的單頁程式。</p>
+        <span class="kicker">ASSISTIVE TECHNOLOGY</span>
+        <h1 id="page-title">今天你想先做什麼?</h1>
+        <p>這裡整理了課程會用到的兩個工具。想查長照、身障與輔具補助方向,請進入查詢系統;想跟著課程學習通用設計、人因設計與智慧科技輔具,請進入課程簡報。</p>
       </div>
-      <aside class="panel" aria-label="使用方式">
-        <div class="panel-title"><b>建議上架方式</b><span class="pill">整包上傳</span></div>
+      <aside class="panel" aria-label="適合對象">
+        <div class="panel-title"><b>你可以這樣使用</b><span class="pill">選一個開始</span></div>
         <div class="steps">
-          <span><i>1</i><span>把此資料夾中的三個 HTML 與 QR 圖檔放在同一層。</span></span>
-          <span><i>2</i><span>網站首頁使用 <b>index.html</b>,讓學員先選入口。</span></span>
-          <span><i>3</i><span>個別頁面會用相對路徑切換,搬到 GitHub Pages 或一般主機都能使用。</span></span>
+          <span><i>1</i><span>家屬或民眾:先查可能的補助方向,再向 1966 或地方政府確認。</span></span>
+          <span><i>2</i><span>課程學員:跟著簡報互動題、影片與案例,理解輔具怎麼選。</span></span>
+          <span><i>3</i><span>照專、A 個管、居督:用查詢工具與簡報重點,快速回到個案需求。</span></span>
+        </div>
+        <div class="quick-links">
+          <a class="quick-link" href="longtermcare.html">我要查補助 <span>前往查詢系統</span><b>→</b></a>
+          <a class="quick-link" href="life-magic-slides.html">我要看課程 <span>前往互動簡報</span><b>→</b></a>
         </div>
       </aside>
     </section>
 
     <section class="cards" aria-label="網站選擇">
       <article class="site-card">
-        <span class="label">查詢工具</span>
+        <span class="label">我想查方向</span>
         <h2>長照・身障・輔具補助查詢系統</h2>
-        <p>給照專、A 個管、居督、家屬快速查方向,再回到 1966、地方政府與輔具中心確認核定。</p>
+        <p>不知道某個輔具可能走長照、身障、一般購買還是租賃?可以先用這裡快速找方向。</p>
         <ul class="feature-list">
-          <li>整合輔具分類、補助制度與實務提醒。</li>
-          <li>適合課程前段帶學員現場操作。</li>
-          <li>可作為課後給學員使用的查詢入口。</li>
+          <li>依輔具類型查詢可能的補助與注意事項。</li>
+          <li>適合家屬、民眾、個管與居督快速討論個案。</li>
+          <li>正式申請仍需回到 1966、地方政府與輔具中心核定。</li>
         </ul>
         <div class="actions">
-          <a class="btn" href="longtermcare.html">進入查詢系統</a>
-          <a class="btn secondary" href="longtermcare.html" download>下載這份 HTML</a>
+          <a class="btn" href="longtermcare.html">開始查詢</a>
         </div>
       </article>
 
       <article class="site-card">
-        <span class="label">課程簡報</span>
+        <span class="label">我想上課學習</span>
         <h2>生活魔法師課程簡報</h2>
-        <p>以人為本的輔具及智慧科技輔具認識,包含互動題、影片重點、產品案例與補助查核提醒。</p>
+        <p>跟著課程認識通用設計、人因設計、生活輔具、智慧科技輔具與復能型日照應用。</p>
         <ul class="feature-list">
-          <li>適合 2.5 小時課程現場投影與手機瀏覽。</li>
-          <li>保留翻牌問答、影片秒數連結與講師資訊。</li>
-          <li>科技輔具已區分新制租賃與傳統補助查核。</li>
+          <li>互動題會先讓你猜,再翻牌看答案。</li>
+          <li>影片提供重點說明與可直接跳轉的秒數。</li>
+          <li>把一般輔具、智慧科技與補助查核分開理解。</li>
         </ul>
         <div class="actions">
-          <a class="btn" href="life-magic-slides.html">進入課程簡報</a>
-          <a class="btn secondary" href="life-magic-slides.html" download>下載這份 HTML</a>
+          <a class="btn" href="life-magic-slides.html">進入課程</a>
         </div>
       </article>
     </section>
 
     <div class="notice">
-      <b>提醒</b>
-      <span>如果你之後要把兩個頁面放到不同資料夾,記得同步修改本頁的連結。現在的版本假設四個檔案都在同一層。</span>
+      <b>小提醒</b>
+      <span>查詢結果和課程內容可協助你先抓方向,但個案能否補助、補助金額與申請流程,仍以當年度地方政府、1966 與輔具中心評估核定為準。</span>
     </div>
 
     <footer class="footer">
-      <span>Designed for Matt Chung's assistive technology course.</span>
-      <span>Local package: index.html / longtermcare.html / life-magic-slides.html</span>
+      <span>生活魔法師:以人為本的輔具及智慧科技輔具認識</span>
+      <span>講師:鍾孟修 職能治療師</span>
     </footer>
   </main>
 </body>
